@@ -99,49 +99,61 @@
 
     <p>
         Element with add/remove field buttons. You can use single field as base element
-        (generated field name: <pre>cloneableElementName[]</pre>) or array of fields (generated fields names:
-        <pre>cloneableElementName[0..n][baseFieldName]</pre>).
+        (generated field name: <i>cloneableElementName[]</i>) or array of fields (generated fields names:
+        <i>cloneableElementName[0..n][baseFieldName]</i>).
     </p>
 
     <h3>Usage</h3>
 
-    <pre>
-        <code>
-            // always set the base element!
-            $answers = new Cloneable('answers');
+    <code>
+        <&quest;php
+        // always set the base element!
+        $answers = new Cloneable('answers');
 
-            $answers->setBaseElements(array(
-                new Text('field1'),
-                new Text('field2')
-            );
-            // and/or
-            $answers->addBaseElement(new Text(''));
+        $answers->setBaseElements(array(
+            new Text('field1'),
+            new Text('field2')
+        );
+        // and/or
+        $answers->addBaseElement(new Text(''));
 
-            $answers->setLabel($this->i18n->_('Answers'));
-            $answers->addValidator(new SizeOf(array('min' => 2, 'max' => 6)));
-            $this->add($answers);
-        </code>
-    </pre>
+        $answers->setLabel($this->i18n->_('Answers'));
+        $answers->addValidator(new SizeOf(array('min' => 2, 'max' => 6)));
+        $this->add($answers);
+    </code>
 
     <p>
         You can also add validators to base elements:
     </p>
 
-    <pre>
-        <code>
+    <code>
+        <&quest;php
 
-        </code>
-    </pre>
+        $name = new Text('name');
+        $name->addValidator(new PresenceOf());
+
+        $answers->addBaseElement($name);
+    </code>
+
 
     <p>
         It is possible to render cloneable field as one or get row and render each row element separately:
     </p>
 
-    <pre>
-        <code>
+    
+    <code>
+        {{ form.get('answers') }}
 
-        </code>
-    </pre>
+        {% for row in form.get('answers').getRows() %}
+            <tr>
+                {% for item in row.getElements() %}
+                    <td>{{ item }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </code>
+    
+
             </div>
             <hr />
             <div class="main-footer">
