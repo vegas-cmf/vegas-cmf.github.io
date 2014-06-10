@@ -1,0 +1,9 @@
+# IDE
+/nbproject/*
+.idea/*
+*.swa
+*.swo
+*.swp
+*.bak
+ctags
+tags
