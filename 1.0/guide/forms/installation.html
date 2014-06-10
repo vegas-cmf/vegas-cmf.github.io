@@ -87,59 +87,39 @@
                         <li><a href="/">Vegas CMF</a></li>
     <li><a href="/1.0/guide.html">Guide</a></li>
     <li><a href="/1.0/guide.html#forms">Forms</a></li>
-    <li><a href="/1.0/guide.html#element">Element</a></li>
-    <li class="active"><a href="/1.0/guide/forms/element/cloneable.html">Cloneable</a></li>
+    <li class="active"><a href="/1.0/guide/forms/installation.html">Requirements/installation</a></li>
                 </ol>
             </div>
             <hr />
             <div class="main-body">
                     <h1>Vegas CMF Guide</h1>
 
-    <h2>Vegas\Forms\Element\Cloneable</h2>
+    <h2>Forms library</h2>
+
+    <h3>Requirements</h3>
 
     <p>
-        Element with add/remove field buttons. You can use single field as base element
-        (generated field name: <pre>cloneableElementName[]</pre>) or array of fields (generated fields names:
-        <pre>cloneableElementName[0..n][baseFieldName]</pre>).
+        Forms lib <b>do not</b> use <pre>vegas-cmf-core</pre> lib. Only requirements is php 5.4+ with
+        <a href="http://phalconphp.com/en/" target="_blank">phalcon 1.3.x</a> installed.
     </p>
 
-    <h3>Usage</h3>
+    <h3>Installation</h3>
+
+    <p>Add <pre>vegas-cmf-forms</pre> to your composer.json. Run:</p>
 
     <pre>
         <code>
-            // always set the base element!
-            $answers = new Cloneable('answers');
-
-            $answers->setBaseElements(array(
-                new Text('field1'),
-                new Text('field2')
-            );
-            // and/or
-            $answers->addBaseElement(new Text(''));
-
-            $answers->setLabel($this->i18n->_('Answers'));
-            $answers->addValidator(new SizeOf(array('min' => 2, 'max' => 6)));
-            $this->add($answers);
+            php composer.phar update
         </code>
     </pre>
 
-    <p>
-        You can also add validators to base elements:
-    </p>
+    <p>Copy <pre>/vegas-cmf/forms/assets</pre> from your composer vendor to your project public directory.</p>
+
+    <p>If you have <pre>vegas-cmf-core</pre> with CLI installed, you can copy those files automaticaly by using command:</p>
 
     <pre>
         <code>
-
-        </code>
-    </pre>
-
-    <p>
-        It is possible to render cloneable field as one or get row and render each row element separately:
-    </p>
-
-    <pre>
-        <code>
-
+            php /path/to/cli.php vegas:assets publish
         </code>
     </pre>
             </div>
