@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800' rel='stylesheet' type='text/css'/>
+
+    <title>Vegas CMF - Documentation</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/styles/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/styles/dashboard.css" rel="stylesheet">
+    <link rel="stylesheet" href="//yandex.st/highlightjs/8.0/styles/default.min.css">
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/scripts/bootstrap.min.js" type="text/javascript"></script>
+    <script src="//yandex.st/highlightjs/8.0/highlight.min.js"></script>
+    <script type="text/javascript">
+        hljs.configure({classPrefix: ''});
+        hljs.initHighlightingOnLoad();
+    </script>
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-version">
+            <div class="navbar-button">
+                <span class="glyphicon glyphicon-book"></span>
+                <div class="pull-right"><span class="active">v: 1.0 </span> <span class="caret"></span></div>
+            </div>
+            <div class="navbar-more">
+                <dl>
+                    <dt>Versions</dt>
+                    <dd><a href="#">latest</a></dd>
+                    <dd><a href="#">develop</a></dd>
+                    <dd><a href="#"><strong>1.0</strong></a></dd>
+                </dl>
+                <dl>
+                    <dt>Downloads</dt>
+                    <dd><a href="#">PDF</a></dd>
+                    <dd><a href="#">HTML</a></dd>
+                </dl>
+                <dl>
+                    <dt>On GitHub</dt>
+                    <dd><a href="#">Edit</a></dd>
+                </dl>
+            </div>
+        </div>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Vegas CMF Documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">About</a></li>
+                <li><a href="#">Learn</a></li>
+                <li><a href="#">Get Started</a></li>
+            </ul>
+        </div>
+    </div>
+</div><div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-4 col-md-4 sidebar">
+            <div class="sidebar-search">
+                <form>
+                    <input type="text" class="form-control" placeholder="Search docs" />
+                </form>
+            </div>
+                <ul class="nav nav-sidebar">
+        <li><a href="/1.0/getting-started/requirements.html">Requirements</a></li>
+        <li><a href="/1.0/getting-started/vegaser.html">Vegaser Tool</a></li>
+    </ul>
+        </div>
+        <div class="col-sm-12 main">
+            <div class="main-header">
+                <ol class="breadcrumb">
+                        <li><a href="/">Vegas CMF</a></li>
+    <li><a href="/1.0/guide.html">Guide</a></li>
+    <li><a href="/1.0/guide.html#forms">Forms</a></li>
+    <li><a href="/1.0/guide.html#element">Element</a></li>
+    <li class="active"><a href="/1.0/guide/forms/element/cloneable.html">Cloneable</a></li>
+                </ol>
+            </div>
+            <hr />
+            <div class="main-body">
+                    <h1>Vegas CMF Guide</h1>
+
+    <h2>Vegas\Forms\Element\Cloneable</h2>
+
+    <p>
+        Element with add/remove field buttons. You can use single field as base element
+        (generated field name: <pre>cloneableElementName[]</pre>) or array of fields (generated fields names:
+        <pre>cloneableElementName[0..n][baseFieldName]</pre>).
+    </p>
+
+    <h3>Usage</h3>
+
+    <pre>
+        <code>
+            <?php
+            // always set the base element!
+            $answers = new Cloneable('answers');
+
+            $answers->setBaseElements(array(
+                new Text('field1'),
+                new Text('field2')
+            );
+            // and/or
+            $answers->addBaseElement(new Text(''));
+
+            $answers->setLabel($this->i18n->_('Answers'));
+            $answers->addValidator(new SizeOf(array('min' => 2, 'max' => 6)));
+            $this->add($answers);
+        </code>
+    </pre>
+
+    <p>
+        You can also add validators to base elements:
+    </p>
+
+    <pre>
+        <code>
+
+        </code>
+    </pre>
+
+    <p>
+        It is possible to render cloneable field as one or get row and render each row element separately:
+    </p>
+
+    <pre>
+        <code>
+
+        </code>
+    </pre>
+            </div>
+            <hr />
+            <div class="main-footer">
+    <div role="contentinfo">
+        <p>
+            &copy; 2014 Pit Group Intech B.V
+        </p>
+    </div>
+</div>        </div>
+    </div>
+</div>
+</body>
+</html>
+
