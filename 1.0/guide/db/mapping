@@ -1,0 +1,111 @@
+{% extends "base.twig" %}
+
+{% block breadcrumb %}
+<li><a href="/">Vegas CMF</a></li>
+<li><a href="/1.0/guide/db/mapping.html">Mapping</a></li>
+{% endblock breadcrumb %}
+
+{% block sidebar %}
+<ul class="nav nav-sidebar">
+    <li><a href="#create">Create mapper</a></li>
+</ul>
+{% endblock sidebar %}
+
+{% block content %}
+<h1>Database mappers</h1>
+<p>
+    In the following article we show how to use mapping feature in database context.
+</p>
+
+<h2 id="create">Creating mappers</h2>
+<p>
+    Database mappers is a simple mechanism, that provides auto-conversion the values stored in indicated field/column in database.
+    <br />
+    In the following example, we create a simple mapper, that decodes value using base64_decode function. <br />
+    <small>You can put this class to the lib/Vegas/Db/Mapping directory.</small>
+<pre class="php"><code>
+namespace Vegas\Db\Mapping\Decoder.php
+
+use Vegas\Db\MappingInterface;
+
+class Decoder implements MappingInterface
+{
+    /**
+    * {@inheritdoc}
+    */
+    public function getName()
+    {
+        return 'decoder';
+    }
+
+    /**
+    * {@inheritdoc}
+    */
+    public function resolve(& $value)
+    {
+        $value = base64_decode($value);
+
+        return $value;
+    }
+}</code></pre>
+    <br />
+    Once we create mapper class, we can add a mapper to the application. <br />
+    Update the application Bootstrap class, as follows:
+    <br />
+<pre class="php"><code>
+use Vegas\Db\Mapping\Decoder;
+use Vegas\Db\MappingManager;
+
+class Bootstrap extends \Vegas\Application\Bootstrap
+{
+    public function setup()
+    {
+        parent::setup();
+        $this->initDbMappings();
+
+        return $this;
+    }
+
+    protected function initDbMappings()
+    {
+        $mappingManager = new MappingManager();
+        $mappingManager->add(new Decoder());
+    }
+}</code></pre>
+    <br />
+    The last thing to make mapper enabled, is add a mapping to the model class. <br />
+<pre class="php"><code>
+namespace Test\Models;
+
+use Vegas\Db\Decorator\CollectionAbstract;
+
+class Fake extends CollectionAbstract
+{
+    public function getSource()
+    {
+        return 'fake';
+    }
+
+    protected $mappings = array(
+        'encoded_field' =>  'decoder'
+    );
+}</code></pre>
+    <br />
+    Now, when you find record/document in the database, use method <strong>readMapped</strong> to retrieve converted value.
+<pre class="php"><code>
+    $fake = new Fake();
+    $fake->encoded_value = base64_encode('test');
+    $fake->save();
+    //...
+    $result = Fake::findFirst();
+    $this->assertEquals('test', $result->readMapped('encoded_field'));
+</code></pre>
+    <br />
+    The original value stored in database is still available: <br />
+<pre class="php"><code>
+    //....
+    $this->assertTrue(base64_encode('test'), $result->encoded_field);
+    $this->assertTrue(base64_encode('test'), $result->readAttribute('encoded_field'));
+</code></pre>
+</p>
+{% endblock content %}

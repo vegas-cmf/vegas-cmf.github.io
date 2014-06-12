@@ -15,15 +15,21 @@
     <link href="/styles/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="/styles/dashboard.css" rel="stylesheet">
-    <link rel="stylesheet" href="//yandex.st/highlightjs/8.0/styles/default.min.css">
-
+    <link rel="stylesheet" href="http://highlightjs.org/static/styles/zenburn.css">
+    <style>
+        pre  {
+            padding: 0;
+            margin: 0;
+        }
+        code  {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="/scripts/bootstrap.min.js" type="text/javascript"></script>
-    <script src="//yandex.st/highlightjs/8.0/highlight.min.js"></script>
-    <script type="text/javascript">
-        hljs.configure({classPrefix: ''});
-        hljs.initHighlightingOnLoad();
-    </script>
+    <script src="http://highlightjs.org/static/highlight.pack.js"></script>
+
 </head>
 <body>
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -77,8 +83,8 @@
                 </form>
             </div>
             <ul class="nav nav-sidebar">
-    <li><a href="/1.0/getting-started/requirements.html">Requirements</a></li>
-    <li><a href="/1.0/getting-started/vegaser.html">Vegaser Tool</a></li>
+    <li><a href="#requirements">Requirements</a></li>
+    <li><a href="#vegaser">Vegaser Tool</a></li>
 </ul>
         </div>
         <div class="col-sm-12 main">
@@ -95,14 +101,33 @@
     In the following article we show how to prepare environment for projects based on Vegas CMF.
 </p>
 
-<h2>Requirements</h2>
+<h2 id="requirements">Requirements</h2>
 <p>
-    Vegas CMF based on <a href="http://phalconphp.com/">PhalconPHP Framework</a> implemented as C extension.<br /><br />
-    Before you start building project, check the following <a href="http://docs.phalconphp.com/en/latest/reference/install.html">link</a> to install extension. <br /><br />
-    To ensure that extension is correctly installed, enter the following command in the terminal: <br /><br />
+    Vegas CMF need at least PHP in version 5.4. Make sure that it's already installed in your system:
+    <br />
+    <code>
+    php -v
+    </code>
+    <br />
+    <br />
+    Vegas CMF based on <a href="http://phalconphp.com/">PhalconPHP Framework</a> implemented as C extension.<br />
+    Before you start building project, check the following <a href="http://docs.phalconphp.com/en/latest/reference/install.html">link</a> to install extension. <br />
+    To ensure that extension is correctly installed, enter the following command in the terminal: <br />
     <code>
     php -m | grep phalcon
     </code>
+    <br />
+    <br />
+    As a main database we usually use <strong>MongoDB</strong>. To install it in your system follow this
+    <a href="http://docs.mongodb.org/manual/installation/">link</a>
+</p>
+
+<h2 id="vegaser">Vegaser</h2>
+<p>
+    To make building a project as simple as possible, we prepared a small tool for generating a sample project based on Vegas CMF.
+    <br />
+    For more information follow this
+    <a href="https://bitbucket.org/amsdard/vegaser">link</a>.
 </p>
             </div>
             <hr />
@@ -115,6 +140,10 @@
 </div>        </div>
     </div>
 </div>
+<script>
+    hljs.configure({tabReplace: '    '});
+    hljs.initHighlightingOnLoad();
+</script>
 </body>
 </html>
 
