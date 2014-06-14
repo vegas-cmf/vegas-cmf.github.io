@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800' rel='stylesheet' type='text/css'/>
+
+    <title>Vegas CMF - Documentation</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/styles/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/styles/dashboard.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://highlightjs.org/static/styles/zenburn.css">
+    <style>
+        pre  {
+            padding: 0;
+            margin: 0;
+        }
+        code  {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/scripts/bootstrap.min.js" type="text/javascript"></script>
+    <script src="http://highlightjs.org/static/highlight.pack.js"></script>
+
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-version">
+            <div class="navbar-button">
+                <span class="glyphicon glyphicon-book"></span>
+                <div class="pull-right"><span class="active">v: 1.0 </span> <span class="caret"></span></div>
+            </div>
+            <div class="navbar-more">
+                <dl>
+                    <dt>Versions</dt>
+                    <dd><a href="#">latest</a></dd>
+                    <dd><a href="#">develop</a></dd>
+                    <dd><a href="#"><strong>1.0</strong></a></dd>
+                </dl>
+                <dl>
+                    <dt>Downloads</dt>
+                    <dd><a href="#">PDF</a></dd>
+                    <dd><a href="#">HTML</a></dd>
+                </dl>
+                <dl>
+                    <dt>On GitHub</dt>
+                    <dd><a href="#">Edit</a></dd>
+                </dl>
+            </div>
+        </div>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Vegas CMF Documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">About</a></li>
+                <li><a href="#">Learn</a></li>
+                <li><a href="#">Get Started</a></li>
+            </ul>
+        </div>
+    </div>
+</div><div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-4 col-md-4 sidebar">
+            <div class="sidebar-search">
+                <form>
+                    <input type="text" class="form-control" placeholder="Search docs" />
+                </form>
+            </div>
+                <ul class="nav nav-sidebar">
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#specification">Specification</a></li>
+        <li><a href="#generate">Generate</a></li>
+    </ul>
+        </div>
+        <div class="col-sm-12 main">
+            <div class="main-header">
+                <ol class="breadcrumb">
+                        <li><a href="/">Vegas CMF</a></li>
+    <li><a href="/1.0/guide/tool/faker.html">Fake data generator</a></li>
+                </ol>
+            </div>
+            <hr />
+            <div class="main-body">
+                <h1 id="overview">Fake data generator</h1>
+<p>
+    Faker is a simply tool that generates random data and stores them in file or database.
+    Tool uses the great PHP library created by <a href="https://github.com/fzaninotto">Francois Zaninotto</a>
+    called <a href="https://github.com/fzaninotto/faker">Faker</a>.
+</p>
+
+<h2 id="specification">Specification</h2>
+<p>
+    Our tool requires to provide a file in JSON format, that contains specification, about generating data.
+    Consider the following example, to see how the specification file should look like:
+    <br />
+<pre><code class="json">
+{
+    "title" : {
+        "provider" : "pl_PL/Text::realText",
+        "length" : 100
+    },
+    "content" : {
+        "provider" : "Lorem::text",
+        "length" : 300
+    },
+    "email" : {
+        "provider" : "Internet::safeEmail"
+    },
+    "first_name" : {
+        "provider" : "pl_PL/Person::firstName"
+    },
+    "last_name" : {
+        "provider" : "pl_PL/Person::lastName"
+    },
+    "address" : {
+        "provider" : "Address::address"
+    },
+    "date_of_birth" : {
+        "provider" : "DateTime::date",
+        "format" : "Y-m-d"
+    },
+    "company" : {
+        "provider" : "pl_PL/Company::company"
+    },
+    "phone_number" : {
+        "provider" : "pl_PL/PhoneNumber::phoneNumber"
+    },
+    "number_of_cars" : {
+        "provider" : "Base::randomNumber",
+        "from" : 0,
+        "to" : 3
+    },
+    "homepage" : {
+        "provider" : "Internet::domainName"
+    },
+    "last_visited_page" : {
+        "provider" : "Internet::url"
+    },
+    "user_agent" : {
+        "provider" : "UserAgent::userAgent"
+    },
+    "color" : {
+        "provider" : "Color::hexcolor"
+    },
+    "picture" : {
+        "provider" : "Image::image",
+        "dir" : "/tmp",
+        "width" : 200,
+        "height" : 200
+    },
+    "background" : {
+        "provider" : "Image::imageUrl",
+        "width" : 800,
+        "height" : 600
+    },
+    "password_hash" : {
+        "provider" : "Miscellaneous::sha1"
+    },
+    "locale" : {
+        "provider" : "Miscellaneous::locale"
+    }
+}
+</code></pre>
+    <br />
+    In the specification, the most important is the <i>key</i>, which in fact is an array key
+    (it can be for example a name of table column in database), and also the name of provider,
+    which generates the real data. The whole list of available providers you can find in the
+    <a href="https://github.com/fzaninotto/faker">Faker documentation</a>. <br/>
+    Let's consider one JSON object:
+    <br />
+    <br />
+<pre><code class="json">
+"title" : {
+    "provider" : "pl_PL/Text::realText",
+    "length" : 100
+}
+</code></pre>
+    <br />
+    This object defines that field <strong>title</strong> should be generated using the
+    <strong><a href="https://github.com/fzaninotto/faker#fakerprovideren_ustext">Text</a></strong> provider,
+    that provides the method <strong>realText</strong>. <strong>length</strong> is an optional parameter, that defines
+    the length of text, that will be generated. In the name of provider you can see also <strong>pl_PL</strong>
+    which determines locale of generating text, so in this example, generated text will be in Polish language.
+    <br />
+</p>
+
+<h2 id="generate">Generate</h2>
+<p>
+    Once we have a specification file, we can start generating fake data. We can do this, by writing a php script,
+    or just using the command line interface.
+    <br />
+<pre><code class="php">
+    use Vegas\Tool\Faker\Generator;
+    //....
+    $path = dirname(__FILE__) . '/spec.json';
+    $outputPath = dirname(__FILE__) . '/output.csv';
+
+    $generator = new Generator();
+    $generator->setAdapter('file');
+    $generator->setAdapterType('csv');
+    $generator->setCount(5);
+    $generator->setSpecFilePath($path);
+    $generator->setDestination($outputPath);
+
+    $generator->generate();
+</code></pre>
+    <br />
+    The code in the preceding example will generate 5 rows of fake data using specification from the
+    <strong>spec.json</strong> file. The output file will be in the CSV format and will be located in the
+    <strong>output.csv</strong> file.
+    <br />
+    Generator supports three formats of output files: csv, xml, json and two kind of database models: ORM and ODM.
+    <br />
+    Check the following examples, to see how to use another formats and destinations.
+    <br />
+    <br />
+    <strong>XML</strong>
+    <br/>
+<pre><code class="php">
+    use Vegas\Tool\Faker\Generator;
+    //....
+    $path = dirname(__FILE__) . '/spec.json';
+    $outputPath = dirname(__FILE__) . '/output.xml';
+
+    $generator = new Generator();
+    $generator->setAdapter('file');
+    $generator->setAdapterType('xml');
+    $generator->setCount(5);
+    $generator->setSpecFilePath($path);
+    $generator->setDestination($outputPath);
+
+    $generator->generate();
+</code></pre>
+    <br />
+    <strong>JSON</strong>
+    <br/>
+<pre><code class="php">
+    use Vegas\Tool\Faker\Generator;
+    //....
+    $path = dirname(__FILE__) . '/spec.json';
+    $outputPath = dirname(__FILE__) . '/output.json';
+
+    $generator = new Generator();
+    $generator->setAdapter('file');
+    $generator->setAdapterType('json');
+    $generator->setCount(5);
+    $generator->setSpecFilePath($path);
+    $generator->setDestination($outputPath);
+
+    $generator->generate();
+</code></pre>
+    <br />
+    In case of database adapter, the <strong>destination</strong> is a name of table or collection.
+    <br/>
+    <br/>
+    <strong>ODM</strong> - example of save data to mongo collection named <strong>fake</strong>
+    <br/>
+<pre><code class="php">
+    use Vegas\Tool\Faker\Generator;
+    //....
+    $path = dirname(__FILE__) . '/spec.json';
+
+    $generator = new Generator();
+    $generator->setAdapter('db');
+    $generator->setAdapterType('odm');
+    $generator->setCount(5);
+    $generator->setSpecFilePath($path);
+    $generator->setDestination('fake');
+
+    $generator->generate();
+</code></pre>
+    <br />
+    <strong>ORM</strong> - example of save data to mysql table named <strong>fake</strong>
+    <br/>
+<pre><code class="php">
+    use Vegas\Tool\Faker\Generator;
+    //....
+    $path = dirname(__FILE__) . '/spec.json';
+
+    $generator = new Generator();
+    $generator->setAdapter('db');
+    $generator->setAdapterType('orm');
+    $generator->setCount(5);
+    $generator->setSpecFilePath($path);
+    $generator->setDestination('fake');
+
+    $generator->generate();
+</code></pre>
+    <br />
+
+</p>
+            </div>
+            <hr />
+            <div class="main-footer">
+    <div role="contentinfo">
+        <p>
+            &copy; 2014 Pit Group Intech B.V
+        </p>
+    </div>
+</div>        </div>
+    </div>
+</div>
+<script>
+    hljs.configure({tabReplace: '    '});
+    hljs.initHighlightingOnLoad();
+</script>
+</body>
+</html>
+

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800' rel='stylesheet' type='text/css'/>
+
+    <title>Vegas CMF - Documentation</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/styles/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/styles/dashboard.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://highlightjs.org/static/styles/zenburn.css">
+    <style>
+        pre  {
+            padding: 0;
+            margin: 0;
+        }
+        code  {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/scripts/bootstrap.min.js" type="text/javascript"></script>
+    <script src="http://highlightjs.org/static/highlight.pack.js"></script>
+
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-version">
+            <div class="navbar-button">
+                <span class="glyphicon glyphicon-book"></span>
+                <div class="pull-right"><span class="active">v: 1.0 </span> <span class="caret"></span></div>
+            </div>
+            <div class="navbar-more">
+                <dl>
+                    <dt>Versions</dt>
+                    <dd><a href="#">latest</a></dd>
+                    <dd><a href="#">develop</a></dd>
+                    <dd><a href="#"><strong>1.0</strong></a></dd>
+                </dl>
+                <dl>
+                    <dt>Downloads</dt>
+                    <dd><a href="#">PDF</a></dd>
+                    <dd><a href="#">HTML</a></dd>
+                </dl>
+                <dl>
+                    <dt>On GitHub</dt>
+                    <dd><a href="#">Edit</a></dd>
+                </dl>
+            </div>
+        </div>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Vegas CMF Documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">About</a></li>
+                <li><a href="#">Learn</a></li>
+                <li><a href="#">Get Started</a></li>
+            </ul>
+        </div>
+    </div>
+</div><div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-4 col-md-4 sidebar">
+            <div class="sidebar-search">
+                <form>
+                    <input type="text" class="form-control" placeholder="Search docs" />
+                </form>
+            </div>
+                <ul class="nav nav-sidebar">
+        <li><a href="#register">Register a service</a></li>
+    </ul>
+        </div>
+        <div class="col-sm-12 main">
+            <div class="main-header">
+                <ol class="breadcrumb">
+                        <li><a href="/">Vegas CMF</a></li>
+    <li><a href="/1.0/guide/di/service-provider.html">Service provider</a></li>
+                </ol>
+            </div>
+            <hr />
+            <div class="main-body">
+                <h1>Service Provider</h1>
+<p>
+    Service provider is responsible for registration services in the <i>dependency injection</i>.
+</p>
+
+<h2>Register a service</h2>
+<p>
+    To register a service, that will be accessible via dependency injection, just create a class named in the following format
+    <strong>NameOfService<i>ServiceProvider</i></strong> and put it into <strong>app/services</strong> directory.
+    <br />
+    During the bootstrap process, all service providers are registered in the <i>dependency injection</i> container.
+    Service provider loader generates file <strong>services.php</strong> inside <strong>app/config</strong> directory,
+    which contains the list of available services in the application. In <i>development</i> environment, that file is generated
+    on every request. In case of <i>production</i> environment loader use already generated file to setups services.
+    <br />
+    In the following example we register a scaffolding service.
+    <br />
+    <br />
+<pre class="php"><code>
+use Phalcon\DiInterface;
+use Vegas\DI\ServiceProviderInterface;
+use Vegas\DI\Scaffolding;
+
+class ScaffoldingServiceProvider implements ServiceProviderInterface
+{
+    const SERVICE_NAME = 'scaffolding';
+
+    /**
+     * {@inheritdoc}
+     */
+    public function register(DiInterface $di)
+    {
+        $adapter = new Scaffolding\Adapter\Mongo();
+        $di->set(self::SERVICE_NAME, new Scaffolding($adapter), true);
+    }
+
+    public function getDependencies()
+    {
+        return array(
+            MongoServiceProvider::SERVICE_NAME,
+            CollectionManagerServiceProvider::SERVICE_NAME
+        );
+    }
+}
+</code></pre>
+    <br />
+    Service provider must implements <strong>Vegas\DI\ServiceProviderInterface</strong> and must have constant
+    <strong>const SERVICE_NAME</strong> that contains name of service. <br />
+    The <strong>register</strong> method registers service in the <i>dependency injection</i> container.
+    Method <strong>getDependencies</strong> must returns an array (also empty array) with list of depencened services,
+    for example, <i>scaffolding</i> requires Mongo and CollectionManager service.
+</p>
+            </div>
+            <hr />
+            <div class="main-footer">
+    <div role="contentinfo">
+        <p>
+            &copy; 2014 Pit Group Intech B.V
+        </p>
+    </div>
+</div>        </div>
+    </div>
+</div>
+<script>
+    hljs.configure({tabReplace: '    '});
+    hljs.initHighlightingOnLoad();
+</script>
+</body>
+</html>
+
