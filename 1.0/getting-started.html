@@ -90,39 +90,40 @@
         <div class="col-sm-12 main">
             <div class="main-header">
                 <ol class="breadcrumb">
-                    <li><a href="/">Vegas CMF</a></li>
-<li><a href="/1.0/getting-started">Getting started</a></li>
+                        <li><a href="/">Vegas CMF</a></li>
+    <li><a href="/1.0/guide.html">Guide</a></li>
+    <li><a href="/1.0/getting-started">Getting started</a></li>
                 </ol>
             </div>
             <hr />
             <div class="main-body">
-                <h1>Getting started</h1>
+                <h2>Getting started</h2>
 <p>
     In the following article we show how to prepare environment for projects based on Vegas CMF.
 </p>
 
-<h2 id="requirements">Requirements</h2>
+<h3 id="requirements">Requirements</h3>
 <p>
     Vegas CMF need at least PHP in version 5.4. Make sure that it's already installed in your system:
     <br />
-    <code>
+<pre><code class="shell">
     php -v
-    </code>
+</code></pre>
     <br />
     <br />
     Vegas CMF based on <a href="http://phalconphp.com/">PhalconPHP Framework</a> implemented as C extension.<br />
     Before you start building project, check the following <a href="http://docs.phalconphp.com/en/latest/reference/install.html">link</a> to install extension. <br />
     To ensure that extension is correctly installed, enter the following command in the terminal: <br />
-    <code>
+<pre><code class="shell">
     php -m | grep phalcon
-    </code>
+</code></pre>
     <br />
     <br />
     As a main database we usually use <strong>MongoDB</strong>. To install it in your system follow this
     <a href="http://docs.mongodb.org/manual/installation/">link</a>
 </p>
 
-<h2 id="vegaser">Vegaser</h2>
+<h3 id="vegaser">Vegaser</h3>
 <p>
     To make building a project as simple as possible, we prepared a small tool for generating a sample project based on Vegas CMF.
     <br />
