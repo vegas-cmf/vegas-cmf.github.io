@@ -83,8 +83,9 @@
                 </form>
             </div>
                 <ul class="nav nav-sidebar">
-        <li><a href="/1.0/getting-started/requirements.html">Requirements</a></li>
-        <li><a href="/1.0/getting-started/vegaser.html">Vegaser Tool</a></li>
+        <li><a href="#connection">Setup connection</a></li>
+        <li><a href="#provider">Create provider</a></li>
+        <li><a href="#model">Create model</a></li>
     </ul>
         </div>
         <div class="col-sm-12 main">
@@ -92,69 +93,120 @@
                 <ol class="breadcrumb">
                         <li><a href="/">Vegas CMF</a></li>
     <li><a href="/1.0/guide.html">Guide</a></li>
-    <li><a href="/1.0/guide.html#forms">Forms</a></li>
-    <li><a href="/1.0/guide.html#element">Element</a></li>
-    <li class="active"><a href="/1.0/guide/forms/element/cloneable.html">Cloneable</a></li>
+    <li><a href="/1.0/guide/db/mongo.html">Mongo</a></li>
                 </ol>
             </div>
             <hr />
             <div class="main-body">
-                <h2>Vegas CMF Form Elements</h2>
+                <h2>Mongo database</h2>
 
-<h3>Vegas\Forms\Element\Cloneable</h3>
-
+<h3 id="connection">Setup connection</h3>
 <p>
-    Element with add/remove field buttons. You can use single field as base element
-    (generated field name: <i>cloneableElementName[]</i>) or array of fields (generated fields names:
-    <i>cloneableElementName[0..n][baseFieldName]</i>).
-</p>
-
-<h4>Usage</h4>
-
+    Before we start using MongoDB in our project, we have to setup a connection details, by adding them to config.php file:
+    <br />
 <pre><code class="php">
-// always set the base element!
-$answers = new Cloneable('answers');
-
-$answers->setBaseElements(array(
-    new Text('field1'),
-    new Text('field2')
-);
-// and/or
-$answers->addBaseElement(new Text(''));
-
-$answers->setLabel($this->i18n->_('Answers'));
-$answers->addValidator(new SizeOf(array('min' => 2, 'max' => 6)));
-$this->add($answers);
+//...
+'mongo' => array(
+    'db' => 'test'
+),
+//...
 </code></pre>
-
-<p>
-    You can also add validators to base elements:
 </p>
 
+<h3 id="provider">Create provider</h3>
+<p>
+    To make MongoDB available in the application, you have to create a <a href="/1.0/guide/di/service-provider.html">service provider</a>
+    <br />
 <pre><code class="php">
-$name = new Text('name');
-$name->addValidator(new PresenceOf());
+use Phalcon\DiInterface;
+use Vegas\DI\ServiceProviderInterface;
+use Phalcon\Mvc\Url as UrlResolver;
 
-$answers->addBaseElement($name);
+class MongoServiceProvider implements ServiceProviderInterface
+{
+    const SERVICE_NAME = 'mongo';
+
+    /**
+     * {@inheritdoc}
+     */
+    public function register(DiInterface $di)
+    {
+        $di->set(self::SERVICE_NAME, function() use ($di) {
+            $mongo = new \MongoClient();
+            return $mongo->selectDb($di->get('config')->mongo->db);
+        }, true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDependencies()
+    {
+        return array(
+            CollectionManagerServiceProvider::SERVICE_NAME
+        );
+    }
+}
 </code></pre>
+    <br />
+    Note that Mongo service provider requires <strong>CollectionManagerServiceProvider</strong>, which also has to be registered manually, as follows:
+    <br />
+    <br />
+<pre><code class="php">
+use Phalcon\DiInterface;
+use Vegas\DI\ServiceProviderInterface;
+use Phalcon\Mvc\Url as UrlResolver;
 
+class CollectionManagerServiceProvider implements ServiceProviderInterface
+{
+    const SERVICE_NAME = 'collectionManager';
 
-<p>
-    It is possible to render cloneable field as one or get row and render each row element separately:
+    /**
+     * {@inheritdoc}
+     */
+    public function register(DiInterface $di)
+    {
+        $di->set(self::SERVICE_NAME, function() use ($di) {
+           return new \Phalcon\Mvc\Collection\Manager();
+        }, true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDependencies()
+    {
+        return array();
+    }
+}
+</code></pre>
 </p>
 
 
-<pre><code class="html">
-{{ form.get('answers') }}
-{% for row in form.get('answers').getRows() %}
-    <tr>
-        {% for item in row.getElements() %}
-            <td>{{ item }}</td>
-        {% endfor %}
-    </tr>
-{% endfor %}
-</code></pre>
+<h3 id="model">Create model</h3>
+<p>
+    Once we have a MongoDB setup in application, we can start creating a data-models. <br />
+    Create a file <strong>Foo.php</strong> in the <i>models</i> directory in one <a href="/1.0/guide/mvc/module.html">module</a>.
+    <br />
+<pre><code class="php">
+namespace Foo\Models;
 
+use Vegas\Db\Decorator\CollectionAbstract;
+
+class Fo extends CollectionAbstract
+{
+    /**
+     * Returns the name of Mongo collection
+     */
+    public function getSource()
+    {
+        return 'foo_collection';
+    }
+}
+</code></pre>
+    <br />
+    For more information about ODM check the following <a href="http://docs.phalconphp.com/pl/latest/reference/odm.html">link</a>.
+</p>
             </div>
             <hr />
             <div class="main-footer">
