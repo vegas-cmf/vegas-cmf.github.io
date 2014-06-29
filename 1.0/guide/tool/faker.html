@@ -97,14 +97,14 @@
             </div>
             <hr />
             <div class="main-body">
-                <h1 id="overview">Fake data generator</h1>
+                <h2 id="overview">Fake data generator</h2>
 <p>
     Faker is a simply tool that generates random data and stores them in file or database.
     Tool uses the great PHP library created by <a href="https://github.com/fzaninotto">Francois Zaninotto</a>
     called <a href="https://github.com/fzaninotto/faker">Faker</a>.
 </p>
 
-<h2 id="specification">Specification</h2>
+<h3 id="specification">Specification</h3>
 <p>
     Our tool requires to provide a file in JSON format, that contains specification, about generating data.
     Consider the following example, to see how the specification file should look like:
@@ -200,7 +200,7 @@
     <br />
 </p>
 
-<h2 id="generate">Generate</h2>
+<h3 id="generate">Generate</h3>
 <p>
     Once we have a specification file, we can start generating fake data. We can do this, by writing a php script,
     or just using the command line interface.
@@ -303,7 +303,13 @@
     $generator->generate();
 </code></pre>
     <br />
-
+    <br />
+    The same effect might be achieved using a Command Line Interface, as follows: <br />
+<pre><code class="shell">
+    php cli/cli.php vegas:tool_faker:generator generate -o db.odm -d sample_data -s spec.json -c 5
+</code></pre>
+    <br />
+    This command will generate 5 rows of data and saves them to the Mongo collection named sample_data.
 </p>
             </div>
             <hr />

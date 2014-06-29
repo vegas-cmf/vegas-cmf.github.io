@@ -99,9 +99,9 @@
             </div>
             <hr />
             <div class="main-body">
-                <h1>Router</h1>
+                <h2>Router</h2>
 
-<h2 id="standard-router">Standard router</h2>
+<h3 id="standard-router">Standard router</h3>
 
 <p>
     The standard router based on the PhalconPHP router
@@ -136,7 +136,7 @@ return array(
     <br />
 </p>
 
-<h2 id="route-types">Route types</h2>
+<h3 id="route-types">Route types</h3>
 <p>
     Vegas CMF defines four types of routes: <br />
     <ul>
@@ -155,7 +155,7 @@ return array(
     </ul>
 </p>
 
-<h3 id="route-types-default">Default route</h3>
+<h4 id="route-types-default">Default route</h4>
 <p>
     All rules without explicit type definition are added in default way to the router.
     <br />
@@ -173,7 +173,7 @@ return array(
 );</code></pre>
 </p>
 
-<h3 id="route-types-static">Static route</h3>
+<h4 id="route-types-static">Static route</h4>
 <p>
     Static route works exactly in the same way, like <strong>default route</strong>, but cannot be overwritten by another rules.
     <br />
@@ -191,7 +191,7 @@ return array(
 );</code></pre>
 </p>
 
-<h3 id="route-types-rest">Rest route</h3>
+<h4 id="route-types-rest">Rest route</h4>
 <p>
     Rest route can be use for creating the REST Api. It allows to map HTTP methods with controller actions.
     <br />
@@ -224,7 +224,7 @@ return array(
 );</code></pre>
 </p>
 
-<h3 id="route-types-notfound">Not found route</h3>
+<h4 id="route-types-notfound">Not found route</h4>
 <p>
     Not found route is used when no route was matched by router.<br />
 <pre class="php"><code>
@@ -241,7 +241,7 @@ return array(
 );</code></pre>
 </p>
 
-<h2 id="route-hostname">Hostname constraints</h2>
+<h3 id="route-hostname">Hostname constraints</h3>
 <p>
     Adding the parameter <strong>hostname</strong> we can constrain matching the route only when $_SERVER['HTTP_HOST']
     is equals to defined hostname. Remember to define the base <strong>hostname</strong> in application config, for example:
@@ -275,7 +275,7 @@ return array(
 </p>
 
 
-<h2 id="route-own">Own router</h2>
+<h3 id="route-own">Own router</h3>
 <p>
     The standard router can be replaced with your own custom router.
     You can do it by overriding method <strong>initRoutes</strong> inside application <strong>bootstrap</strong><br />

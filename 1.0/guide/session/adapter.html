@@ -83,7 +83,7 @@
                 </form>
             </div>
                 <ul class="nav nav-sidebar">
-        <li><a href="#response">Create JSON response</a></li>
+        <li><a href="#manager">Session manager</a></li>
     </ul>
         </div>
         <div class="col-sm-12 main">
@@ -95,71 +95,9 @@
             </div>
             <hr />
             <div class="main-body">
-                    <h1>Create JSON response</h1>
-    <p>
-        Class <strong>Vegas\Http\Response\Json</strong> provides a simply JSON response builder, that might be useful to
-        standardize responses returned by your application's controllers.
-        <br />
-        <br />
-        Example use:
-        <br />
-    <pre class="php"><code>
-            //...
+                <h2>Session</h2>
 
-            /**
-            * Success response
-            */
-            public function createAction()
-            {
-            $response = new Json();
-            $response->success()
-            ->setData(array('test' => 1))
-            ->setMessage('Test message');
-
-            return $this->jsonResponse($response);
-            }
-
-
-            /**
-            * Errors response
-            */
-            public function createAction()
-            {
-            $response = new Json();
-            $response->fail()
-            ->setData(array())
-            ->setMessage('Errors...');
-
-            return $this->jsonResponse($response);
-            }
-
-            //...
-        </code></pre>
-    <br />
-    Success response will be in the following format:
-    <br />
-    <br />
-    <pre class="json"><code>
-            {
-            "success" : true,
-            "data": {
-            "test" : 1
-            },
-            "message" : "Test message"
-            }
-        </code></pre>
-    <br />
-    Error response will be in the following format:
-    <br />
-    <br />
-    <pre class="json"><code>
-            {
-            "success" : false,
-            "data": {},
-            "message" : "Errors..."
-            }
-        </code></pre>
-    </p>
+<h3 id="manager">Session manager</h3>
             </div>
             <hr />
             <div class="main-footer">
