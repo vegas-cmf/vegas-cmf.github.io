@@ -82,53 +82,59 @@
                     <input type="text" class="form-control" placeholder="Search docs" />
                 </form>
             </div>
-            <ul class="nav nav-sidebar">
-    <li><a href="#requirements">Requirements</a></li>
-    <li><a href="#vegaser">Vegaser Tool</a></li>
-</ul>
+                <ul class="nav nav-sidebar">
+        <li><a href="/1.0/getting-started/requirements.html">Requirements</a></li>
+        <li><a href="/1.0/getting-started/vegaser.html">Vegaser Tool</a></li>
+    </ul>
         </div>
         <div class="col-sm-12 main">
             <div class="main-header">
                 <ol class="breadcrumb">
                         <li><a href="/">Vegas CMF</a></li>
     <li><a href="/1.0/guide.html">Guide</a></li>
-    <li><a href="/1.0/getting-started">Getting started</a></li>
+    <li><a href="/1.0/guide.html#profiler">Profiler</a></li>
+    <li class="active"><a href="/1.0/guide/profiler/data-collector/interface.html">Interface</a></li>
                 </ol>
             </div>
             <hr />
             <div class="main-body">
-                <h2>Getting started</h2>
+                <h2>Vegas CMF Guide</h2>
+
+<h3>Profiler library</h3>
+
+<h4>Interface</h4>
+
 <p>
-    In the following article we show how to prepare environment for projects based on Vegas CMF.
+    The Data Collector interface is a basis for each profiled part of the system. It specifies the contract which has to be fullfilled by all profiler data collectors.
+    <br />
+    Data collectors are light classes which are used as event listeners to prepare data for profiler.
+    <br />
+    See <a href="http://docs.phalconphp.com/pl/latest/reference/events.html">http://docs.phalconphp.com/pl/latest/reference/events.html</a> to acknowledge how to write them.
+</p>
+<p>
+    Example attachable hooks:
+    <ul>
+        <li><a href="http://docs.phalconphp.com/pl/latest/reference/dispatching.html#dispatch-loop-events">http://docs.phalconphp.com/pl/latest/reference/dispatching.html#dispatch-loop-events</a></li>
+        <li><a href="http://docs.phalconphp.com/pl/latest/reference/views.html#view-events">http://docs.phalconphp.com/pl/latest/reference/views.html#view-events</a></li>
+    </ul>
 </p>
 
-<h3 id="requirements">Requirements</h3>
+<h4>Custom data collectors</h4>
+
 <p>
-    Vegas CMF need at least PHP in version 5.4. Make sure that it's already installed in your system:
+    Just create appropriate class which implements <code>\Vegas\Profiler\DataCollector\DataCollectorInterface</code>
+    &amp; add fully qualified name of the class to DI container
     <br />
-<pre><code class="shell">
-    php -v
-</code></pre>
-    <br />
-    <br />
-    Vegas CMF based on <a href="http://phalconphp.com/">PhalconPHP Framework</a> implemented as C extension.<br />
-    Before you start building project, check the following <a href="http://docs.phalconphp.com/en/latest/reference/install.html">link</a> to install extension. <br />
-    To ensure that extension is correctly installed, enter the following command in the terminal: <br />
-<pre><code class="shell">
-    php -m | grep phalcon
-</code></pre>
-    <br />
-    <br />
-    As a main database we usually use <strong>MongoDB</strong>. To install it in your system follow this
-    <a href="http://docs.mongodb.org/manual/installation/">link</a>
+    See first step in <a href="http://vegas-docs/1.0/guide/profiler/installation.html#setup">Profiler setup</a>.
 </p>
 
-<h3 id="vegaser">Vegaser</h3>
+<h4>Custom interface</h4>
+
 <p>
-    To make building a project as simple as possible, we prepared a small tool for generating a sample project based on Vegas CMF.
+    When needed, the interface used by profiler data collectors can be switched.
     <br />
-    For more information follow this
-    <a href="https://bitbucket.org/amsdard/vegaser">link</a>.
+    It can be injected using constructor of <code>\Vegas\Profiler\Manager</code> in application Bootstrap file
+    (see <a href="http://vegas-docs/1.0/guide/profiler/installation.html#bootstrap">Setup Bootstrap</a>).
 </p>
             </div>
             <hr />

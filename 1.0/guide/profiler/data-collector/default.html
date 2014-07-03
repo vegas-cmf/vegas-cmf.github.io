@@ -82,53 +82,80 @@
                     <input type="text" class="form-control" placeholder="Search docs" />
                 </form>
             </div>
-            <ul class="nav nav-sidebar">
-    <li><a href="#requirements">Requirements</a></li>
-    <li><a href="#vegaser">Vegaser Tool</a></li>
-</ul>
+                <ul class="nav nav-sidebar">
+        <li><a href="/1.0/getting-started/requirements.html">Requirements</a></li>
+        <li><a href="/1.0/getting-started/vegaser.html">Vegaser Tool</a></li>
+    </ul>
         </div>
         <div class="col-sm-12 main">
             <div class="main-header">
                 <ol class="breadcrumb">
                         <li><a href="/">Vegas CMF</a></li>
     <li><a href="/1.0/guide.html">Guide</a></li>
-    <li><a href="/1.0/getting-started">Getting started</a></li>
+    <li><a href="/1.0/guide.html#profiler">Profiler</a></li>
+    <li class="active"><a href="/1.0/guide/profiler/data-collector/default.html">Default classes</a></li>
                 </ol>
             </div>
             <hr />
             <div class="main-body">
-                <h2>Getting started</h2>
+                <h2>Vegas CMF Guide</h2>
+
+<h3>Profiler library</h3>
+
+<h4>Default classes</h4>
+
 <p>
-    In the following article we show how to prepare environment for projects based on Vegas CMF.
+    This article contains basic information about data collectors which are shipped with the library.
 </p>
 
-<h3 id="requirements">Requirements</h3>
 <p>
-    Vegas CMF need at least PHP in version 5.4. Make sure that it's already installed in your system:
+    <strong>Components</strong><br />
+    Attached to events of dispatcher
     <br />
-<pre><code class="shell">
-    php -v
-</code></pre>
-    <br />
-    <br />
-    Vegas CMF based on <a href="http://phalconphp.com/">PhalconPHP Framework</a> implemented as C extension.<br />
-    Before you start building project, check the following <a href="http://docs.phalconphp.com/en/latest/reference/install.html">link</a> to install extension. <br />
-    To ensure that extension is correctly installed, enter the following command in the terminal: <br />
-<pre><code class="shell">
-    php -m | grep phalcon
-</code></pre>
-    <br />
-    <br />
-    As a main database we usually use <strong>MongoDB</strong>. To install it in your system follow this
-    <a href="http://docs.mongodb.org/manual/installation/">link</a>
+    Gets a list of loaded services in current request with dispatcher information
+    - things like used route, module, controller, action names etc.
 </p>
 
-<h3 id="vegaser">Vegaser</h3>
 <p>
-    To make building a project as simple as possible, we prepared a small tool for generating a sample project based on Vegas CMF.
+    <strong>Memory</strong><br />
+    Attached to events of dispatcher
     <br />
-    For more information follow this
-    <a href="https://bitbucket.org/amsdard/vegaser">link</a>.
+    Gets memory usage in the end of the request with peak usage.
+</p>
+
+<p>
+    <strong>Query</strong><br />
+    Attached to events of db connection
+    <br />
+    Gets number of database queries in request, their execution times and full dump of the queries.
+</p>
+
+<p>
+    <strong>Request</strong><br />
+    Attached to events of dispatcher
+    <br />
+    Gets information about request headers
+</p>
+
+<p>
+    <strong>Response</strong><br />
+    Attached to events of dispatcher
+    <br />
+    Gets information about response headers
+</p>
+
+<p>
+    <strong>Superglobals</strong><br />
+    Attached to events of dispatcher
+    <br />
+    Gets information about superglobals used in request, $_SERVER, $_SESSION, $_GET, $_POST etc.
+</p>
+
+<p>
+    <strong>Time</strong><br />
+    Attached to events of view
+    <br />
+    Gets information about execution time between creating profiler instance and the moment after rendering HTML.
 </p>
             </div>
             <hr />

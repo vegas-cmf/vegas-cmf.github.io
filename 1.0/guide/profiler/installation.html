@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800' rel='stylesheet' type='text/css'/>
+
+    <title>Vegas CMF - Documentation</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/styles/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/styles/dashboard.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://highlightjs.org/static/styles/zenburn.css">
+    <style>
+        pre  {
+            padding: 0;
+            margin: 0;
+        }
+        code  {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/scripts/bootstrap.min.js" type="text/javascript"></script>
+    <script src="http://highlightjs.org/static/highlight.pack.js"></script>
+
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-version">
+            <div class="navbar-button">
+                <span class="glyphicon glyphicon-book"></span>
+                <div class="pull-right"><span class="active">v: 1.0 </span> <span class="caret"></span></div>
+            </div>
+            <div class="navbar-more">
+                <dl>
+                    <dt>Versions</dt>
+                    <dd><a href="#">latest</a></dd>
+                    <dd><a href="#">develop</a></dd>
+                    <dd><a href="#"><strong>1.0</strong></a></dd>
+                </dl>
+                <dl>
+                    <dt>Downloads</dt>
+                    <dd><a href="#">PDF</a></dd>
+                    <dd><a href="#">HTML</a></dd>
+                </dl>
+                <dl>
+                    <dt>On GitHub</dt>
+                    <dd><a href="#">Edit</a></dd>
+                </dl>
+            </div>
+        </div>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Vegas CMF Documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">About</a></li>
+                <li><a href="#">Learn</a></li>
+                <li><a href="#">Get Started</a></li>
+            </ul>
+        </div>
+    </div>
+</div><div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-4 col-md-4 sidebar">
+            <div class="sidebar-search">
+                <form>
+                    <input type="text" class="form-control" placeholder="Search docs" />
+                </form>
+            </div>
+                <ul class="nav nav-sidebar">
+        <li><a href="/1.0/getting-started/requirements.html">Requirements</a></li>
+        <li><a href="/1.0/getting-started/vegaser.html">Vegaser Tool</a></li>
+    </ul>
+        </div>
+        <div class="col-sm-12 main">
+            <div class="main-header">
+                <ol class="breadcrumb">
+                        <li><a href="/">Vegas CMF</a></li>
+    <li><a href="/1.0/guide.html">Guide</a></li>
+    <li><a href="/1.0/guide.html#profiler">Profiler</a></li>
+    <li class="active"><a href="/1.0/guide/profiler/installation.html">Requirements/installation</a></li>
+                </ol>
+            </div>
+            <hr />
+            <div class="main-body">
+                <h2>Vegas CMF Guide</h2>
+
+<h3>Profiler library</h3>
+
+<p>
+    This is a module to <i>vegas-cmf-core</i> which provides various so-called <i>data collectors</i>.
+    <br />
+    Each of data collectors is attached to specific events to grab data about the request.
+    After the request, the information collected is stored inside a temporary file.
+    <br />
+    Finally, an AJAX call is triggered which retrieves the data, unlinks the file and renders appropriate information.
+</p>
+
+<h4>Requirements</h4>
+
+<p>
+    Profiler module relies on <i>vegas-cmf-core</i> lib. Requires php 5.4+ with
+    <a href="http://phalconphp.com/en/" target="_blank">phalcon 1.3.x</a> installed as well.
+    <br />
+    Library consists only the backend of the profiler - all event listeners &amp; data collectors.
+    <br/>
+    Developers need to provide custom frontend implementation. By default it works only in non-production environments.
+</p>
+
+<h4>Installation</h4>
+
+<p>Add <i>vegas-cmf-profiler</i> to your composer.json. Run:
+    <br />
+    <code class="shell">
+        php composer.phar update
+    </code>
+</p>
+
+<p>Copy <code>/vegas-cmf/profiler/assets</code> from your composer vendor to your project public directory.</p>
+
+<p>If you have <b>vegas-cmf-core</b> with CLI installed, you can copy those files automaticaly by using command:
+    <br />
+    <code class="shell">
+        php /path/to/cli.php vegas:assets publish
+    </code>
+</p>
+
+<h4 id="setup">Setup</h4>
+<p>
+    First we need to enter profiler module inside dependency injection container.
+    Add following code into <code>app/config/config.php</code> file:
+    <br />
+<pre><code class="php">return [
+    // other application settings
+    // ...
+
+    'profiler'  => [
+        // Put all used profiler classes here
+        '\Vegas\Profiler\DataCollector\Time',
+        '\Vegas\Profiler\DataCollector\Components',
+        '\Vegas\Profiler\DataCollector\Memory',
+        '\Vegas\Profiler\DataCollector\Query',
+        '\Vegas\Profiler\DataCollector\Request',
+        '\Vegas\Profiler\DataCollector\Response',
+        '\Vegas\Profiler\DataCollector\Superglobals',
+    ]
+];
+</code></pre>
+</p>
+<p id="bootstrap">
+    ... and following to the <code>app/Bootstrap.php</code> file:
+    <br />
+<pre><code class="php">
+use Vegas\Profiler\Manager as ProfilerManager;
+use Vegas\Profiler\DataCollector\DataCollectorInterface as ProfilerDataCollector;
+
+// ...
+
+public function setup()
+{
+    parent::setup();
+    $this->initProfiler();
+
+    return $this;
+}
+
+// ...
+
+protected function initProfiler()
+{
+    if (isset($this->config->profiler)) {
+        $dataCollectors = (array)$this->config->profiler;
+    } else {
+        $dataCollectors = [];
+    }
+
+    $di = $this->di;
+    $di->set(ProfilerDataCollector::DI_NAME, function() use ($di) {
+        return (new ProfilerManager)
+            ->setEventsManager($di->getShared('eventsManager'));
+    }, true);
+    $di->get(ProfilerDataCollector::DI_NAME)->enable($dataCollectors);
+}
+</code></pre>    
+</p>
+<p>
+    After successful installation, we need to provide frontend module.
+    <br />
+    The module should be named, of course, <code>Profiler</code> which is the default. See <code>\Vegas\Profiler\Manager</code> constructor.
+    <br />
+    This is in order to prevent looping the dumpfile procedure.
+    Perhaps in the future there will be introduced a better solution for this.
+    <br />
+    Instructions below show how to create a sample profiler which dumps information
+    about the previous request inside a table at the bottom of the page.
+    <br />
+    The module needs only one action. In this description we assume it will be
+    <code>show</code> action inside <code>frontend</code> section.
+</p>
+<ol>
+    <li>Create a module named Profiler with standard directory structure:
+<pre><code>Profiler
+├── config
+|   ├── config.php
+|   └── routes.php
+├── controllers
+|   └── frontend
+|       └── ProfilerController.php
+├── views
+|   └── frontend
+|       └── profiler
+|           └── show.php
+└── Module.php
+</code></pre>
+    </li>
+    <li>Fill controller with following code:
+<pre><code class="php">namespace Profiler\Controllers\Frontend;
+
+use Vegas\Mvc\Controller\ControllerAbstract,
+    Vegas\Profiler\DataCollector\DataCollectorInterface as ProfilerDataCollector,
+    Vegas\Mvc\View;
+
+class ProfilerController extends ControllerAbstract
+{
+    public function showAction($requestId)
+    {
+        $this->request->isAjax() && $this->view->setRenderLevel(View::LEVEL_ACTION_VIEW);
+        $data = $this->di->getShared(ProfilerDataCollector::DI_NAME)->getData($requestId);
+        // $data is just an associative array of data collected by profilers
+        $this->view->setVar('profiler', $data);
+    }
+}
+</code></pre>
+    </li>
+    <li>Fill <code>show.php</code> with following code:
+
+<pre><code class="twig">&lt;table class="table table-bordered table-hover"&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;Profiler&lt;/th&gt;
+            &lt;th class="options"&gt;Data collected&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+    {% for name, data in profiler %}
+    &lt;tr&gt;
+        &lt;td&gt;{{ name }}&lt;/td&gt;
+        &lt;td class="options"&gt;{{ dump(data) }}&lt;/td&gt;
+    &lt;/tr&gt;
+    {% endfor %}
+    &lt;/tbody&gt;
+&lt;/table&gt;
+</code></pre>
+
+    </li>
+    <li>Add appropriate route inside <code>routes.php</code>:
+<pre><code class="php">return [
+    'profiler' => [
+        'route' => '/profiler/{requestId}',
+        'paths' => [
+            'module' => 'Profiler',
+            'controller' => 'Frontend\Profiler',
+            'action' => 'show'
+        ],
+        'params' => []
+    ],
+];
+</code></pre>
+    </li>
+    <li>Create a partial view <code>profiler.volt</code> inside <code>app/layouts/partials</code> dir using newly created route:
+
+<pre><code class="html">&lt;div id="vegas-profiler" data-request="{{ profilerRequestId }}"&gt;&lt;/div&gt;
+
+&lt;script type="text/javascript"&gt;
+    $(document).ready(function(){
+        var profilerUrl = "{{ url.get(['for':'profiler', 'requestId':'__REQ__']) }}"
+                .replace(/__REQ__/, $('#vegas-profiler').data('request'));
+        
+        $('#vegas-profiler').load(profilerUrl);
+    });
+&lt;/script&gt;
+</code></pre>
+
+    <li>Finally, include the partial inside our layout file at the bottom of body section:
+
+<pre><code class="twig">{{ partial('../../../layouts/partials/profiler') }}</code></pre>
+
+    </li>
+</ol>
+            </div>
+            <hr />
+            <div class="main-footer">
+    <div role="contentinfo">
+        <p>
+            &copy; 2014 Amsterdam Standard Sp. z o.o.
+        </p>
+    </div>
+</div>
+        </div>
+    </div>
+</div>
+<script>
+    hljs.configure({tabReplace: '    '});
+    hljs.initHighlightingOnLoad();
+</script>
+</body>
+</html>
+
