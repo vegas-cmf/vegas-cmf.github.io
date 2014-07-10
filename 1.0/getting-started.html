@@ -99,37 +99,89 @@
             <div class="main-body">
                 <h2>Getting started</h2>
 <p>
-    In the following article we show how to prepare environment for projects based on Vegas CMF.
+    In the following article you will know how to build the project on Vegas Library.
 </p>
 
-<h3 id="requirements">Requirements</h3>
-<p>
-    Vegas CMF need at least PHP in version 5.4. Make sure that it's already installed in your system:
-    <br />
-<pre><code class="shell">
-    php -v
-</code></pre>
-    <br />
-    <br />
-    Vegas CMF based on <a href="http://phalconphp.com/">PhalconPHP Framework</a> implemented as C extension.<br />
-    Before you start building project, check the following <a href="http://docs.phalconphp.com/en/latest/reference/install.html">link</a> to install extension. <br />
-    To ensure that extension is correctly installed, enter the following command in the terminal: <br />
-<pre><code class="shell">
-    php -m | grep phalcon
-</code></pre>
-    <br />
-    <br />
-    As a main database we usually use <strong>MongoDB</strong>. To install it in your system follow this
-    <a href="http://docs.mongodb.org/manual/installation/">link</a>
-</p>
+<h3 id="requirements">Instructions</h3>
 
-<h3 id="vegaser">Vegaser</h3>
 <p>
-    To make building a project as simple as possible, we prepared a small tool for generating a sample project based on Vegas CMF.
-    <br />
-    For more information follow this
-    <a href="https://bitbucket.org/amsdard/vegaser">link</a>.
+Install php (at least 5.4 version). Vegas library is based on PHP language.
 </p>
+<pre><code class="shell">//Ubuntu
+sudo apt-get install php5
+sudo apt-get install php-pear
+</code></pre>
+<br>
+<p>Install one HTTP server. You can choose Apache or Nginx</p>
+<table>
+<thead>
+    <th>Apache</th>
+    <th>Nginx</th>
+</thead>
+<tbody>
+<tr>
+<td>
+<pre><code class="shell">//Ubuntu (Apache)
+sudo apt-get install apache2
+</code></pre>
+</td>
+<td>
+<pre><code class="shell">//Ubuntu (Nginx)
+sudo apt-get install nginx
+</code></pre>
+</td>
+</tr>
+</tbody>
+</table>
+
+<br>
+<p>Install git</p>
+<pre><code class="shell">//Ubuntu
+sudo apt-get install git
+</code></pre>
+
+<br>
+<p>Install phing</p>
+<pre><code class="shell">//Ubuntu
+pear channel-discover pear.phing.info
+pear install phing/phing
+</code></pre>
+
+<br>
+<p>Install Phalcon</p>
+<div style="padding:20px;background:url('/media/img/phalcon_bg.jpg')">
+<div style="padding:20px;background:#fff;opacity:0.8;">
+<p>Install Phalcon Library</p>
+<pre><code class="shell">//Ubuntu
+sudo apt-get install php5-dev libpcre3-dev gcc make php5-mysql
+</code></pre>
+
+<br>
+
+<p>Compile Phalcon</p>
+<pre><code class="shell">cd /var/www
+git clone --depth=1 git://github.com/phalcon/cphalcon.git
+cd cphalcon/build
+sudo ./install
+</code></pre>
+
+<br>
+
+<p>Add extension of phalcon to the php configuration <span  style="color:red;">*(In different systems there might be different locations of the php configuration file)</span></p>
+<pre><code class="shell">echo 'extension=phalcon.so' > /etc/php5/apache2/conf.d/20-phalcon.ini
+</code></pre>
+</div>
+</div>
+
+<br>
+
+<p>Create your project using vegaser tool</p>
+<pre><code class="shell">cd /var/www
+mkdir vegas-test
+cd vegas-test
+wget https://bitbucket.org/amsdard/vegaser/downloads/vegaser.phar --no-cache
+sudo php vegaser.phar build-project
+</code></pre>
             </div>
             <hr />
             <div class="main-footer">
