@@ -15,6 +15,7 @@
     <link href="/styles/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="/styles/dashboard.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/style.css">
     <link rel="stylesheet" href="http://highlightjs.org/static/styles/zenburn.css">
     <style>
         pre  {
@@ -84,6 +85,7 @@
             </div>
                 <ul class="nav nav-sidebar">
         <li><a href="#modules">Modules</a></li>
+        <li><a href="#new_module">Create New Module</a></li>
         <li><a href="#structure">Module structure</a></li>
     </ul>
         </div>
@@ -98,20 +100,29 @@
             <hr />
             <div class="main-body">
                 
-<h2>Application structure</h2>
+<h2>Module</h2>
 
 <h3 id="modules">Modules</h3>
+
 <p>
-    Application based on Vegas CMF is separated on modules, that define controllers, models, forms and so on..
-    Each module has own config file and routes definition.
-    <br />
-    To create new module, make a directory in the <strong>app/module</strong> with the first upper character,
-    for example: <i>Foo</i>. To register module in application create a <strong>Module.php</strong> file inside module directory.
-    <br />
-    The default form of Module file:
-    <br />
-<pre class="php"><code>
-namespace Foo;
+Application based on Vegas CMF is separated on modules. Each module has own config file and routes definition.
+</p>
+
+<h3 id="new_module">Create new module</h3>
+<p>For example we are going to create new module</p>
+<pre class="shell"><code>cd your-project</code></pre>
+
+<br>
+<p>Create directory for module (camelcase)</p>
+<pre class="shell"><code>mkdir -p app/module/Foo</code></pre>
+
+<br>
+<p>Create module file</p>
+<pre class="shell"><code>touch app/module/Foo/Module.php</code></pre>
+
+<br>
+<p>Fill the Module.php file the following content</p>
+<pre class="php"><code>namespace Foo;
 
 class Module extends \Vegas\Mvc\ModuleAbstract
 {
@@ -119,182 +130,158 @@ class Module extends \Vegas\Mvc\ModuleAbstract
         $this->namespace = __NAMESPACE__;
         $this->dir = __DIR__;
     }
-}</code></pre>
-    <br />
-    All modules in application are loaded automatically and defined in <strong>app/config/modules.php</strong> file.
-    In the <i>development</i> environment, list of modules is rebuilding for each request, so you do not have to care
-    about it, when you create a new module. In the <i>production</i> environment <strong>app/config/modules.php</strong>
-    file is created only when does not exist, so when you update your production instance, keep in mind to remove that file,
-    to force renewal.
-    <br />
-    In addition each module might have own configuration file, located in <strong>module-name/config/config.php</strong> file.
-</p>
+}
+</code></pre>
+
+<br>
+<p>All modules in application are loaded automatically and defined in <strong>app/config/modules.php</strong> file. In the <i>development</i> environment,
+list of modules is rebuilding for each request, so you do not have to care about it, when you create a new module.</p>
+
+<br>
+<p>Create config</p>
+<pre class="shell"><code>mkdir app/module/config
+touch app/module/config/config.php
+touch app/module/config/routes.php
+</code></pre>
+
+<br>
+<p>Fill the config.php</p>
+<pre class="php"><code>return array();</code></pre>
+
+<br>
+<p>Fill the routes.php</p>
+<pre class="php"><code>return array(
+    'foo' => array(
+        'route' => '/foo',
+        'paths' => array(
+            'module' => 'Foo',
+            'controller' => 'Frontend\Foo',
+            'action' => 'index'
+        )
+    )
+);</code></pre>
+
+<br>
+<p>Create controller for frontend scope</p>
+<pre class="shell"><code>mkdir app/module/controllers
+mkdir app/module/controllers/frontend
+touch app/module/controllers/frontend/FooController.php
+</code></pre>
+<br>
+<p>Fill the FooController.php</p>
+<pre class="php"><code>namespace Foo\Controllers\Frontend;
+
+use Vegas\Mvc\Controller\ControllerAbstract,
+
+class FooController extends ControllerAbstract
+{
+    public function indexAction()
+    {
+        $this->view->foo = 'Vegas';
+    }
+}
+</code></pre>
+
+<br>
+<p>Create view for frontend scope</p>
+<pre class="shell"><code>mkdir app/module/views
+mkdir app/module/views/frontend
+touch app/module/views/frontend/foo/index.volt
+</code></pre>
+
+<br>
+<p>Fill the index.volt</p>
+<pre class="php"><code>It works
+</code></pre>
 
 <h3 id="structure">Module structure</h3>
-<p>
-    Each module beside <strong>Module.php</strong> file and own configuration, can contain controllers, models, views,
-    services and components. All of these parts are being autoloaded in runtime, so you can reach them from every location
-    inside the application. Check the following examples to see how to create them in proper way.
-    <br />
-    <br />
-    In case of controllers, Vegas CMF provides possibility to separate controllers, to keep DRY rule. Consider the following scenario: <br />
-    <blockquote>
-    Application should contain three parts: the frontend (end-user interface), the backend (administrators panel)
-    and the dashboard (for customers). All of these areas will use the same data model and services. Each part will have
-    another layout and views.
-    </blockquote>
-    <br />
-    Thanks to Vegas CMF, the preceding scenario is really easy to implement.
-    <br />
-    In the controllers directory, make a three directories
-    <br />
-    <ul>
-        <li>frontend</li>
-        <li>backend</li>
-        <li>dashboard</li>
-    </ul>
-    <br />
-    <br />
-    The <strong>views</strong> directory should also have three directories
-    <br />
-    <ul>
-        <li>frontend</li>
-        <li>backend</li>
-        <li>dashboard</li>
-    </ul>
-    <br />
-    The whole module structure should look like as follows
-    <br />
-    <br />
-<pre><code>
-Foo/
-    - config
+
+<table style="width:100%;">
+<thead>
+<tr>
+    <th width="50%">The simplest structure</th>
+    <th width="50%"> Full structure</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: top;">
+<pre class="shell"><code>Foo/
+    - config/
+        - config.php
+        - routes.php
     - controllers/
-        - backend
-        - dashboard
-        - frontend
-    - models
-    - services
+        - {scope}/
+             - {ControllerName}.php
+    - Module.php
+</code></pre>
+</td>
+<td>
+<pre class="shell"><code>Foo/
+    - config/
+        - config.php
+        - routes.php
+    - components/
+        - {ComponentName_1}.php
+        - {ComponentName_2}.php
+        ...
+        - {ComponentName_n}.php
+    - controllers/
+        - {scope_1}/
+            - {ControllerName_1}.php
+            - {ControllerName_2}.php
+            ...
+            - {ControllerName_n}.php
+        - {scope_2}/
+            - {ControllerName_1}.php
+            - {ControllerName_2}.php
+            ...
+            - {ControllerName_n}.php
+        - {scope_n}/
+            - {ControllerName_1}.php
+            - {ControllerName_2}.php
+            ...
+            - {ControllerName_n}.php
+    - forms/
+        - {FormName_1}.php
+        - {FormName_2}.php
+        ...
+        - {FormName_n}.php
+    - models/
+        - {ModelName_1}.php
+        - {ModelName_2}.php
+        ...
+        - {ModelName_n}.php
+    - services/
+        - {ServiceName_1}.php
+        - {ServiceName_2}.php
+        ...
+        - {ServiceName_n}.php
     - views/
-        - backend
-        - dashboard
-        - frontend
+        - {scope_1}/
+            - {viewName_1}.php
+            - {viewName_2}.php
+            ...
+            - {viewName_n}.php
+        - {scope_2}/
+            - {viewName_1}.php
+            - {viewName_2}.php
+            ...
+            - {viewName_n}.php
+        - {scope_n}/
+            - {viewName_1}.php
+            - {viewName_2}.php
+            ...
+            - {viewName_n}.php
+    - Module.php
 </code></pre>
-    <br />
-    Once we have a ready structure, we can start creating controllers and other stuff.
-    <br />
-    Lets make a HomeController for each sub module
-    <br />
-    <br />
-<pre class="php"><code>
-//controllers/backend
+</td>
+</tr>
+</tbody>
+</table>
 
-namespace Foo\Controllers\Backend;
-
-use Vegas\Mvc\Controller\ControllerAbstract;
-
-/**
- * Class HomeController
- * @package Foo\Controllers\Backend
-*/
-class HomeController extends ControllerAbstract
-{
-    //....
-    public function indexAction()
-    {
-        $this->view->welcome = 'Welcome in backend';
-    }
-}
-</code></pre>
-<br />
-<pre class="php"><code>
-//controllers/dashboard
-
-namespace Foo\Controllers\Dashboard;
-
-use Vegas\Mvc\Controller\ControllerAbstract;
-
-/**
- * Class HomeController
- * @package Foo\Controllers\Dashboard
-*/
-class HomeController extends ControllerAbstract
-{
-    //....
-    public function indexAction()
-    {
-        $this->view->welcome = 'Welcome in dashboard';
-    }
-
-}
-</code></pre>
-<br />
-<pre class="php"><code>
-//controllers/frontend
-
-namespace Foo\Controllers\Frontend;
-
-use Vegas\Mvc\Controller\ControllerAbstract;
-
-/**
- * Class HomeController
- * @package Foo\Controllers\Frontend
-*/
-class HomeController extends ControllerAbstract
-{
-    //....
-    public function indexAction()
-    {
-        $this->view->welcome = 'Welcome in frontend';
-    }
-}
-</code></pre>
-    <br />
-    To make controllers accessible, lets define routes rules in the <strong>foo/config/routes.php</strong> file
-    <br />
-    <br />
-<pre class="php"><code>
-/** FRONTEND */
-'home' => array(
-    'route' =>  '/',
-    'paths' => array(
-        'module' => 'Foo',
-        'controller' => 'Frontend\Home',
-        'action' => 'index',
-
-        'auth' => false
-    ),
-    'params' => array()
-),
-/** BACKEND */
-'backend_home' => array(
-    'route' =>  '/backend',
-    'paths' => array(
-        'module' => 'Foo',
-        'controller' => 'Backend\Home',
-        'action' => 'index',
-
-        'auth' => false
-    ),
-    'params' => array()
-),
-/** DASHBOARD */
-'dashboard_home' => array(
-    'route' =>  '/dashboard',
-    'paths' => array(
-        'module' => 'Foo',
-        'controller' => 'Dashboard\Home',
-        'action' => 'index',
-
-        'auth' => false
-    ),
-    'params' => array()
-),
-</code></pre>
-    <br />
-    <br />
-    Now we can create some models and services which will be common for all controllers.
-</p>
+<br>
+<p>{scope} - it can be for example "frontend" or "backend" or "dashboard" or whatever you want.</p>
             </div>
             <hr />
             <div class="main-footer">
