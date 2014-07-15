@@ -85,6 +85,9 @@
             </div>
                 <ul class="nav nav-sidebar">
         <li><a href="#create">Create task</a></li>
+        <li><a href="#global">Global application task</a></li>
+        <li><a href="#module">Application module task</a></li>
+        <li><a href="#help">Help</a></li>
     </ul>
         </div>
         <div class="col-sm-12 main">
@@ -104,17 +107,20 @@
 <p>
     Command Line Interface allows to simply create scripts, which can be executed from system shell or via cron.
     <br />
-    We can create a Task in three locations: <br />
+    Task class must extend <strong>Vegas\Cli\Task</strong> class and implement method <strong>setOptions</strong> that defines all available task actions.
+    <br />
+    Name of task class must contain word <strong>Task</strong>, eg. "CustomTask".
+    <br />
+    <br />
+    We can create a Task in two locations: <br />
     <ul>
         <li>global application task - located in the "app/tasks/" directory</li>
-        <li>module task - located in the application module directory, eg. "app/modules/ModuleName/tasks"</li>
-        <li>library task - located in the vegas library installed via composer, eg. "vendor/vegas-cmf/core/Task</li>
+        <li>application module task - located in the application module directory, eg. "app/modules/ModuleName/tasks"</li>
     </ul>
-    <br />
-    Task class must extend "Vegas\Cli\Task" class and implement method <strong>setOptions</strong> that defines all available task actions.
-    <br />
-    Name of task class must contain word "Task", eg. "CustomTask".
-    <br />
+</p>
+
+<h3 id="global">Global application task</h3>
+<p>
 <pre><code class="php">
 class CustomTask extends \Vegas\Cli\Task
 {
@@ -149,30 +155,56 @@ class CustomTask extends \Vegas\Cli\Task
 }
 </code></pre>
     <br />
-    To run the preceding task enter this command in shell
+    The global application task must be located inside "app/tasks" directory, and cannot have a namespace.
     <br />
-    <br />
+    <h4>Running</h4>
 <pre><code class="shell">php cli/cli.php app:custom test 6789 -f 1234</code></pre>
+
     <br />
-    It will print
+    Output
+<blockquote>6789<br />1234</blockquote>
     <br />
-    6789
-    <br />
-    1234
-    <br />
-    <br />
-    <strong>app:custom</strong> means that task is a global application task, and it's located in the "app/tasks/CustomTask.php" file.
-    <br />
-    <strong>test</strong> it's a name of task action to execute.
-    <br />
-    <strong>6789</strong> it's the first execution argument.
-    <br />
-    <strong>-f 1234</strong> it's the value of option "f" ("foo").
-    <br />
-    <br />
-    To create a module-specific task, create the task file inside "tasks" directory, eg. in the "Example" module (app/modules/Example/tasks)
-    <br />
-    <br />
+    <table class="table">
+        <tr>
+            <td>
+                <strong>app:custom</strong>
+            </td>
+            <td>
+                means that task is a global application task, and it's located in the "app/tasks/CustomTask.php" file.
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <strong>test</strong>
+            </td>
+            <td>
+                name of task action to execute.
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <strong>6789</strong>
+            </td>
+            <td>
+                the first execution argument
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <strong>-f 1234</strong>
+            </td>
+            <td>
+                the value of option "f" ("foo")
+            </td>
+        </tr>
+    </table>
+</p>
+
+<h3 id="module">Application module task</h3>
+<p>
 <pre><code class="php">
 namespace Example\Tasks;
 
@@ -209,26 +241,63 @@ class CustomTask extends \Vegas\Cli\Task
 }
 </code></pre>
     <br />
-    The only one different is that module-specific task has a namespace and can be execute as follows:
+    The application module task must be located inside "tasks" directory inside module directory, and must have a namespace.
     <br />
-    <br />
+    <h4>Running</h4>
 <pre><code class="shell">php cli/cli.php app:example:custom test 6789 -f 1234</code></pre>
     <br />
-    The output will be exactly the same like in the previous example.
-    <br />
-    <br />
-    The third type of task is a vegas-library task, that is located inside library namespace. For example in the core library, there is
-    a task named <strong>\Vegas\Task\CacheTask</strong> which has an action <strong>clean</strong> and can be executed as follows:
-    <br />
-    <br />
-<pre><code class="shell">php cli/cli.php vegas:cache clean</code></pre>
-    <br />
-    <strong>vegas:cache</strong> means that task is located inside namespace \Vegas\Task.
-    When task class is located in more deeper namespace, eg. \Vegas\Tool\Faker\Task\GeneratorTask, then name of command should look like:
-    <strong>vegas:tool_faker:generator</strong>, so the second part it's a namespace seperated by underscore "tool_faker".
+    Output
+<blockquote>6789<br />1234</blockquote>
+    <table class="table">
+        <tr>
+            <td>
+                <strong>app:example:custom</strong>
+            </td>
+            <td>
+                means that task is an application module task, and it's located in the "app/modules/Example/tasks/CustomTask.php" file.
+            </td>
+        </tr>
 
+        <tr>
+            <td>
+                <strong>test</strong>
+            </td>
+            <td>
+                name of task action to execute.
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <strong>6789</strong>
+            </td>
+            <td>
+                the first execution argument
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <strong>-f 1234</strong>
+            </td>
+            <td>
+                the value of option "f" ("foo")
+            </td>
+        </tr>
+    </table>
 </p>
-
+<h3 id="help">Help</h3>
+<p>
+    To display all actions available in task use the following command:
+    <br />
+<pre><code class="shell">php cli/cli.php app:example:custom -h</code></pre>
+    <br />
+    To display help for specific action (eg. test) use the following command:
+    <br />
+    <br />
+<pre><code class="shell">php cli/cli.php app:example:custom test -h</code></pre>
+    <br />
+</p>
             </div>
             <hr />
             <div class="main-footer">
