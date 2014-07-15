@@ -83,110 +83,111 @@
                     <input type="text" class="form-control" placeholder="Search docs" />
                 </form>
             </div>
-            <ul class="nav nav-sidebar">
-    <li><a href="#instructions">Instructions</a></li>
-</ul>
+                <ul class="nav nav-sidebar">
+        <li><a href="#config">Application Config</a></li>
+        <li><a href="#db_config">Database Config</a></li>
+    </ul>
         </div>
         <div class="col-sm-12 main">
             <div class="main-header">
                 <ol class="breadcrumb">
                         <li><a href="/">Vegas CMF</a></li>
     <li><a href="/1.0/guide.html">Guide</a></li>
-    <li><a href="/1.0/getting-started.html">Getting started</a></li>
+    <li><a href="/1.0/guide/configuration/config.html">Configuration</a></li>
                 </ol>
             </div>
             <hr />
             <div class="main-body">
-                <h2>Getting started</h2>
+                
+<h2>Configuration</h2>
+
+<h3 id="config">Application Config</h3>
 <p>
-    In the following article you will know how to build the project on Vegas Library.
+    To see default content of config file please execute the following commands.
 </p>
 
-<h3 id="instructions">Instructions</h3>
-
-<p>
-Install php (at least 5.4 version). Vegas library is based on PHP language.
-</p>
-<pre><code class="shell">//Ubuntu
-sudo apt-get install php5
-sudo apt-get install php-pear
-</code></pre>
-<br>
-<p>Install one HTTP server. You can choose Apache or Nginx</p>
-<table>
-<thead>
-<tr>
-    <th>Apache</th>
-    <th>Nginx</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<pre><code class="shell">//Ubuntu (Apache)
-sudo apt-get install apache2
-</code></pre>
-</td>
-<td>
-<pre><code class="shell">//Ubuntu (Nginx)
-sudo apt-get install nginx
-</code></pre>
-</td>
-</tr>
-</tbody>
-</table>
+<pre class="shell"><code>cd your-project
+cat config/config.php</code></pre>
 
 <br>
-<p>Install git</p>
-<pre><code class="shell">//Ubuntu
-sudo apt-get install git
+<p>Default content should look like this</p>
+
+<pre class="php"><code>return array(
+    'application' => array(
+        'environment' => \Vegas\Constants::DEV_ENV,
+        'baseUri' => '/',
+        'language' => 'nl_NL',
+        'configDir' => dirname(__FILE__) . DIRECTORY_SEPARATOR,
+        'moduleDir' => APP_ROOT . '/app/modules/',
+        'pluginDir' => APP_ROOT . '/app/plugins/',
+        'serviceDir' => APP_ROOT . '/app/services/',
+        'taskDir' => APP_ROOT . '/app/tasks/',
+        'view' => array(
+            'layout' => 'main',
+            'cacheDir' =>  APP_ROOT . '/cache/',
+            'layoutsDir' =>  APP_ROOT. '/app/layouts/'
+        )
+    )
+    ...
+);
 </code></pre>
 
 <br>
-<p>Install phing</p>
-<pre><code class="shell">//Ubuntu
-pear channel-discover pear.phing.info
-pear install phing/phing
+<h4>Options</h4>
+<strong>environment</strong>
+<p class="mgl4">Describes enviroment. Available options are \Vegas\Constants::DEV_ENV, \Vegas\Constants::PROD_ENV. When development then it should display stacktrace when error appears and every request should reload services and modules config files.</p>
+
+<strong>baseUri</strong>
+<p class="mgl4">Base URI of your project</p>
+
+<strong>language</strong>
+<p class="mgl4">Default language of project</p>
+
+<strong>configDir</strong>
+<p class="mgl4">Directory where config.php file exists</p>
+
+<strong>moduleDir</strong>
+<p class="mgl4">Path for <a href="/1.0/guide/mvc/module.html">modules</a></p>
+
+<strong>pluginDir</strong>
+<p class="mgl4">Path for plugins</p>
+
+<strong>serviceDir</strong>
+<p class="mgl4">Path for services</p>
+
+<strong>taskDir</strong>
+<p class="mgl4">Path for task files (scripts for CLI)</p>
+
+<strong>view</strong>
+<p class="mgl4">View configuration. Option "layout" describes the filename of main layout. Option "layoutsDir" describes path for main layout. Option "cacheDir" describes the directory for view cache files.</p>
+
+<br>
+<h3 id="db_config">Database Config</h3>
+<p>If you are going to use database in your project you must configure database connection also inside config.php file.</p>
+<pre class="php"><code>return array(
+    'db' => array(
+        'adapter' => 'Mysql',
+        'host' => 'localhost',
+        'dbname' => 'test_db',
+        'username' => 'admin',
+        'password' => 'qwerty'
+    )
+    ...
+);
 </code></pre>
 
 <br>
-<p>Install Phalcon</p>
-<div style="padding:20px;background:url('/media/img/phalcon_bg.jpg')">
-<div style="padding:20px;background:#fff;opacity:0.8;">
-<p>Install Phalcon Library</p>
-<pre><code class="shell">//Ubuntu
-sudo apt-get install php5-dev libpcre3-dev gcc make php5-mysql
-</code></pre>
-
-<br>
-
-<p>Compile Phalcon</p>
-<pre><code class="shell">cd /var/www
-git clone --depth=1 git://github.com/phalcon/cphalcon.git
-cd cphalcon/build
-sudo ./install
-</code></pre>
-
-<br>
-
-<p>Add extension of phalcon to the php configuration <span  style="color:red;">*(In different systems there might be different locations of the php configuration file)</span></p>
-<pre><code class="shell">echo 'extension=phalcon.so' > /etc/php5/apache2/conf.d/20-phalcon.ini
-</code></pre>
-</div>
-</div>
-
-<br>
-
-<p>Create your project using vegaser tool</p>
-<pre><code class="shell">cd /var/www
-mkdir vegas-test
-cd vegas-test
-wget https://bitbucket.org/amsdard/vegaser/downloads/vegaser.phar --no-cache
-sudo php vegaser.phar build-project
-</code></pre>
-
-<a href=""
-
+<h4>Options</h4>
+<strong>adapter</strong>
+<p class="mgl4">Name of adapter that vegas must use to connect with SQL server. Allowed options: 'Mysql', 'Postgresql', 'Sqlite', 'Oracle'</p>
+<strong>host</strong>
+<p class="mgl4">Machine in network where database server work</p>
+<strong>dbname</strong>
+<p class="mgl4">Database name</p>
+<strong>username</strong>
+<p class="mgl4">User who has access to database</p>
+<strong>password</strong>
+<p class="mgl4">Password for user who has access to database</p>
             </div>
             <hr />
             <div class="main-footer">

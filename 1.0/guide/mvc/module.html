@@ -114,11 +114,11 @@ Application based on Vegas CMF is separated on modules. Each module has own conf
 
 <br>
 <p>Create directory for module (camelcase)</p>
-<pre class="shell"><code>mkdir -p app/module/Foo</code></pre>
+<pre class="shell"><code>mkdir -p app/modules/Foo</code></pre>
 
 <br>
 <p>Create module file</p>
-<pre class="shell"><code>touch app/module/Foo/Module.php</code></pre>
+<pre class="shell"><code>touch app/modules/Foo/Module.php</code></pre>
 
 <br>
 <p>Fill the Module.php file the following content</p>
@@ -139,9 +139,9 @@ list of modules is rebuilding for each request, so you do not have to care about
 
 <br>
 <p>Create config</p>
-<pre class="shell"><code>mkdir app/module/config
-touch app/module/config/config.php
-touch app/module/config/routes.php
+<pre class="shell"><code>mkdir app/modules/config
+touch app/modules/config/config.php
+touch app/modules/config/routes.php
 </code></pre>
 
 <br>
@@ -163,9 +163,9 @@ touch app/module/config/routes.php
 
 <br>
 <p>Create controller for frontend scope</p>
-<pre class="shell"><code>mkdir app/module/controllers
-mkdir app/module/controllers/frontend
-touch app/module/controllers/frontend/FooController.php
+<pre class="shell"><code>mkdir app/modules/controllers
+mkdir app/modules/controllers/frontend
+touch app/modules/controllers/frontend/FooController.php
 </code></pre>
 <br>
 <p>Fill the FooController.php</p>
@@ -184,9 +184,9 @@ class FooController extends ControllerAbstract
 
 <br>
 <p>Create view for frontend scope</p>
-<pre class="shell"><code>mkdir app/module/views
-mkdir app/module/views/frontend
-touch app/module/views/frontend/foo/index.volt
+<pre class="shell"><code>mkdir app/modules/views
+mkdir app/modules/views/frontend
+touch app/modules/views/frontend/foo/index.volt
 </code></pre>
 
 <br>
