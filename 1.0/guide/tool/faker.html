@@ -111,8 +111,7 @@
     Our tool requires to provide a file in JSON format, that contains specification, about generating data.
     Consider the following example, to see how the specification file should look like:
     <br />
-<pre><code class="json">
-{
+<pre><code class="json">{
     "title" : {
         "provider" : "pl_PL/Text::realText",
         "length" : 100
@@ -187,8 +186,7 @@
     Let's consider one JSON object:
     <br />
     <br />
-<pre><code class="json">
-"title" : {
+<pre><code class="json">"title" : {
     "provider" : "pl_PL/Text::realText",
     "length" : 100
 }
@@ -207,20 +205,19 @@
     Once we have a specification file, we can start generating fake data. We can do this, by writing a php script,
     or just using the command line interface.
     <br />
-<pre><code class="php">
-    use Vegas\Tool\Faker\Generator;
-    //....
-    $path = dirname(__FILE__) . '/spec.json';
-    $outputPath = dirname(__FILE__) . '/output.csv';
+<pre><code class="php">use Vegas\Tool\Faker\Generator;
+//....
+$path = dirname(__FILE__) . '/spec.json';
+$outputPath = dirname(__FILE__) . '/output.csv';
 
-    $generator = new Generator();
-    $generator->setAdapter('file');
-    $generator->setAdapterType('csv');
-    $generator->setCount(5);
-    $generator->setSpecFilePath($path);
-    $generator->setDestination($outputPath);
+$generator = new Generator();
+$generator->setAdapter('file');
+$generator->setAdapterType('csv');
+$generator->setCount(5);
+$generator->setSpecFilePath($path);
+$generator->setDestination($outputPath);
 
-    $generator->generate();
+$generator->generate();
 </code></pre>
     <br />
     The code in the preceding example will generate 5 rows of fake data using specification from the
@@ -234,38 +231,36 @@
     <br />
     <strong>XML</strong>
     <br/>
-<pre><code class="php">
-    use Vegas\Tool\Faker\Generator;
-    //....
-    $path = dirname(__FILE__) . '/spec.json';
-    $outputPath = dirname(__FILE__) . '/output.xml';
+<pre><code class="php">use Vegas\Tool\Faker\Generator;
+//....
+$path = dirname(__FILE__) . '/spec.json';
+$outputPath = dirname(__FILE__) . '/output.xml';
 
-    $generator = new Generator();
-    $generator->setAdapter('file');
-    $generator->setAdapterType('xml');
-    $generator->setCount(5);
-    $generator->setSpecFilePath($path);
-    $generator->setDestination($outputPath);
+$generator = new Generator();
+$generator->setAdapter('file');
+$generator->setAdapterType('xml');
+$generator->setCount(5);
+$generator->setSpecFilePath($path);
+$generator->setDestination($outputPath);
 
-    $generator->generate();
+$generator->generate();
 </code></pre>
     <br />
     <strong>JSON</strong>
     <br/>
-<pre><code class="php">
-    use Vegas\Tool\Faker\Generator;
-    //....
-    $path = dirname(__FILE__) . '/spec.json';
-    $outputPath = dirname(__FILE__) . '/output.json';
+<pre><code class="php">use Vegas\Tool\Faker\Generator;
+//....
+$path = dirname(__FILE__) . '/spec.json';
+$outputPath = dirname(__FILE__) . '/output.json';
 
-    $generator = new Generator();
-    $generator->setAdapter('file');
-    $generator->setAdapterType('json');
-    $generator->setCount(5);
-    $generator->setSpecFilePath($path);
-    $generator->setDestination($outputPath);
+$generator = new Generator();
+$generator->setAdapter('file');
+$generator->setAdapterType('json');
+$generator->setCount(5);
+$generator->setSpecFilePath($path);
+$generator->setDestination($outputPath);
 
-    $generator->generate();
+$generator->generate();
 </code></pre>
     <br />
     In case of database adapter, the <strong>destination</strong> is a name of table or collection.
@@ -273,43 +268,39 @@
     <br/>
     <strong>ODM</strong> - example of save data to mongo collection named <strong>fake</strong>
     <br/>
-<pre><code class="php">
-    use Vegas\Tool\Faker\Generator;
-    //....
-    $path = dirname(__FILE__) . '/spec.json';
+<pre><code class="php">use Vegas\Tool\Faker\Generator;
+//....
+$path = dirname(__FILE__) . '/spec.json';
 
-    $generator = new Generator();
-    $generator->setAdapter('db');
-    $generator->setAdapterType('odm');
-    $generator->setCount(5);
-    $generator->setSpecFilePath($path);
-    $generator->setDestination('fake');
+$generator = new Generator();
+$generator->setAdapter('db');
+$generator->setAdapterType('odm');
+$generator->setCount(5);
+$generator->setSpecFilePath($path);
+$generator->setDestination('fake');
 
-    $generator->generate();
+$generator->generate();
 </code></pre>
     <br />
     <strong>ORM</strong> - example of save data to mysql table named <strong>fake</strong>
     <br/>
-<pre><code class="php">
-    use Vegas\Tool\Faker\Generator;
-    //....
-    $path = dirname(__FILE__) . '/spec.json';
+<pre><code class="php">use Vegas\Tool\Faker\Generator;
+//....
+$path = dirname(__FILE__) . '/spec.json';
 
-    $generator = new Generator();
-    $generator->setAdapter('db');
-    $generator->setAdapterType('orm');
-    $generator->setCount(5);
-    $generator->setSpecFilePath($path);
-    $generator->setDestination('fake');
+$generator = new Generator();
+$generator->setAdapter('db');
+$generator->setAdapterType('orm');
+$generator->setCount(5);
+$generator->setSpecFilePath($path);
+$generator->setDestination('fake');
 
-    $generator->generate();
+$generator->generate();
 </code></pre>
     <br />
     <br />
     The same effect might be achieved using a Command Line Interface, as follows: <br />
-<pre><code class="shell">
-    php cli/cli.php vegas:tool_faker:generator generate -o db.odm -d sample_data -s spec.json -c 5
-</code></pre>
+<pre><code class="shell">php cli/cli.php vegas:tool_faker:generator generate -o db.odm -d sample_data -s spec.json -c 5</code></pre>
     <br />
     This command will generate 5 rows of data and saves them to the Mongo collection named sample_data.
 </p>

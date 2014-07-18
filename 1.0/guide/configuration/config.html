@@ -84,7 +84,8 @@
                 </form>
             </div>
                 <ul class="nav nav-sidebar">
-        <li><a href="#response">Create JSON response</a></li>
+        <li><a href="#config">Application Config</a></li>
+        <li><a href="#db_config">Database Config</a></li>
     </ul>
         </div>
         <div class="col-sm-12 main">
@@ -92,73 +93,101 @@
                 <ol class="breadcrumb">
                         <li><a href="/">Vegas CMF</a></li>
     <li><a href="/1.0/guide.html">Guide</a></li>
-    <li><a href="/1.0/guide/http/response/json.html">JSON Response</a></li>
+    <li><a href="/1.0/guide/configuration/config.html">Configuration</a></li>
                 </ol>
             </div>
             <hr />
             <div class="main-body">
-                <h3>Create JSON response</h3>
+                
+<h2>Configuration</h2>
+
+<h3 id="config">Application Config</h3>
 <p>
-    Class <strong>Vegas\Http\Response\Json</strong> provides a simply JSON response builder, that might be useful to
-    standardize responses returned by your application's controllers.
-    <br />
-    <br />
-    Example use:
-    <br />
-<pre class="php"><code>    //...
-
-    /**
-     * Success response
-     */
-    public function createAction()
-    {
-        $response = new Json();
-        $response->success()
-            ->setData(array('test' => 1))
-            ->setMessage('Test message');
-
-        return $this->jsonResponse($response);
-    }
-
-
-    /**
-    * Errors response
-    */
-    public function createAction()
-    {
-        $response = new Json();
-        $response->fail()
-            ->setData(array())
-            ->setMessage('Errors...');
-
-        return $this->jsonResponse($response);
-    }
-
-    //...
-</code></pre>
-    <br />
-    Success response will be in the following format:
-    <br />
-    <br />
-<pre class="json"><code>{
-    "success" : true,
-    "data": {
-        "test" : 1
-    },
-    "message" : "Test message"
-}
-</code></pre>
-    <br />
-    Error response will be in the following format:
-    <br />
-    <br />
-<pre class="json"><code>{
-    "success" : false,
-    "data": {},
-    "message" : "Errors..."
-}
-</code></pre>
+    To see default content of config file please execute the following commands.
 </p>
+
+<pre class="shell"><code>cd your-project
+cat config/config.php</code></pre>
+
+<br>
+<p>Default content should look like this</p>
+
+<pre class="php"><code>return array(
+    'application' => array(
+        'environment' => \Vegas\Constants::DEV_ENV,
+        'baseUri' => '/',
+        'language' => 'nl_NL',
+        'configDir' => dirname(__FILE__) . DIRECTORY_SEPARATOR,
+        'moduleDir' => APP_ROOT . '/app/modules/',
+        'pluginDir' => APP_ROOT . '/app/plugins/',
+        'serviceDir' => APP_ROOT . '/app/services/',
+        'taskDir' => APP_ROOT . '/app/tasks/',
+        'view' => array(
+            'layout' => 'main',
+            'cacheDir' =>  APP_ROOT . '/cache/',
+            'layoutsDir' =>  APP_ROOT. '/app/layouts/'
+        )
+    )
+    ...
+);
+</code></pre>
+
+<br>
+<h4>Options</h4>
+<strong>environment</strong>
+<p class="mgl4">Describes enviroment. Available options are \Vegas\Constants::DEV_ENV, \Vegas\Constants::PROD_ENV. When development then it should display stacktrace when error appears and every request should reload services and modules config files.</p>
+
+<strong>baseUri</strong>
+<p class="mgl4">Base URI of your project</p>
+
+<strong>language</strong>
+<p class="mgl4">Default language of project</p>
+
+<strong>configDir</strong>
+<p class="mgl4">Directory where config.php file exists</p>
+
+<strong>moduleDir</strong>
+<p class="mgl4">Path for <a href="/1.0/guide/mvc/module.html">modules</a></p>
+
+<strong>pluginDir</strong>
+<p class="mgl4">Path for plugins</p>
+
+<strong>serviceDir</strong>
+<p class="mgl4">Path for services</p>
+
+<strong>taskDir</strong>
+<p class="mgl4">Path for task files (scripts for CLI)</p>
+
+<strong>view</strong>
+<p class="mgl4">View configuration. Option "layout" describes the filename of main layout. Option "layoutsDir" describes path for main layout. Option "cacheDir" describes the directory for view cache files.</p>
+
+<br>
+<h3 id="db_config">Database Config</h3>
+<p>If you are going to use database in your project you must configure database connection also inside config.php file.</p>
+<pre class="php"><code>return array(
+    'db' => array(
+        'adapter' => 'Mysql',
+        'host' => 'localhost',
+        'dbname' => 'test_db',
+        'username' => 'admin',
+        'password' => 'qwerty'
+    )
+    ...
+);
+</code></pre>
+
+<br>
+<h4>Options</h4>
+<strong>adapter</strong>
+<p class="mgl4">Name of adapter that vegas must use to connect with SQL server. Allowed options: 'Mysql', 'Postgresql', 'Sqlite', 'Oracle'</p>
+<strong>host</strong>
+<p class="mgl4">Machine in network where database server work</p>
+<strong>dbname</strong>
+<p class="mgl4">Database name</p>
+<strong>username</strong>
+<p class="mgl4">User who has access to database</p>
+<strong>password</strong>
+<p class="mgl4">Password for user who has access to database</p>
             </div>
             <hr />
             <div class="main-footer">

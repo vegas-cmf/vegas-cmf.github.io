@@ -109,8 +109,7 @@
     In the following example, we create a simple mapper, that decodes value using base64_decode function. <br />
     <small>You can put this class to the lib/Vegas/Db/Mapping directory.</small>
     <br />
-<pre class="php"><code>
-namespace Vegas\Db\Mapping\Decoder.php
+<pre class="php"><code>namespace Vegas\Db\Mapping\Decoder.php
 
 use Vegas\Db\MappingInterface;
 
@@ -139,8 +138,7 @@ class Decoder implements MappingInterface
     Update the application Bootstrap class, as follows:
     <br />
     <br />
-<pre class="php"><code>
-use Vegas\Db\Mapping\Decoder;
+<pre class="php"><code>use Vegas\Db\Mapping\Decoder;
 use Vegas\Db\MappingManager;
 
 class Bootstrap extends \Vegas\Application\Bootstrap
@@ -163,8 +161,7 @@ class Bootstrap extends \Vegas\Application\Bootstrap
     The last thing to make mapper enabled, is add a mapping to the model class.
     <br />
     <br />
-<pre class="php"><code>
-namespace Test\Models;
+<pre class="php"><code>namespace Test\Models;
 
 use Vegas\Db\Decorator\CollectionAbstract;
 
@@ -183,22 +180,20 @@ class Fake extends CollectionAbstract
     Now, when you find record/document in the database, use method <strong>readMapped</strong> to retrieve converted value.
     <br />
     <br />
-<pre class="php"><code>
-    $fake = new Fake();
-    $fake->encoded_value = base64_encode('test');
-    $fake->save();
-    //...
-    $result = Fake::findFirst();
-    $this->assertEquals('test', $result->readMapped('encoded_field'));
+<pre class="php"><code>$fake = new Fake();
+$fake->encoded_value = base64_encode('test');
+$fake->save();
+//...
+$result = Fake::findFirst();
+$this->assertEquals('test', $result->readMapped('encoded_field'));
 </code></pre>
     <br />
     The original value stored in database is still available:
     <br />
     <br />
-<pre class="php"><code>
-    //....
-    $this->assertTrue(base64_encode('test'), $result->encoded_field);
-    $this->assertTrue(base64_encode('test'), $result->readAttribute('encoded_field'));
+<pre class="php"><code>//....
+$this->assertTrue(base64_encode('test'), $result->encoded_field);
+$this->assertTrue(base64_encode('test'), $result->readAttribute('encoded_field'));
 </code></pre>
 </p>
             </div>
