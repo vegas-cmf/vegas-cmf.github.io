@@ -84,7 +84,8 @@
                 </form>
             </div>
             <ul class="nav nav-sidebar">
-    <li><a href="#instructions">Instructions</a></li>
+    <li><a href="#install_dependencies">Prepare environment</a></li>
+    <li><a href="#instructions">Build project</a></li>
 </ul>
         </div>
         <div class="col-sm-12 main">
@@ -92,7 +93,7 @@
                 <ol class="breadcrumb">
                         <li><a href="/">Vegas CMF</a></li>
     <li><a href="/1.0/guide.html">Guide</a></li>
-    <li><a href="/1.0/getting-started">Getting started</a></li>
+    <li><a href="/1.0/getting-started.html">Getting started</a></li>
                 </ol>
             </div>
             <hr />
@@ -102,7 +103,7 @@
     In the following article you will know how to build the project on Vegas Library.
 </p>
 
-<h3 id="instructions">Instructions</h3>
+<h3 id="install_dependencies">Prepare environment</h3>
 
 <p>
 Install php (at least 5.4 version). Vegas library is based on PHP language.
@@ -176,17 +177,152 @@ sudo ./install
 </div>
 
 <br>
+<h3 id="instructions">Build project</h3>
+<br>
 
 <p>Create your project using vegaser tool</p>
 <pre><code class="shell">cd /var/www
 mkdir vegas-test
+chown {your_user}:{your_user} -R vegas-test
 cd vegas-test
-wget https://bitbucket.org/amsdard/vegaser/downloads/vegaser.phar --no-cache
-sudo php vegaser.phar build-project
+wget https://github.com/vegas-cmf/vegaser/raw/master/build/vegaser.phar --no-cache
+php vegaser.phar build-project
 </code></pre>
+<br>
+<p>During building project you will see some questions like</p>
+<pre><code class="shell">...
+Enter name of project (eg. vegas-demo): vegas-test
+Enter description of project [Project based on Vegas CMF] This is test of vegas project
+Enter project domain [vegasdemo.com] vegas-test.local
+...
+</code></pre>
+<br>
+<p><span style="color:red;">Remember the domain you answer to the question "Enter project domain" because you will need it for virtual host</span></p>
+<br>
+<p>Install vendors</p>
+<pre><code class="shell">php composer.phar install</code></pre>
 
-<a href=""
+<br>
+<h3 id="instructions">Create virtual host</h3>
+<br>
 
+<table>
+<thead>
+<tr>
+<th>Virtual Host Apache</th>
+<th>Virtual Host Nginx</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: top;">
+<br>
+<p>Create virtual host file</p>
+<pre><code class="shell">//Ubuntu
+cd /etc/apache2/sites-available
+sudo vim vegas-test.conf</code></pre>
+<br>
+<p>Set content of the file</p>
+<pre><code class="shell">&lt;VirtualHost *:80&gt;
+    ServerName vegas-test.local
+    ServerAlias www.vegas-test.local vegas-test.local
+    DocumentRoot /var/www/vegas-test/public
+
+    &lt;Directory /var/www/vegas-test/public&gt;
+        DirectoryIndex index.php
+        AllowOverride All
+        Order allow,deny
+        Allow from all
+    &lt;/Directory&gt;
+&lt;/VirtualHost&gt;
+</code></pre>
+<br>
+<p>Enable virtual host file and enable mod rewrite</p>
+<pre><code class="shell">sudo a2ensite vegas-test.conf
+sudo a2enmod rewrite
+sudo service apache2 restart</code></pre>
+</td>
+<td style="vertical-align: top;">
+<br>
+<p>Create virtual host file</p>
+<pre><code class="shell">//Ubuntu
+cd /etc/nginx/sites-available/
+sudo vim vegas-test.conf
+</code></pre>
+<br>
+<p>Set content of the file</p>
+<pre><code class="shell">server {
+    listen 80;
+    server_name vegas-test.local;
+
+    # Path to the root of your installation
+    set $root_path /var/www/vegas-test/public;
+    root $root_path;
+
+    access_log /var/log/nginx/vegas-test.local-access.log combined;
+    error_log /var/log/nginx/vegas-test.local-error.log error;
+
+    client_max_body_size 32M; # set max upload size
+    fastcgi_buffers 64 4K;
+
+    index index.php index.html index.htm;
+
+    try_files $uri $uri/ @rewrite;
+
+    location @rewrite {
+        rewrite ^/(.*)$ /index.php?_url=/$1;
+    }
+
+    location = /robots.txt {
+        allow all;
+        log_not_found off;
+        access_log off;
+    }
+
+    location ~ \.php {
+        fastcgi_index  /index.php;
+        #try_files $1 = 404;
+
+        include fastcgi_params;
+
+        fastcgi_split_path_info       ^(.+\.php)(/.+)$;
+        fastcgi_param PATH_INFO       $fastcgi_path_info;
+        fastcgi_param PATH_TRANSLATED $document_root$fastcgi_path_info;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+
+
+        ##fastcgi_pass 127.0.0.1:9000;
+        ## Or use unix-socket with &#039;fastcgi_pass unix:/var/run/php5-fpm.sock;&#039;
+        fastcgi_pass unix:/var/run/php5-fpm-vegas-test.local.sock;
+    }
+
+    location ~* ^/(css|img|js|flv|swf|download)/(.+)$ {
+        root $root_path;
+    }
+
+    # Optional: set long EXPIRES header on static assets
+    location ~* ^.+\.(jpg|jpeg|gif|bmp|ico|png|css|js|swf)$ {
+        expires 30d;
+        # Optional: Don&#039;t log access to assets
+        access_log off;
+    }
+}</code></pre>
+<br>
+<p>Enable virtual host file</p>
+<pre><code class="shell">ln -s /etc/nginx/sites-available/vegas-test.conf /etc/nginx/sites-enabled/vegas-test.conf</code></pre>
+<br>
+</td>
+</tr>
+</tbody>
+</table>
+<br>
+<p>Add host to /etc/hosts file</p>
+<pre><code class="shell">sudo vim /etc/hosts</code></pre>
+<br>
+<p>Add the following line to the file</p>
+<pre><code class="shell">127.0.0.1 www.vegas-test.local vegas-test.local</code></pre>
+<br>
+<p>Run your project in your browser <a href="http://vegas-test.local">http://vegas-test.local</a></p>
             </div>
             <hr />
             <div class="main-footer">
