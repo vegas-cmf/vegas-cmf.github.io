@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800' rel='stylesheet' type='text/css'/>
+
+    <title>Vegas CMF - Documentation</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/styles/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/styles/dashboard.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="http://highlightjs.org/static/styles/zenburn.css">
+    <style>
+        pre  {
+            padding: 0;
+            margin: 0;
+        }
+        code  {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/scripts/bootstrap.min.js" type="text/javascript"></script>
+    <script src="http://highlightjs.org/static/highlight.pack.js"></script>
+
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-version">
+            <div class="navbar-button">
+                <span class="glyphicon glyphicon-book"></span>
+                <div class="pull-right"><span class="active">v: 1.0 </span> <span class="caret"></span></div>
+            </div>
+            <div class="navbar-more">
+                <dl>
+                    <dt>Versions</dt>
+                    <dd><a href="#">latest</a></dd>
+                    <dd><a href="#">develop</a></dd>
+                    <dd><a href="#"><strong>1.0</strong></a></dd>
+                </dl>
+                <dl>
+                    <dt>Downloads</dt>
+                    <dd><a href="#">PDF</a></dd>
+                    <dd><a href="#">HTML</a></dd>
+                </dl>
+                <dl>
+                    <dt>On GitHub</dt>
+                    <dd><a href="#">Edit</a></dd>
+                </dl>
+            </div>
+        </div>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Vegas CMF Documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">About</a></li>
+                <li><a href="#">Learn</a></li>
+                <li><a href="#">Get Started</a></li>
+            </ul>
+        </div>
+    </div>
+</div><div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-4 col-md-4 sidebar">
+            <div class="sidebar-search">
+                <form>
+                    <input type="text" class="form-control" placeholder="Search docs" />
+                </form>
+            </div>
+                <ul class="nav nav-sidebar">
+        <li><a href="#list">Adapters</a></li>
+        <li><a href="#standard">Standard adapter</a></li>
+        <li><a href="#nocredential">No credential adapter</a></li>
+    </ul>
+        </div>
+        <div class="col-sm-12 main">
+            <div class="main-header">
+                <ol class="breadcrumb">
+                        <li><a href="/">Vegas CMF</a></li>
+    <li><a href="/1.0/guide.html">Guide</a></li>
+    <li><a href="/1.0/guide/auth/adapters.html">Authentication adapters</a></li>
+                </ol>
+            </div>
+            <hr />
+            <div class="main-body">
+                
+<h2 id="list">Authentication adapters</h2>
+<p>
+    Vegas CMF provides two authentication adapters
+    <br />
+    <ul>
+        <li><strong>Standard</strong> - authenticate user by identity and credential</li>
+        <li><strong>No credential</strong> - authenticate user by identity without credential</li>
+    </ul>
+
+    <br />
+    <h4>Installation</h4>
+    To install authentication library add the following code to <code>composer.json</code>
+    <br />
+    <br />
+<pre class="json"><code>"vegas-cmf/auth" : "dev-master"</code></pre>
+    <br />
+    and run command:
+    <br />
+    <br />
+<pre class="shell"><code>php composer.phar update</code></pre>
+</p>
+<h3 id="standard">Standard adapter</h3>
+<p>
+    Standard adapter provides a default method of authentication process, where user authenticates himself using his identity and password.
+    Follow the 9 steps to see how to setup authentication process in your project.
+    <br />
+    <br />
+
+<h4>1. Service provider</h4>
+    Create authentication service provider
+    <br />
+    <br />
+<pre class="shell"><code>touch app/services/AuthServiceProvider.php</code></pre>
+    <br />
+<pre class="php"><code>use Phalcon\DiInterface;
+use Phalcon\Mvc\Url as UrlResolver;
+use Vegas\DI\ServiceProviderInterface;
+
+class AuthServiceProvider implements ServiceProviderInterface
+{
+    const SERVICE_NAME = 'auth';
+
+    /**
+     * {@inheritdoc}
+     */
+    public function register(DiInterface $di)
+    {
+        $di->set(self::SERVICE_NAME, function () use ($di) {
+            $adapter = new \Vegas\Security\Authentication\Adapter\Standard($di->get('userPasswordManager'));
+            $adapter->setSessionStorage($di->get('sessionManager')->createScope('auth'));
+            $auth = new \Vegas\Security\Authentication($adapter);
+
+            return $auth;
+        }, true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDependencies()
+    {
+        return array(
+            SessionManagerServiceProvider::SERVICE_NAME,
+            UserPasswordManagerServiceProvider::SERVICE_NAME
+        );
+    }
+}
+</code></pre>
+    <br />
+    Authentication requires session manager registered in dependency injection. Create <code>SessionServiceProvider</code>
+    and <code>SessionManagerServiceProvider</code> to enable session management in your application.
+    <br />
+    <br />
+<pre class="shell"><code>touch app/services/SessionServiceProvider.php</code></pre>
+    <br />
+<pre class="php"><code>use Phalcon\DiInterface;
+use Vegas\DI\ServiceProviderInterface;
+use Vegas\Session\Adapter\Files as SessionAdapter;
+
+class SessionServiceProvider implements ServiceProviderInterface
+{
+    const SERVICE_NAME = 'session';
+
+    /**
+     * {@inheritdoc}
+     */
+    public function register(DiInterface $di)
+    {
+        $config = $di->get('config');
+        $di->set(self::SERVICE_NAME, function () use ($config) {
+            $sessionAdapter = new SessionAdapter($config->session->toArray());
+            if (!$sessionAdapter->isStarted()) {
+                $sessionAdapter->start();
+            }
+            return $sessionAdapter;
+        }, true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDependencies()
+    {
+        return array();
+    }
+}
+</code></pre>
+    <br />
+<pre class="shell"><code>touch app/services/SessionManagerServiceProvider.php</code></pre>
+    <br />
+<pre class="php"><code>use Phalcon\DiInterface;
+use Vegas\DI\ServiceProviderInterface;
+
+class SessionManagerServiceProvider implements ServiceProviderInterface
+{
+    const SERVICE_NAME = 'sessionManager';
+
+    /**
+     * {@inheritdoc}
+     */
+    public function register(DiInterface $di)
+    {
+        $di->set(self::SERVICE_NAME, function() use ($di) {
+            $session = new Vegas\Session($di->get('session'));
+
+            return $session;
+        }, true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDependencies()
+    {
+        return array(
+            SessionServiceProvider::SERVICE_NAME
+        );
+    }
+}
+</code></pre>
+    <br />
+    Add the following code to <code>app/config/config.php</code> file.
+    <br />
+    <br />
+<pre class="php"><code>'session' => array(
+    'cookie_name'   =>  'sid',
+    'cookie_lifetime'   =>  36*3600, //day and a half
+    'cookie_secure' => 0,
+    'cookie_httponly' => 1
+)
+</code></pre>
+    <br />
+    Authentication requires a password manager, which also have to be registered in dependency injection.
+    <br />
+    <br />
+<pre class="shell"><code>touch app/services/UserPasswordManagerServiceProvider.php</code></pre>
+    <br />
+<pre class="php"><code>use Phalcon\DiInterface;
+use Vegas\DI\ServiceProviderInterface;
+
+class UserPasswordManagerServiceProvider implements ServiceProviderInterface
+{
+    const SERVICE_NAME = 'userPasswordManager';
+
+    /**
+     * {@inheritdoc}
+     */
+    public function register(DiInterface $di)
+    {
+        $di->set(self::SERVICE_NAME, '\Vegas\Security\Password\Adapter\Standard', true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDependencies()
+    {
+        return array();
+    }
+}
+</code></pre>
+
+    <h4>2. Module</h4>
+    Create an <strong>Auth</strong> module and its structure.
+    <br />
+    <br />
+<pre class="shell"><code>mkdir -p app/modules/Auth
+mkdir -p app/modules/Auth/config
+mkdir -p app/modules/Auth/controllers
+mkdir -p app/modules/Auth/controllers/frontend
+mkdir -p app/modules/Auth/models
+mkdir -p app/modules/Auth/services
+mkdir -p app/modules/Auth/views
+</code></pre>
+    <br />
+    Create a <code>Module.php</code> file to enable module
+    <br />
+    <br />
+<pre class="shell"><code>touch app/modules/Auth/Module.php</code></pre>
+    <br />
+<pre class="php"><code>namespace Auth;
+
+class Module extends \Vegas\Mvc\ModuleAbstract
+{
+    public function __construct() {
+        $this->namespace = __NAMESPACE__;
+        $this->dir = __DIR__;
+    }
+}
+</code></pre>
+
+    <h4>3. Model</h4>
+    Create a database model.
+    <br />
+    <br />
+<pre class="shell"><code>touch app/modules/Auth/models/User.php</code></pre>
+    <br />
+    <br />
+    <div class="col-md-12" style="margin-bottom:20px">
+        <div class="col-md-6">
+            <strong>Model for Mongo database</strong>
+<pre class="php"><code>namespace Auth\Models;
+
+class User extends CollectionAbstract implements GenericUserInterface
+{
+    public function getSource()
+    {
+        return 'vegas_users';
+    }
+
+    public function beforeSave()
+    {
+        if (!empty($this->raw_password)) {
+            $this->writeAttribute('password', $this->getDI()->get('userPasswordManager')->encryptPassword($this->raw_password));
+            unset($this->raw_password);
+        }
+    }
+
+    public function getIdentity()
+    {
+        return $this->readAttribute('email');
+    }
+
+    public function getCredential()
+    {
+        return $this->readAttribute('password');
+    }
+
+    public function getAttributes()
+    {
+        $userData = $this->toArray();
+        //remove password from user data
+        unset($userData['password']);
+        $userData['id'] = $this->getId();
+
+        return $userData;
+    }
+}
+</code></pre>
+        </div>
+        <div class="col-md-6">
+            <strong>Model for Mysql database</strong>
+<pre class="php"><code>namespace Auth\Models;
+
+class User extends ModelAbstract implements GenericUserInterface
+{
+    public function getSource()
+    {
+        return 'vegas_users';
+    }
+
+    public function beforeSave()
+    {
+        if (!empty($this->raw_password)) {
+            $this->writeAttribute('password', $this->getDI()->get('userPasswordManager')->encryptPassword($this->raw_password));
+            unset($this->raw_password);
+        }
+    }
+
+    public function getIdentity()
+    {
+        return $this->readAttribute('email');
+    }
+
+    public function getCredential()
+    {
+        return $this->readAttribute('password');
+    }
+
+    public function getAttributes()
+    {
+        $userData = $this->toArray();
+        //remove password from user data
+        unset($userData['password']);
+        $userData['id'] = $this->getId();
+
+        return $userData;
+    }
+}
+</code></pre>
+            <br />
+            Create a table in your Mysql database
+            <br />
+            <br />
+<pre class="sql"><code>CREATE TABLE vegas_users(
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    email VARCHAR(100) NOT NULL,
+    password VARCHAR(200) NOT NULL,
+    name VARCHAR(50) NOT NULL
+);
+</code></pre>
+        </div>
+    </div>
+
+    <br />
+    Model that will be use in authentication process must implements <code>GenericUserInterface</code> interface.
+
+    <h4>4. Service</h4>
+    Create a service.
+    <br />
+    <br />
+    <pre class="shell"><code>touch app/modules/Auth/services/Auth.php</code></pre>
+    <br />
+<pre class="php"><code>namespace Auth\Services;
+
+use Auth\Models\User;
+
+/**
+ * Class Auth
+ * @package Auth\Services
+ */
+class Auth implements \Phalcon\DI\InjectionAwareInterface
+{
+    use \Vegas\DI\InjectionAwareTrait;
+
+    /**
+     * Authenticates user by email and password
+     *
+     * @param $email
+     * @param $password
+     * @throws \Vegas\Security\Authentication\Exception\IdentityNotFoundException
+     */
+    public function login($email, $password)
+    {
+        $user = User::findFirst(array(array('email' => $email)));
+        if (!$user) {
+            throw new \Vegas\Security\Authentication\Exception\IdentityNotFoundException();
+        }
+        $this->di->get('auth')->authenticate($user, $password);
+    }
+
+    /**
+     * Ends session
+     */
+    public function logout()
+    {
+        $this->di->get('auth')->logout();
+    }
+}
+</code></pre>
+    <br />
+    <h4>5. Controller</h4>
+    Create a controller.
+    <br />
+    <br />
+<pre class="shell"><code>touch app/modules/Auth/controllers/frontend/AuthController.php</code></pre>
+    <br />
+<pre class="php"><code>namespace Auth\Controllers\Frontend;
+
+/**
+ * Class AuthController
+ *
+ * @package Auth\Controllers\Frontend
+ */
+class AuthController extends \Vegas\Mvc\Controller\ControllerAbstract
+{
+    /**
+     * @return \Phalcon\Http\Response|\Phalcon\Http\ResponseInterface
+     */
+    public function loginAction()
+    {
+        $this->view->setLayout('login');
+
+        $this->service = $this->serviceManager->getService('auth:auth');
+        if ($this->di->get('auth')->isAuthenticated()) {
+            return $this->response->redirect(array('for' => 'root'));
+        }
+        if ($this->request->isPost()) {
+            try {
+                $email = $this->request->getPost('email');
+                $password = $this->request->getPost('password');
+                //authenticates user
+                $this->service->login($email, $password);
+
+                return $this->response->redirect(array('for' => 'root'));
+            } catch (\Vegas\Security\Authentication\Exception $ex) {
+                $this->flash->error($this->i18n->_($ex->getMessage()));
+            }
+        }
+    }
+
+    /**
+     * @return \Phalcon\Http\Response|\Phalcon\Http\ResponseInterface
+     */
+    public function logoutAction()
+    {
+        $this->view->disable();
+
+        $authService = $this->serviceManager->getService('auth:auth');
+        $authService->logout();
+        return $this->response->redirect(array('for' => 'login'));
+    }
+}
+</code></pre>
+    <br />
+    Controller uses service <code>Auth</code> to authenticate user by email and password.
+
+    <h4>6. Routes</h4>
+    Creates a static routes to login and logout action.
+    <br />
+    <br />
+<pre class="shell"><code>touch app/modules/Auth/config/routes.php</code></pre>
+    <br />
+<pre class="php"><code>return array(
+    'login' => array(
+        'route' => '/login',
+        'paths' => array(
+            'module' => 'Auth',
+            'controller' => 'Frontend\Auth',
+            'action' => 'login',
+
+            'auth'  =>  false
+        ),
+        'type' => 'static'
+
+    ),
+    'logout' => array(
+        'route' => '/logout',
+        'paths' => array(
+            'module' => 'Auth',
+            'controller' => 'Frontend\Auth',
+            'action' => 'logout',
+
+            'auth'  =>  'auth'
+        ),
+        'type' => 'static'
+    )
+);
+</code></pre>
+    <br />
+    In case of <code>logout</code> route, we set <code>auth</code> key with value <strong>auth</strong>, so before dispatch this action,
+    <code>SecurityPlugin</code> will check if user is authenticated in scope <strong>auth</strong>.
+
+    <h4>7. Security plugin</h4>
+    Create a plugin that will control required authentication, indicated by route rule.
+    <br />
+    <br />
+<pre class="shell"><code>touch app/plugins/SecurityPlugin.php</code></pre>
+    <br />
+<pre class="php"><code>class SecurityPlugin extends \Vegas\Security\Authentication\EventsManager\Plugin
+{
+
+}
+</code></pre>
+    <br />
+    Vegas CMF provides a default implementation of this plugin, so we have to only extend an existing class.
+    <br />
+    <br />
+    To enable <code>SecurityPlugin</code> add the following code to <code>app/config/config.php</code> file.
+    <br />
+    <br />
+<pre class="php"><code>'plugins' => array(
+    'security' => array(
+        'class' => 'SecurityPlugin',
+        'attach' => 'dispatch'
+    )
+)
+</code></pre>
+    <br />
+    <code>SecurityPlugin</code> requires also route configuration, that determines where user should be redirected when required session does not exist.
+    <br />
+    <br />
+<pre class="shell"><code>touch app/modules/Auth/config/config.php</code></pre>
+    <br />
+<pre class="php"><code>return array(
+    'auth'  =>  array(
+        //name of authentication scope
+        'auth'  =>  array(
+            //route name
+            'route'    =>  'login'
+        )
+    )
+);
+</code></pre>
+
+    <h4>8. Layout and view</h4>
+    Create a layout for login page and login form.
+    <br />
+    <br />
+    Layout
+    <br />
+    <br />
+<pre class="shell"><code>touch app/layouts/login.volt</code></pre>
+    <br />
+<pre class="html"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+    &lt;meta name=&quot;description&quot; content=&quot;&quot;&gt;
+    &lt;meta name=&quot;author&quot; content=&quot;&quot;&gt;
+    &lt;link rel=&quot;shortcut icon&quot; href=&quot;http://getbootstrap.com/assets/ico/favicon.ico&quot;&gt;
+
+    &lt;title&gt;Login into VEGAS&lt;/title&gt;
+    &lt;link href=&quot;http://getbootstrap.com/dist/css/bootstrap.min.css&quot; rel=&quot;stylesheet&quot;&gt;
+    &lt;link href=&quot;http://getbootstrap.com/examples/signin/signin.css&quot; rel=&quot;stylesheet&quot;&gt;
+
+    &lt;!--[if lt IE 9]&gt;&lt;script src=&quot;http://getbootstrap.com/assets/js/ie8-responsive-file-warning.js&quot;&gt;&lt;/script&gt;&lt;![endif]--&gt;
+    &lt;!--[if lt IE 9]&gt;
+    &lt;script src=&quot;https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js&quot;&gt;&lt;/script&gt;
+    &lt;![endif]--&gt;
+
+    {{ assets.outputCss() }}
+    {{ assets.outputJs() }}
+&lt;/head&gt;
+
+&lt;body&gt;
+
+&lt;div class=&quot;container&quot;&gt;
+    {{ content() }}
+&lt;/div&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    <br />
+    View
+    <br />
+    <br />
+<pre class="shell"><code>touch app/modules/Auth/views/frontend/auth/login.volt</code></pre>
+    <br />
+<pre class="html"><code>{{ flash.output() }}
+&lt;form class=&quot;form-signin&quot; role=&quot;form&quot; method=&quot;POST&quot;&gt;
+    &lt;h2 class=&quot;form-signin-heading&quot;&gt;Please sign in&lt;/h2&gt;
+    &lt;input type=&quot;email&quot; class=&quot;form-control&quot; placeholder=&quot;Email address&quot; name=&quot;email&quot; required autofocus&gt;
+    &lt;input type=&quot;password&quot; class=&quot;form-control&quot; placeholder=&quot;Password&quot; name=&quot;password&quot; required&gt;
+    &lt;button class=&quot;btn btn-lg btn-primary btn-block&quot; type=&quot;submit&quot;&gt;Sign in&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+    <h4>9. Create a user</h4>
+    Once we have a fully configured authentication in application, we can create an user account, to test login process.
+    The easiest and re-usable way to do this, is create a CLI task.
+    <br />
+    <br />
+<pre class="shell"><code>touch app/tasks/UserTask.php</code></pre>
+    <br />
+<pre class="php"><code>class UserTask extends \Vegas\Cli\Task
+{
+
+    /**
+     * Available options
+     *
+     * @return mixed
+     */
+    public function setOptions()
+    {
+        $action = new \Vegas\Cli\Task\Action('create', 'Create user account');
+
+        $option = new \Vegas\Cli\Task\Option('email', 'e', 'User email address');
+        $option->setRequired(true);
+        $action->addOption($option);
+
+        $option = new \Vegas\Cli\Task\Option('password', 'p', 'User password');
+        $option->setRequired(true);
+        $action->addOption($option);
+
+        $option = new \Vegas\Cli\Task\Option('name', 'n', 'User name');
+        $option->setRequired(true);
+        $action->addOption($option);
+
+        $this->addTaskAction($action);
+    }
+
+    public function createAction()
+    {
+        $user = new \Auth\Models\User();
+        $user->email = $this->getOption('email');
+        $user->raw_password = $this->getOption('password');
+        $user->name = $this->getOption('name');
+
+        $user->save();
+
+        $this->putSuccess('User created');
+        $this->pubObject($user->toArray());
+
+        $this->putText('Done.');
+    }
+}
+</code></pre>
+    <br />
+    Run the following command to use created task
+    <br />
+<pre class="shell"><code>php cli/cli.php app:user create --email=test@vegas.com --password=p@$$w0rd --name=Test</code></pre>
+    <br />
+    Now you can try login into your application using email: test@vegas.com and password: p@$$w0rd
+    <br />
+</p>
+
+<h3 id="nocredential">No credential adapter</h3>
+<p>
+    No credential adapter might be useful when we need to have a possibility to login as another user, without knowing his password,
+    for example in administrator panel.
+    <br />
+    Use the structure from the previous example, and create new service.
+    <br />
+<pre class="shell"><code>touch app/modules/Auth/services/AuthEmail.php</code></pre>
+    <br />
+<pre class="php"><code>namespace Auth\Services;
+
+use Auth\Models\User;
+use Vegas\Security\OAuth\Exception\ServiceNotFoundException;
+
+/**
+ * Class AuthEmail
+ * @package Auth\Services
+ */
+class AuthEmail implements \Phalcon\DI\InjectionAwareInterface
+{
+    use \Vegas\DI\InjectionAwareTrait;
+
+    /**
+     * Authenticates user by e-mail address
+     *
+     * @param $email
+     * @return mixed
+     * @throws \Vegas\Security\Authentication\Exception\IdentityNotFoundException
+     */
+    public function authenticateByEmail($email)
+    {
+        $user = User::findFirst(array(array('email' => $email)));
+        if (!$user) {
+            throw new \Vegas\Security\Authentication\Exception\IdentityNotFoundException();
+        }
+        $adapter = new \Vegas\Security\Authentication\Adapter\NoCredential();
+        $adapter->setSessionStorage($this->obtainSessionScope());
+        $auth = new \Vegas\Security\Authentication($adapter);
+        $auth->authenticate($user, null);
+        return $auth->getIdentity();
+    }
+
+    /**
+     * Obtains session scope for authentication
+     * It safely checks if the session scope with 'auth' name already exists
+     *
+     * @return mixed
+     */
+    private function obtainSessionScope()
+    {
+        $sessionManager = $this->di->get('sessionManager');
+        if (!$sessionManager->scopeExists('auth')) {
+            $sessionScope = $sessionManager->createScope('auth');
+        } else {
+            $sessionScope = $sessionManager->getScope('auth');
+        }
+
+        return $sessionScope;
+    }
+}
+</code></pre>
+    <br />
+    <br />
+    Create <code>AuthController</code> for example in Backend scope, to authenticate users by theirs e-mail.
+    <br />
+    <br />
+<pre class="shell"><code>touch app/modules/Auth/controllers/backend/AuthController.php</code></pre>
+    <br />
+<pre class="php"><code>namespace Auth\Controllers\Backend;
+
+use Vegas\Mvc\Controller\ControllerAbstract;
+
+/**
+ * Class AuthController
+ * @package Auth\Controllers\Backend
+ */
+class AuthController extends ControllerAbstract
+{
+    /**
+     * @return \Phalcon\Http\Response|\Phalcon\Http\ResponseInterface
+     */
+    public function authenticateUserAction()
+    {
+        $this->view->disable();
+
+        if ($this->request->isPost()) {
+            try {
+                $service = $this->serviceManager->getService('auth:auth');
+                $service->login($this->request->get('email'));
+
+                return $this->response->redirect(array('for' => 'root'));
+            } catch (\Vegas\Security\Authentication\Exception $ex) {
+                $this->flash->error($this->i18n->_($ex->getMessage()));
+            }
+        }
+    }
+
+    /**
+     * @return \Phalcon\Http\Response|\Phalcon\Http\ResponseInterface
+     */
+    public function logoutUserAction()
+    {
+        $this->view->disable();
+
+        $authService = $this->serviceManager->getService('auth:auth');
+        $authService->logout();
+        return $this->response->redirect(array('for' => 'root'));
+    }
+}
+</code></pre>
+    <br />
+     Add routes to <code>app/modules/Auth/config/routes.php</code>
+    <br />
+    <br />
+<pre class="php"><code>//....
+    'authenticateUser' => array(
+        'route' => '/admin/authenticateUser',
+        'paths' => array(
+            'module' => 'Auth',
+            'controller' => 'Backend\Auth',
+            'action' => 'authenticateUser',
+
+            'auth'  =>  'authAdmin'
+        ),
+        'type' => 'static'
+
+    ),
+    'logoutUser' => array(
+        'route' => '/admin/logoutUser',
+        'paths' => array(
+            'module' => 'Auth',
+            'controller' => 'Backend\Auth',
+            'action' => 'logoutUser',
+
+            'auth'  =>  'auth'
+        ),
+        'type' => 'static'
+    )
+//...
+</code></pre>
+    <br />
+    <code>NoCredential</code> adapter should not be use as public authenticator, that's why <strong>authAdmin</strong>
+    authentication scope is required by this action.
+    <br />
+    To authenticate user, go to route <code>/admin/authenticateUser/test@test.com</code> where <strong>test@test.com</strong>
+    belongs to user who will be authenticated.
+</p>
+            </div>
+            <hr />
+            <div class="main-footer">
+    <div role="contentinfo">
+        <p>
+            &copy; 2014 Amsterdam Standard Sp. z o.o.
+        </p>
+    </div>
+</div>
+        </div>
+    </div>
+</div>
+<script>
+    hljs.configure({tabReplace: '    '});
+    hljs.initHighlightingOnLoad();
+</script>
+</body>
+</html>
+
