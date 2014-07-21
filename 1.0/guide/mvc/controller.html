@@ -231,13 +231,15 @@ public function indexAction()
     </p>
 
     <p>
-        <br/>
-        Basic setup requires form and model name only:
+        Basic setup requires form and model name only. In example below we will also use CRUD events from
+        <code>Vegas\Mvc\Controller\Crud\Events</code>. Thanks to them we can change or add functionality to basic
+        CRUD actions without rewriting them:
     </p>
 
 <pre class="php"><code>namespace Foo\Controllers\Backend;
 
 use Vegas\Mvc\Controller\Crud;
+use Vegas\Mvc\Controller\Crud\Events;
 
 class FooController extends Crud
 {
@@ -249,6 +251,21 @@ class FooController extends Crud
         parent::initialize();
 
         // attach events here
+        $this->dispatcher->getEventsManager()->attach(Events::AFTER_SAVE, function(){
+            $this->redirect();
+        });
+
+        $this->dispatcher->getEventsManager()->attach(Events::AFTER_DELETE, function() {
+            $this->redirect();
+        });
+    }
+
+    private function redirect()
+    {
+        $this->response->redirect(array(
+            'for' => 'foo/crud',
+            'action' => 'index',
+        ));
     }
 
     public function indexAction()
@@ -257,6 +274,141 @@ class FooController extends Crud
     }
 }</code></pre>
 
+<table>
+    <tbody>
+        <tr>
+            <td width="50%">
+
+                <p>
+                    <br/>
+                    Example ODM model for Foo controller:
+                </p>
+
+<pre class="php"><code>namespace Foo\Models;
+
+use Vegas\Db\Decorator\CollectionAbstract;
+
+class Fake extends CollectionAbstract
+{
+    public function getSource()
+    {
+        return 'fake';
+    }
+} </code></pre>
+
+            </td>
+            <td width="50%">
+
+                <p>
+                    <br/>
+                    Example form for Foo controller:
+                </p>
+
+<pre class="php"><code>namespace Foo\Forms;
+
+use Phalcon\Forms\Element\Text;
+use Phalcon\Validation\Validator\PresenceOf;
+
+class Bar extends \Phalcon\Forms\Form
+{
+    public function initialize()
+    {
+        $field = new Text('fake_field');
+        $field->addValidator(new PresenceOf());
+        $this->add($field);
+    }
+}</code></pre>
+
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p>
+    <br/>
+    Simple <code>routing.php</code> for CRUD actions:
+</p>
+
+<pre class="php"><code>return array(
+    'foo/crud' => array(
+        'route' => '/foo/:action/:params',
+        'paths' => array(
+            'module' => 'Foo',
+            'controller' => 'Backend\Foo',
+            'action' => 1,
+            'params' => 2
+        )
+    )
+);</code></pre>
+
+    <p>
+        <br/>
+        Example volt templates for described controller may look like this:
+    </p>
+
+<pre class="twig"><code>{# ../app/modules/Foo/views/backend/foo/new.volt #}
+&lt;div class="row header"&gt;
+    &lt;div class="col-md-6"&gt;
+        &lt;h3&gt;New record&lt;/h3&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="form-page"&gt;
+    &lt;div class="row form-wrapper"&gt;
+        &lt;div class="col-md-6 column"&gt;
+            &lt;form action="{{ url.get(['for':'foo/crud', 'action':'create']) }}" method="post" role="form"&gt;
+               {{ partial('backend/foo/_form', ['form': form]) }}
+            &lt;/form&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+<pre class="twig"><code>{# ../app/modules/Foo/views/backend/foo/edit.volt #}
+&lt;div class="row header"&gt;
+    &lt;div class="col-md-6"&gt;
+        &lt;h3&gt;Update record&lt;/h3&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="form-page"&gt;
+    &lt;div class="row form-wrapper"&gt;
+        &lt;div class="col-md-6 column"&gt;
+            &lt;form action="{{ url.get(['for':'foo/crud', 'action':'update', 'params': record._id]) }}" method="post" role="form"&gt;
+               {{ partial('backend/foo/_form', ['form': form]) }}
+            &lt;/form&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+<pre class="twig"><code>{# ../app/modules/Foo/views/backend/foo/_form.volt #}
+{% for element in form %}
+    {% do element.setAttribute('class', element.getAttribute('class')~' form-control') %}
+    {% set hasErrors = form.hasMessagesFor(element.getName()) %}
+
+    &lt;div class="clearfix form-group{% if hasErrors %} has-error{% endif %}"&gt;
+        &lt;label for="{{ element.getName() }}"&gt;{{ element.getLabel() }}&lt;/label&gt;
+        {% if hasErrors %}
+            &lt;span class="help-block"&gt;
+                {% for error in form.getMessagesFor(element.getName()) %}
+                    {{ error }}
+                {% endfor %}
+            &lt;/span&gt;
+        {% endif %}
+        {{ element }}
+    &lt;/div&gt;
+{% endfor %}
+
+&lt;div class="form-group"&gt;
+    &lt;button type="submit" class="btn btn-flat success"&gt;Save&lt;/button&gt;
+    &lt;a href="{{ url.get(['for':'foo/crud', 'action':'index']) }}" class="btn pull-right"&gt;Cancel&lt;/a&gt;
+&lt;/div&gt;</code></pre>
+
+    <h3 id="crudUpload">CRUD with upload</h3>
+
+    <p>
+        Detailed description of <code>Vegas\Mvc\Controller\CrudUpload</code> is available in the
+        <a href="/1.0/guide/media/upload/controller.html">media upload controller</a> part of documentation.
+    </p>
             </div>
             <hr />
             <div class="main-footer">
