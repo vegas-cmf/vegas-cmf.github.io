@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800' rel='stylesheet' type='text/css'/>
+
+    <title>Vegas CMF - Documentation</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/styles/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/styles/dashboard.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="http://highlightjs.org/static/styles/zenburn.css">
+    <style>
+        pre  {
+            padding: 0;
+            margin: 0;
+        }
+        code  {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/scripts/bootstrap.min.js" type="text/javascript"></script>
+    <script src="http://highlightjs.org/static/highlight.pack.js"></script>
+
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-version">
+            <div class="navbar-button">
+                <span class="glyphicon glyphicon-book"></span>
+                <div class="pull-right"><span class="active">v: 1.0 </span> <span class="caret"></span></div>
+            </div>
+            <div class="navbar-more">
+                <dl>
+                    <dt>Versions</dt>
+                    <dd><a href="#">latest</a></dd>
+                    <dd><a href="#">develop</a></dd>
+                    <dd><a href="#"><strong>1.0</strong></a></dd>
+                </dl>
+                <dl>
+                    <dt>Downloads</dt>
+                    <dd><a href="#">PDF</a></dd>
+                    <dd><a href="#">HTML</a></dd>
+                </dl>
+                <dl>
+                    <dt>On GitHub</dt>
+                    <dd><a href="#">Edit</a></dd>
+                </dl>
+            </div>
+        </div>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Vegas CMF Documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">About</a></li>
+                <li><a href="#">Learn</a></li>
+                <li><a href="#">Get Started</a></li>
+            </ul>
+        </div>
+    </div>
+</div><div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-4 col-md-4 sidebar">
+            <div class="sidebar-search">
+                <form>
+                    <input type="text" class="form-control" placeholder="Search docs" />
+                </form>
+            </div>
+                <ul class="nav nav-sidebar">
+        <li><a href="#controller">Basic controller</a></li>
+        <li><a href="#crud">Using CRUD controller</a></li>
+        <li><a href="#crudUpload">CRUD with upload</a></li>
+    </ul>
+        </div>
+        <div class="col-sm-12 main">
+            <div class="main-header">
+                <ol class="breadcrumb">
+                        <li><a href="/">Vegas CMF</a></li>
+    <li><a href="/1.0/guide.html">Guide</a></li>
+    <li><a href="/1.0/guide.html#mvc">Mvc</a></li>
+    <li><a href="/1.0/guide/mvc/controller.html">Controller</a></li>
+                </ol>
+            </div>
+            <hr />
+            <div class="main-body">
+                
+    <h2>Controller</h2>
+
+    <h3 id="controller">Basic controller</h3>
+
+    <p>
+        Vegas CMF provides for you three types of abstracts to use as your controller parent. If you don't need CRUD
+        operations, simple <code>Vegas\Mvc\Controller\ControllerAbstract</code> will fit best.
+    </p>
+
+    <pre class="php">
+        <code>
+            namespace Foo\Controllers\Frontend;
+
+            use Vegas\Mvc\Controller\ControllerAbstract,
+
+            class FooController extends ControllerAbstract
+            {
+                public function indexAction()
+                {
+                    $this->view->foo = 'Vegas';
+                }
+            }
+        </code>
+    </pre>
+
+    <p>
+        <code>Vegas\Mvc\Controller\ControllerAbstract</code> has some useful methods that you can use:
+    </p>
+
+    <p>
+        <strong>jsonResponse</strong><br/>
+        Prepare JSON response. More about this method <a href="/1.0/guide/http/response/json.html">here</a>.
+    </p>
+
+    <p>
+        <strong>_('Your string')</strong><br/>
+        Alias for <code>$this->i18n->_()</code>. It will work only if internationalization service is provided.
+    </p>
+
+    <pre class="php">
+        <code>
+            // ...
+
+            public function indexAction()
+            {
+                $this->view->message = _('Your string');
+            }
+        </code>
+    </pre>
+
+    <p>
+        In example below you can see Gettext based i18n service provider. For more informations about i18n adapters
+        available in Phalcon, check this
+        <a href="https://github.com/phalcon/incubator/tree/master/Library/Phalcon/Translate/Adapter" target="_blank">
+            Phalcon Incubator
+        </a>.
+    </p>
+
+    <pre class="php">
+        <code>
+            use Phalcon\DiInterface;
+            use Vegas\DI\ServiceProviderInterface;
+            use Phalcon\Mvc\Url as UrlResolver;
+
+            class I18nServiceProvider implements ServiceProviderInterface
+            {
+                const SERVICE_NAME = 'i18n';
+
+                /**
+                * {@inheritdoc}
+                */
+                public function register(DiInterface $di)
+                {
+                    $config = $di->get('config');
+                    $di->set('i18n', function() use ($config) {
+                        return new \Phalcon\Translate\Adapter\Gettext(array(
+                            'locale' => $config->application->language,
+                            'file' => 'messages',
+                            'directory' => APP_ROOT.'/lang'
+                        ));
+                    });
+                }
+
+                /**
+                * {@inheritdoc}
+                */
+                public function getDependencies()
+                {
+                    return array();
+                }
+            }
+        </code>
+    </pre>
+
+    <p>
+        <strong>throw403</strong><br/>
+        Throws 403 forbidden exception that will be catched by <code>Vegas\Mvc\Dispatcher\ExceptionResolver</code>.
+    </p>
+
+    <pre class="php">
+        <code>
+            // ...
+
+            public function indexAction()
+            {
+                $this->throw403('Your optional message');
+            }
+        </code>
+    </pre>
+
+    <p>
+        <strong>throw404</strong><br/>
+        Throws 404 page not found exception that will be catched by <code>Vegas\Mvc\Dispatcher\ExceptionResolver</code>.
+    </p>
+
+    <pre class="php">
+        <code>
+            // ...
+
+            public function indexAction()
+            {
+                $this->throw404('Your optional message');
+            }
+        </code>
+    </pre>
+
+    <p>
+        <strong>throw500</strong><br/>
+        Throws 500 internal error exception that will be catched by <code>Vegas\Mvc\Dispatcher\ExceptionResolver</code>.
+    </p>
+
+    <pre class="php">
+        <code>
+            // ...
+
+            public function indexAction()
+            {
+                $this->throw500('Your optional message');
+            }
+        </code>
+    </pre>
+
+            </div>
+            <hr />
+            <div class="main-footer">
+    <div role="contentinfo">
+        <p>
+            &copy; 2014 Amsterdam Standard Sp. z o.o.
+        </p>
+    </div>
+</div>
+        </div>
+    </div>
+</div>
+<script>
+    hljs.configure({tabReplace: '    '});
+    hljs.initHighlightingOnLoad();
+</script>
+</body>
+</html>
+
