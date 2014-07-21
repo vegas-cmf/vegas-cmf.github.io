@@ -110,48 +110,42 @@
         operations, simple <code>Vegas\Mvc\Controller\ControllerAbstract</code> will fit best.
     </p>
 
-    <pre class="php">
-        <code>
-            namespace Foo\Controllers\Frontend;
+<pre class="php"><code>namespace Foo\Controllers\Frontend;
 
-            use Vegas\Mvc\Controller\ControllerAbstract,
+use Vegas\Mvc\Controller\ControllerAbstract;
 
-            class FooController extends ControllerAbstract
-            {
-                public function indexAction()
-                {
-                    $this->view->foo = 'Vegas';
-                }
-            }
-        </code>
-    </pre>
+class FooController extends ControllerAbstract
+{
+    public function indexAction()
+    {
+        $this->view->foo = 'Vegas';
+    }
+}</code></pre>
 
     <p>
         <code>Vegas\Mvc\Controller\ControllerAbstract</code> has some useful methods that you can use:
     </p>
 
     <p>
+        <br/>
         <strong>jsonResponse</strong><br/>
         Prepare JSON response. More about this method <a href="/1.0/guide/http/response/json.html">here</a>.
     </p>
 
     <p>
+        <br/>
         <strong>_('Your string')</strong><br/>
         Alias for <code>$this->i18n->_()</code>. It will work only if internationalization service is provided.
     </p>
 
-    <pre class="php">
-        <code>
-            // ...
-
-            public function indexAction()
-            {
-                $this->view->message = _('Your string');
-            }
-        </code>
-    </pre>
+<pre class="php"><code>// ...
+public function indexAction()
+{
+    $this->view->message = _('Your string');
+}</code></pre>
 
     <p>
+        <br/>
         In example below you can see Gettext based i18n service provider. For more informations about i18n adapters
         available in Phalcon, check this
         <a href="https://github.com/phalcon/incubator/tree/master/Library/Phalcon/Translate/Adapter" target="_blank">
@@ -159,89 +153,109 @@
         </a>.
     </p>
 
-    <pre class="php">
-        <code>
-            use Phalcon\DiInterface;
-            use Vegas\DI\ServiceProviderInterface;
-            use Phalcon\Mvc\Url as UrlResolver;
+<pre class="php"><code>use Phalcon\DiInterface;
+use Vegas\DI\ServiceProviderInterface;
+use Phalcon\Mvc\Url as UrlResolver;
 
-            class I18nServiceProvider implements ServiceProviderInterface
-            {
-                const SERVICE_NAME = 'i18n';
+class I18nServiceProvider implements ServiceProviderInterface
+{
+    const SERVICE_NAME = 'i18n';
 
-                /**
-                * {@inheritdoc}
-                */
-                public function register(DiInterface $di)
-                {
-                    $config = $di->get('config');
-                    $di->set('i18n', function() use ($config) {
-                        return new \Phalcon\Translate\Adapter\Gettext(array(
-                            'locale' => $config->application->language,
-                            'file' => 'messages',
-                            'directory' => APP_ROOT.'/lang'
-                        ));
-                    });
-                }
+    /**
+     * {@inheritdoc}
+     */
+    public function register(DiInterface $di)
+    {
+        $config = $di->get('config');
+        $di->set('i18n', function() use ($config) {
+            return new \Phalcon\Translate\Adapter\Gettext(array(
+                'locale' => $config->application->language,
+                'file' => 'messages',
+                'directory' => APP_ROOT.'/lang'
+            ));
+        });
+    }
 
-                /**
-                * {@inheritdoc}
-                */
-                public function getDependencies()
-                {
-                    return array();
-                }
-            }
-        </code>
-    </pre>
+    /**
+     * {@inheritdoc}
+     */
+    public function getDependencies()
+    {
+        return array();
+    }
+}</code></pre>
 
     <p>
+        <br/>
         <strong>throw403</strong><br/>
         Throws 403 forbidden exception that will be catched by <code>Vegas\Mvc\Dispatcher\ExceptionResolver</code>.
     </p>
 
-    <pre class="php">
-        <code>
-            // ...
+<pre class="php"><code>// ...
 
-            public function indexAction()
-            {
-                $this->throw403('Your optional message');
-            }
-        </code>
-    </pre>
+public function indexAction()
+{
+    $this->throw403('Your optional message');
+}</code></pre>
 
     <p>
+        <br/>
         <strong>throw404</strong><br/>
         Throws 404 page not found exception that will be catched by <code>Vegas\Mvc\Dispatcher\ExceptionResolver</code>.
     </p>
 
-    <pre class="php">
-        <code>
-            // ...
-
-            public function indexAction()
-            {
-                $this->throw404('Your optional message');
-            }
-        </code>
-    </pre>
+<pre class="php"><code>// ...
+{
+    $this->throw404('Your optional message');
+}</code></pre>
 
     <p>
+        <br/>
         <strong>throw500</strong><br/>
         Throws 500 internal error exception that will be catched by <code>Vegas\Mvc\Dispatcher\ExceptionResolver</code>.
     </p>
 
-    <pre class="php">
-        <code>
-            // ...
+<pre class="php"><code>// ...
 
-            public function indexAction()
-            {
-                $this->throw500('Your optional message');
-            }
-        </code>
-    </pre>
+public function indexAction()
+{
+    $this->throw500('Your optional message');
+ }</code></pre>
+
+    <br/>
+    <h3 id="crud">Using CRUD controller</h3>
+
+    <p>
+        For basic CRUD operations, we can use <code>Vegas\Mvc\Controller\Crud</code> controller with
+        <a href="/1.0/guide/mvc/scaffolding.html">scaffolding</a> adapter.
+    </p>
+
+    <p>
+        <br/>
+        Basic setup requires form and model name only:
+    </p>
+
+<pre class="php"><code>namespace Foo\Controllers\Backend;
+
+use Vegas\Mvc\Controller\Crud;
+
+class FooController extends Crud
+{
+    protected $formName = 'Foo\Forms\Bar';
+    protected $modelName = 'Foo\Models\Bar';
+
+    public function initialize()
+    {
+        parent::initialize();
+
+        // attach events here
+    }
+
+    public function indexAction()
+    {
+        // list of records
+    }
+}</code></pre>
 
             </div>
             <hr />
