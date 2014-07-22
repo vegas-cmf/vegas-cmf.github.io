@@ -144,6 +144,7 @@ class Module extends \Vegas\Mvc\ModuleAbstract
 
     <h3 id="filters">New filters</h3>
 
+    <br/>
     <h4>toString</h4>
 
     <p>
@@ -158,6 +159,7 @@ class Module extends \Vegas\Mvc\ModuleAbstract
 
     <h3 id="helpers">New helpers</h3>
 
+    <br/>
     <h4>pagination</h4>
 
     <p>
@@ -187,6 +189,20 @@ $this->view->page = $paginator->getPaginate();</code></pre>
     <pre class="twig"><code>{{ pagination(page[, options]) }}</code></pre>
     
 
+    <p><br/><strong>Options</strong></p>
+
+    <ul>
+        <li>'start_end_offset' - default: 2</li>
+        <li>'middle_offset' - default: 3</li>
+    </ul>
+
+    <p><br/><strong>Preview</strong></p>
+
+    <p>
+        <img src="/media/img/paginator.png" alt="example paginator preview" />
+    </p>
+
+    <br/>
     <h4>shortenText</h4>
 
     <p>
