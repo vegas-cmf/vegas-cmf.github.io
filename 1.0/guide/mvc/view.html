@@ -84,8 +84,9 @@
                 </form>
             </div>
                 <ul class="nav nav-sidebar">
-        <li><a href="/1.0/getting-started/requirements.html">Requirements</a></li>
-        <li><a href="/1.0/getting-started/vegaser.html">Vegaser Tool</a></li>
+        <li><a href="#basics">View basics</a></li>
+        <li><a href="#filters">New filters</a></li>
+        <li><a href="#helpers">New helpers</a></li>
     </ul>
         </div>
         <div class="col-sm-12 main">
@@ -93,63 +94,117 @@
                 <ol class="breadcrumb">
                         <li><a href="/">Vegas CMF</a></li>
     <li><a href="/1.0/guide.html">Guide</a></li>
-    <li><a href="/1.0/guide.html#forms">Forms</a></li>
-    <li><a href="/1.0/guide.html#element">Element</a></li>
-    <li class="active"><a href="/1.0/guide/forms/element/cloneable.html">Cloneable</a></li>
+    <li><a href="/1.0/guide.html#mvc">Mvc</a></li>
+    <li><a href="/1.0/guide/mvc/view.html">View</a></li>
                 </ol>
             </div>
             <hr />
             <div class="main-body">
-                <h2>Vegas CMF Form Elements</h2>
+                
+    <h2>View</h2>
 
-<h3>Vegas\Forms\Element\Cloneable</h3>
+    <h3 id="basics">View basics</h3>
 
-<p>
-    Element with add/remove field buttons. You can use single field as base element
-    (generated field name: <i>cloneableElementName[]</i>) or array of fields (generated fields names:
-    <i>cloneableElementName[0..n][baseFieldName]</i>).
-</p>
+    <p>
+        By default, <code>Vegas\Mvc\ModuleAbstract</code> is using <code>Vegas\Mvc\View</code> with volt extenstion. If
+        you want to use custom View class, you need to overwrite <strong>registerViewComponent</strong> method in your
+        <strong>Module.php</strong>:
+    </p>
 
-<h4>Usage</h4>
+<pre class="php"><code>namespace Foo;
 
-<pre><code class="php">// always set the base element!
-$answers = new Cloneable('answers');
+class Module extends \Vegas\Mvc\ModuleAbstract
+{
+    public function __construct() {
+        $this->namespace = __NAMESPACE__;
+        $this->dir = __DIR__;
+    }
 
-$answers->setBaseElements(array(
-    new Text('field1'),
-    new Text('field2')
-);
-// and/or
-$answers->addBaseElement(new Text(''));
+    protected function registerViewComponent($di)
+    {
+        $di->set('view', function() use ($di) {
+            $viewDir = $this->dir . '/views';
+            $view = new CustomView($di->get('config')->application->view->toArray(), $viewDir);
 
-$answers->setLabel($this->i18n->_('Answers'));
-$answers->addValidator(new SizeOf(array('min' => 2, 'max' => 6)));
-$this->add($answers);</code></pre>
+            if (file_exists($viewDir)) {
+                $view->setViewsDir($viewDir);
+            }
 
-<p>
-    You can also add validators to base elements:
-</p>
+            $view->setEventsManager($di->getShared('eventsManager'));
+            return $view;
+        });
+    }
+}</code></pre>
 
-<pre><code class="php">$name = new Text('name');
-$name->addValidator(new PresenceOf());
+    <p>
+        <br/>
+        <code>Vegas\Mvc\View</code> extends <code>Phalcon\Mvc\View</code> with additional filters and helpers. In
+        addition you can use absolute path for layouts dir instead relative one.
+    </p>
 
-$answers->addBaseElement($name);</code></pre>
+    <h3 id="filters">New filters</h3>
 
+    <h4>toString</h4>
 
-<p>
-    It is possible to render cloneable field as one or get row and render each row element separately:
-</p>
+    <p>
+        Cast variable to string.
+    </p>
 
+    <p><strong>Usage</strong></p>
 
-<pre><code class="html">{{ form.get('answers') }}
-{% for row in form.get('answers').getRows() %}
-    &lt;tr&gt;
-        {% for item in row.getElements() %}
-            &lt;td&gt;{{ item }}&lt;/td&gt;
-        {% endfor %}
-    &lt;/tr&gt;
-{% endfor %}</code></pre>
+    
+    <pre class="twig"><code>{{ variable|toString }}</code></pre>
+    
 
+    <h3 id="helpers">New helpers</h3>
+
+    <h4>pagination</h4>
+
+    <p>
+        A simple tag for pagination rendering.
+    </p>
+
+    <p><strong>Tag interface</strong></p>
+
+    <pre class="php"><code>public function pagination($page, $options=array()) {
+    $defaultSettings = [
+        'start_end_offset' => 2,
+        'middle_offset' => 3
+    ];
+    $settings = array_merge($defaultSettings, $settings);
+}</code></pre>
+
+    <p><br/><strong>Usage</strong></p>
+
+    <p>Make a paginator instance in your controller action...</p>
+
+    <pre class="php"><code>$paginator = new \Vegas\Paginator\Adapter\ExampleAdapter(...);
+$this->view->page = $paginator->getPaginate();</code></pre>
+
+    <p><br/>... and use in volt template:</p>
+
+    
+    <pre class="twig"><code>{{ pagination(page[, options]) }}</code></pre>
+    
+
+    <h4>shortenText</h4>
+
+    <p>
+        Cut text to string of given length and remove all html tags.
+    </p>
+
+    <p><strong>Tag interface</strong></p>
+
+    <pre class="php"><code>public function shortenText($text, $length = 100, $endString = '...')
+{
+    //...
+}</code></pre>
+
+    <p><br/><strong>Usage</strong></p>
+
+    
+    <pre class="twig"><code>{{ shortenText(text[, length[, endString]]) }}</code></pre>
+    
 
             </div>
             <hr />

@@ -112,12 +112,21 @@
     Service provider loader generates file <strong>services.php</strong> inside <strong>app/config</strong> directory,
     which contains the list of available services in the application. In <i>development</i> environment, that file is generated
     on every request. In case of <i>production</i> environment loader use already generated file to setups services.
-    <br />
-    In the following example we register a scaffolding service.
-    <br />
-    <br />
-<pre class="php"><code>
-use Phalcon\DiInterface;
+    <br /><br />
+    Service provider must implements <code>Vegas\DI\ServiceProviderInterface</code> and must have constant
+    <strong>const SERVICE_NAME</strong> that contains name of service. <br />
+    The <strong>register</strong> method registers service in the <i>dependency injection</i> container.
+    Method <strong>getDependencies</strong> must returns an array (also empty array) with list of depencened services,
+    for example, <a href="#scaffolding">scaffolding</a> requires Mongo and CollectionManager service.
+</p>
+
+    <h3 id="examples">Examples</h3>
+
+    <h4 id="scaffolding">Scaffolding Service Provider</h4>
+
+    <p>In the following example we register a scaffolding service:</p>
+
+<pre class="php"><code>use Phalcon\DiInterface;
 use Vegas\DI\ServiceProviderInterface;
 use Vegas\DI\Scaffolding;
 
@@ -143,15 +152,6 @@ class ScaffoldingServiceProvider implements ServiceProviderInterface
     }
 }
 </code></pre>
-    <br />
-    Service provider must implements <strong>Vegas\DI\ServiceProviderInterface</strong> and must have constant
-    <strong>const SERVICE_NAME</strong> that contains name of service. <br />
-    The <strong>register</strong> method registers service in the <i>dependency injection</i> container.
-    Method <strong>getDependencies</strong> must returns an array (also empty array) with list of depencened services,
-    for example, <i>scaffolding</i> requires Mongo and CollectionManager service.
-</p>
-
-    <h3 id="examples">Examples</h3>
 
     <h4 id="i18n">I18n Service Provider</h4>
 
@@ -165,7 +165,6 @@ class ScaffoldingServiceProvider implements ServiceProviderInterface
 
 <pre class="php"><code>use Phalcon\DiInterface;
 use Vegas\DI\ServiceProviderInterface;
-use Phalcon\Mvc\Url as UrlResolver;
 
 class I18nServiceProvider implements ServiceProviderInterface
 {
