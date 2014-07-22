@@ -85,6 +85,7 @@
             </div>
                 <ul class="nav nav-sidebar">
         <li><a href="#register">Register a service</a></li>
+        <li><a href="#examples">Examples</a></li>
     </ul>
         </div>
         <div class="col-sm-12 main">
@@ -149,6 +150,51 @@ class ScaffoldingServiceProvider implements ServiceProviderInterface
     Method <strong>getDependencies</strong> must returns an array (also empty array) with list of depencened services,
     for example, <i>scaffolding</i> requires Mongo and CollectionManager service.
 </p>
+
+    <h3 id="examples">Examples</h3>
+
+    <h4 id="i18n">I18n Service Provider</h4>
+
+    <p>
+        In example below you can see Gettext based i18n service provider. For more informations about i18n adapters
+        available in Phalcon, check
+        <a href="https://github.com/phalcon/incubator/tree/master/Library/Phalcon/Translate/Adapter" target="_blank">
+            Phalcon Incubator
+        </a>.
+    </p>
+
+<pre class="php"><code>use Phalcon\DiInterface;
+use Vegas\DI\ServiceProviderInterface;
+use Phalcon\Mvc\Url as UrlResolver;
+
+class I18nServiceProvider implements ServiceProviderInterface
+{
+    const SERVICE_NAME = 'i18n';
+
+    /**
+     * {@inheritdoc}
+     */
+    public function register(DiInterface $di)
+    {
+        $config = $di->get('config');
+        $di->set('i18n', function() use ($config) {
+            return new \Phalcon\Translate\Adapter\Gettext(array(
+                'locale' => $config->application->language,
+                'file' => 'messages',
+                'directory' => APP_ROOT.'/lang'
+            ));
+        });
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDependencies()
+    {
+        return array();
+    }
+}</code></pre>
+
             </div>
             <hr />
             <div class="main-footer">

@@ -135,54 +135,14 @@ class FooController extends ControllerAbstract
     <p>
         <br/>
         <strong>_('Your string')</strong><br/>
-        Alias for <code>$this->i18n->_()</code>. It will work only if internationalization service is provided.
+        Alias for <code>$this->i18n->_()</code>. It will work only if
+        <a href="/1.0/guide/di/service-provider.html#i18n">internationalization service</a> is provided.
     </p>
 
 <pre class="php"><code>// ...
 public function indexAction()
 {
     $this->view->message = _('Your string');
-}</code></pre>
-
-    <p>
-        <br/>
-        In example below you can see Gettext based i18n service provider. For more informations about i18n adapters
-        available in Phalcon, check this
-        <a href="https://github.com/phalcon/incubator/tree/master/Library/Phalcon/Translate/Adapter" target="_blank">
-            Phalcon Incubator
-        </a>.
-    </p>
-
-<pre class="php"><code>use Phalcon\DiInterface;
-use Vegas\DI\ServiceProviderInterface;
-use Phalcon\Mvc\Url as UrlResolver;
-
-class I18nServiceProvider implements ServiceProviderInterface
-{
-    const SERVICE_NAME = 'i18n';
-
-    /**
-     * {@inheritdoc}
-     */
-    public function register(DiInterface $di)
-    {
-        $config = $di->get('config');
-        $di->set('i18n', function() use ($config) {
-            return new \Phalcon\Translate\Adapter\Gettext(array(
-                'locale' => $config->application->language,
-                'file' => 'messages',
-                'directory' => APP_ROOT.'/lang'
-            ));
-        });
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getDependencies()
-    {
-        return array();
-    }
 }</code></pre>
 
     <p>
