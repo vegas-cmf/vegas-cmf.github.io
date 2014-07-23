@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800' rel='stylesheet' type='text/css'/>
+
+    <title>Vegas CMF - Documentation</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/styles/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/styles/dashboard.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="http://highlightjs.org/static/styles/zenburn.css">
+    <style>
+        pre  {
+            padding: 0;
+            margin: 0;
+        }
+        code  {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/scripts/bootstrap.min.js" type="text/javascript"></script>
+    <script src="http://highlightjs.org/static/highlight.pack.js"></script>
+
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-version">
+            <div class="navbar-button">
+                <span class="glyphicon glyphicon-book"></span>
+                <div class="pull-right"><span class="active">v: 1.0 </span> <span class="caret"></span></div>
+            </div>
+            <div class="navbar-more">
+                <dl>
+                    <dt>Versions</dt>
+                    <dd><a href="#">latest</a></dd>
+                    <dd><a href="#">develop</a></dd>
+                    <dd><a href="#"><strong>1.0</strong></a></dd>
+                </dl>
+                <dl>
+                    <dt>Downloads</dt>
+                    <dd><a href="#">PDF</a></dd>
+                    <dd><a href="#">HTML</a></dd>
+                </dl>
+                <dl>
+                    <dt>On GitHub</dt>
+                    <dd><a href="#">Edit</a></dd>
+                </dl>
+            </div>
+        </div>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Vegas CMF Documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">About</a></li>
+                <li><a href="#">Learn</a></li>
+                <li><a href="#">Get Started</a></li>
+            </ul>
+        </div>
+    </div>
+</div><div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-4 col-md-4 sidebar">
+            <div class="sidebar-search">
+                <form>
+                    <input type="text" class="form-control" placeholder="Search docs" />
+                </form>
+            </div>
+                <ul class="nav nav-sidebar">
+        <li><a href="#crud">Behind the CRUD</a></li>
+    </ul>
+        </div>
+        <div class="col-sm-12 main">
+            <div class="main-header">
+                <ol class="breadcrumb">
+                        <li><a href="/">Vegas CMF</a></li>
+    <li><a href="/1.0/guide.html">Guide</a></li>
+    <li><a href="/1.0/guide.html#mvc">Mvc</a></li>
+    <li><a href="/1.0/guide/mvc/scaffolding.html">Scaffolding</a></li>
+                </ol>
+            </div>
+            <hr />
+            <div class="main-body">
+                
+    <h2>Scaffolding</h2>
+
+    <h3 id="crud">Behind the CRUD</h3>
+
+    <p>
+        Scaffolding is used by our <a href="/1.0/guide/mvc/controller.html#crud">CRUD controllers</a>. Thanks to this
+        additional layer of abstraction you can switch between different databases adapter without changing your controller
+        actions or attached events. Scaffolding should be <a href="/1.0/guide/di/service-provider.html#scaffolding">
+        registered as DI service</a>, therefore it can be used outside the CRUD.
+    </p>
+
+    <p>
+        In the following example we will use scaffolding with event manager to extend basic CRUD functionality:
+    </p>
+
+    <pre class="php"><code>namespace Foo\Controllers\Foo;
+
+use Phalcon\Forms\Element\Text;
+use Vegas\Mvc\Controller\Crud\Events;
+use Vegas\Mvc\Controller\Crud;
+
+class FooController extends Crud
+{
+    protected $formName = 'Foo\Forms\Foo';
+    protected $modelName = 'Foo\Models\Foo';
+
+    public function initialize()
+    {
+        parent::initialize();
+
+        $this->dispatcher->getEventsManager()->attach(Events::AFTER_CREATE, function () {
+            $this->changeFakeValue();
+            $this->redirect();
+        });
+
+        $this->dispatcher->getEventsManager()->attach(Events::AFTER_EDIT, function () {
+            $this->addExtraField();
+        });
+    }
+
+    // ...
+
+    private function changeFakeValue()
+    {
+        $record = $this->scaffolding->getRecord();
+        $record->fake = 'Fixed value';
+        $record->save();
+    }
+
+    private function addExtraField()
+    {
+        $form = $this->scaffolding->getForm($this->scaffolding->getRecord());
+
+        $field = new Text('extra_field');
+        $field->setLabel('Extra field');
+
+        $form->add($field);
+        $this->scaffolding->setForm($form);
+    }
+
+    public function redirect(){
+        $this->response->redirect(array(
+            'for' => 'foo/crud',
+            'action' => 'index',
+        ));
+    }
+}</code></pre>
+            </div>
+            <hr />
+            <div class="main-footer">
+    <div role="contentinfo">
+        <p>
+            &copy; 2014 Amsterdam Standard Sp. z o.o.
+        </p>
+    </div>
+</div>
+        </div>
+    </div>
+</div>
+<script>
+    hljs.configure({tabReplace: '    '});
+    hljs.initHighlightingOnLoad();
+</script>
+</body>
+</html>
+
