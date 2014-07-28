@@ -84,8 +84,8 @@
                 </form>
             </div>
                 <ul class="nav nav-sidebar">
-        <li><a href="#register">Register a service</a></li>
-        <li><a href="#examples">Examples</a></li>
+        <li><a href="#manager">Manager usage</a></li>
+        <li><a href="#components">"Components like" services</a></li>
     </ul>
         </div>
         <div class="col-sm-12 main">
@@ -94,134 +94,111 @@
                         <li><a href="/">Vegas CMF</a></li>
     <li><a href="/1.0/guide.html">Guide</a></li>
     <li><a href="/1.0/guide.html#di">Dependency Injection</a></li>
-    <li><a href="/1.0/guide/di/service-provider.html">Service provider</a></li>
+    <li><a href="/1.0/guide/di/service-manager.html">Service Manager</a></li>
                 </ol>
             </div>
             <hr />
             <div class="main-body">
-                <h2>Service Provider</h2>
-<p>
-    Service provider is responsible for registration services in the <i>dependency injection</i>.
-</p>
-
-<h3 id="register">Register a service</h3>
-<p>
-    To register a service, that will be accessible via dependency injection, just create a class named in the following format
-    <strong>NameOfService<i>ServiceProvider</i></strong> and put it into <strong>app/services</strong> directory.
-    <br />
-    During the bootstrap process, all service providers are registered in the <i>dependency injection</i> container.
-    Service provider loader generates file <strong>services.php</strong> inside <strong>app/config</strong> directory,
-    which contains the list of available services in the application. In <i>development</i> environment, that file is generated
-    on every request. In case of <i>production</i> environment loader use already generated file to setups services.
-    <br /><br />
-    Service provider must implements <code>Vegas\DI\ServiceProviderInterface</code> and must have constant
-    <strong>const SERVICE_NAME</strong> that contains name of service. <br />
-    The <strong>register</strong> method registers service in the <i>dependency injection</i> container.
-    Method <strong>getDependencies</strong> must returns an array (also empty array) with list of depencened services,
-    for example, <a href="#scaffolding">scaffolding</a> requires Mongo and CollectionManager service.
-</p>
-
-    <h3 id="examples">Examples</h3>
-
-    <h4 id="scaffolding">Scaffolding Service Provider</h4>
-
-    <p>In the following example we register a scaffolding service:</p>
-
-<pre class="php"><code>use Phalcon\DiInterface;
-use Vegas\DI\ServiceProviderInterface;
-use Vegas\DI\Scaffolding;
-
-class ScaffoldingServiceProvider implements ServiceProviderInterface
-{
-    const SERVICE_NAME = 'scaffolding';
-
-    /**
-     * {@inheritdoc}
-     */
-    public function register(DiInterface $di)
-    {
-        $adapter = new Scaffolding\Adapter\Mongo();
-        $di->set(self::SERVICE_NAME, new Scaffolding($adapter), true);
-    }
-
-    public function getDependencies()
-    {
-        return array(
-            MongoServiceProvider::SERVICE_NAME,
-            CollectionManagerServiceProvider::SERVICE_NAME
-        );
-    }
-}
-</code></pre>
-
-    <h4 id="i18n">I18n Service Provider</h4>
+                
+    <h2>Service Manager</h2>
 
     <p>
-        In example below you can see Gettext based i18n service provider. For more informations about i18n adapters
-        available in Phalcon, check
-        <a href="https://github.com/phalcon/incubator/tree/master/Library/Phalcon/Translate/Adapter" target="_blank">
-            Phalcon Incubator
-        </a>.
+        If you followed <a href="/1.0/guide/mvc/module.html">Vegas CMF module schema</a> <strong>Service Manager</strong>
+        will allow you to load services from your modules without building service providers for any of them. They would
+        be loaded "on the fly". Of course they can be shared and reused.
     </p>
 
-<pre class="php"><code>use Phalcon\DiInterface;
-use Vegas\DI\ServiceProviderInterface;
+    <h3 id="manager">Manager usage</h3>
 
-class I18nServiceProvider implements ServiceProviderInterface
+    <p>
+        Take a look of the code below with example <strong>Bar</strong> service in <strong>Foo</strong> module:
+    </p>
+
+    <pre class="php"><code>namespace Foo\Services;
+
+use Phalcon\DI\InjectionAwareInterface;
+use Vegas\DI\InjectionAwareTrait;
+
+class Bar implements InjectionAwareInterface
 {
-    const SERVICE_NAME = 'i18n';
+    use InjectionAwareTrait;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function register(DiInterface $di)
+    public function baz()
     {
-        $config = $di->get('config');
-        $di->set('i18n', function() use ($config) {
-            return new \Phalcon\Translate\Adapter\Gettext(array(
-                'locale' => $config->application->language,
-                'file' => 'messages',
-                'directory' => APP_ROOT.'/lang'
-            ));
-        });
+        // do something
     }
+} </code></pre>
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDependencies()
-    {
-        return array();
-    }
-}</code></pre>
+    <p>
+        <br/>
+        <strong>Usage in controller:</strong>
+    </p>
 
-    <h4 id="assets">Assets Manager Service Provider</h4>
+    <pre class="php"><code>$this->serviceManager->getService('foo:bar')->baz();</code></pre>
 
-    <p>In the following example we register default Vegas CMF assets manager service:</p>
+    <p>
+        <br/>
+        <strong>Usage in class with injected DI:</strong>
+    </p>
 
-    <pre class="php"><code>use Phalcon\DiInterface;
-use Vegas\DI\ServiceProviderInterface;
+    <pre class="php"><code>$this->getDI()->get('serviceManager')->getService('foo:bar')->baz();</code></pre>
+
+    <p>
+        <br/>
+        <strong>Usage in volt template:</strong>
+    </p>
+
+    
+    <pre class="twig"><code>{{ serviceManager.getService('foo:bar').baz() }}</code></pre>
+    
+
+    <h3 id="components">"Components like" services</h3>
+
+    <p>
+        Sometimes you may want to use part of business logic along with rendering small template and include the whole
+        thing in several places through the application. In situation like this <strong>component services</strong>
+        can be useful. Extending typical service with <code>\Vegas\DI\Service\ComponentAbstract</code> class will give
+        you additional <code>render([$params])</code> method. Optional <code>$params</code> array will be passed to
+        <code>setUp</code> method.
+    </p>
+
+    <pre class="php"><code>namespace Foo\Services;
 
 /**
- * Class AssetsServiceProvider
+ * Class SuperBar
+ * @package Foo\Services
  */
-class AssetsServiceProvider implements ServiceProviderInterface
+class SuperBar extends \Vegas\DI\Service\ComponentAbstract
 {
-    const SERVICE_NAME = 'assets';
-
-    /**
-     * {@inheritdoc}
-     */
-    public function register(DiInterface $di)
+    protected function setUp($params = array())
     {
-        $di->set(self::SERVICE_NAME, '\Vegas\Assets\Manager', true);
-    }
+        // do something with params
+        if (empty($params['data']) {
+            $params['data'] = 'foobar';
+        }
 
-    public function getDependencies()
-    {
-        return array();
+        return array('data' => $params['data']);
     }
 }</code></pre>
+
+    <p>
+        <br/>
+        Template for SuperBar service should be placed in <code>app/modules/Foo/views/services/superBar.volt</code>.
+        Code may look like:
+    </p>
+
+    
+    <pre class="twig"><code>This is data: {{ data }}</code></pre>
+    
+
+    <p>
+        <br/>
+        In volt templates you can render this service using code below:
+    </p>
+
+    
+    <pre class="twig"><code>{{ serviceManager.getService('foo:superBar').render() }}</code></pre>
+    
 
             </div>
             <hr />
