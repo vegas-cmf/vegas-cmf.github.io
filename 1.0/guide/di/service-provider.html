@@ -194,6 +194,34 @@ class I18nServiceProvider implements ServiceProviderInterface
     }
 }</code></pre>
 
+    <h4 id="assets">Assets Manager Service Provider</h4>
+
+    <p>In the following example we register default Vegas CMF assets manager service:</p>
+
+    <pre class="php"><code>use Phalcon\DiInterface;
+use Vegas\DI\ServiceProviderInterface;
+
+/**
+ * Class AssetsServiceProvider
+ */
+class AssetsServiceProvider implements ServiceProviderInterface
+{
+    const SERVICE_NAME = 'assets';
+
+    /**
+     * {@inheritdoc}
+     */
+    public function register(DiInterface $di)
+    {
+        $di->set(self::SERVICE_NAME, '\Vegas\Assets\Manager', true);
+    }
+
+    public function getDependencies()
+    {
+        return array();
+    }
+}</code></pre>
+
             </div>
             <hr />
             <div class="main-footer">
