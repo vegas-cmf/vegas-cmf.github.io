@@ -84,8 +84,10 @@
                 </form>
             </div>
                 <ul class="nav nav-sidebar">
-        <li><a href="/1.0/getting-started/requirements.html">Requirements</a></li>
-        <li><a href="/1.0/getting-started/vegaser.html">Vegaser Tool</a></li>
+        <li><a href="#description">Description</a></li>
+        <li><a href="#setup">Setup</a></li>
+        <li><a href="#example">Example usage</a></li>
+        <li><a href="#dataproviders">Data providers</a></li>
     </ul>
         </div>
         <div class="col-sm-12 main">
@@ -101,7 +103,7 @@
             <div class="main-body">
                 <h2>FormBuilder</h2>
 
-<h3>Description</h3>
+<h3 id="description">Description</h3>
 
 <p>
     This part of Forms lib allows user to create custom forms in runtime and store
@@ -139,7 +141,7 @@
     <li>Data provider - available options, applicable only to select lists - see <a href="#dataproviders">Data providers</a></li>
 </ul>
 
-<h3>Setup</h3>
+<h3 id="setup">Setup</h3>
 
 <p>
     To make FormBuilder available in the application, you have to create a <a href="/1.0/guide/di/service-provider.html">service provider</a>
@@ -176,7 +178,7 @@ class FormFactoryServiceProvider implements ServiceProviderInterface
 </code></pre>
 </p>
 
-<h3>Example use</h3>
+<h3 id="example">Example usage</h3>
 <p>
     The example below show how to put some logic - it covers submitting form data
     into some URL address. We assume <strong>i18n</strong> service is enabled
@@ -452,6 +454,12 @@ class FooController extends Controller\Crud
 </code></pre>
     </li>
 </ol>
+
+<p>
+    Finally, build a form named <i>Bar form</i> using <code>[APP_URL]/admin/form/new</code> address.
+    <br />
+    As a result, generated slug will be <code>bar-form</code>, the form will be available on <code>[APP_URL]/form/bar-form</code>.
+</p>
 
 <h3 id="dataproviders">Data providers</h3>
 
