@@ -244,6 +244,12 @@ sudo service apache2 restart</code></pre>
 </td>
 <td style="vertical-align: top;">
 <br>
+<p>Install php5-fpm</p>
+<pre><code class="shell">sudo apt-get install php5-fpm</code></pre>
+<br>
+<p>Find line similar to "listen = /var/run/php5-fpm.sock" inside www.conf file and copy its value. You will later paste it in "fastcgi_pass unix:" option of nginx virtual host.</p>
+<pre><code class="shell">sudo vim /etc/php5/fpm/pool.d/www.conf</code></pre>
+<br>
 <p>Create virtual host file</p>
 <pre><code class="shell">//Ubuntu
 cd /etc/nginx/sites-available/
@@ -293,7 +299,7 @@ sudo vim vegas-test.conf
 
         ##fastcgi_pass 127.0.0.1:9000;
         ## Or use unix-socket with &#039;fastcgi_pass unix:/var/run/php5-fpm.sock;&#039;
-        fastcgi_pass unix:/var/run/php5-fpm-vegas-test.local.sock;
+        fastcgi_pass unix:/var/run/php5-fpm.sock; #value is copied as described above
     }
 
     location ~* ^/(css|img|js|flv|swf|download)/(.+)$ {

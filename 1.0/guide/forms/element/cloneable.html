@@ -112,19 +112,31 @@
 
 <h4 id="minimal">Minimal configuration</h4>
 
-<pre class="php"><code>// always set the base element!
-$answers = new Cloneable('answers');
+<pre class="php"><code>namespace Foo\Forms;
 
-$answers->setBaseElements(array(
-    new Text('field1'),
-    new Text('field2')
-);
-// and/or
-$answers->addBaseElement(new Text(''));
+use Phalcon\Forms\Element\Text;
 
-$answers->setAssetsManager($this->assets);
+class Bar extends \Vegas\Forms\Form
+{
+    public function initialize()
+    {
+        // always set the base element!
+        $answers = new Cloneable('answers');
 
-$this->add($answers);</code></pre>
+        $answers->setBaseElements(array(
+            new Text('field1'),
+            new Text('field2')
+        );
+        // and/or
+        $answers->addBaseElement(new Text(''));
+
+        $answers->setAssetsManager($this->assets);
+
+        $this->add($answers);
+
+        // ...
+    }
+}</code></pre>
 
 <p>
     <br/>
@@ -149,20 +161,34 @@ $this->add($answers);</code></pre>
         As you can see in the code below, you can also add validators to the base elements and enable sortable option:
     </p>
 
-    <pre class="php"><code>$name = new Text('name');
-$name->addValidator(new PresenceOf());
+    <pre class="php"><code>namespace Foo\Forms;
 
-$lastname = new Text('lastname');
-$lastname->addValidator(new PresenceOf());
+use Phalcon\Forms\Element\Text;
+use Vegas\Validation\Validator\PresenceOf;
+use Vegas\Validation\Validator\SizeOf;
 
-$man = new Cloneable('list_of_man');
-$man->setLabel($this->i18n->_('Answers'));
-$man->setBaseElements(array($name, $lastname));
-$man->addValidator(new SizeOf(array('min' => 2, 'max' => 6)));
-$man->setAssetsManager($this->assets);
-$man->setUserOption('sortable', true);
+class Bar extends \Vegas\Forms\Form
+{
+    public function initialize()
+    {
+        $name = new Text('name');
+        $name->addValidator(new PresenceOf());
 
-$this->add($man);</code></pre>
+        $lastname = new Text('lastname');
+        $lastname->addValidator(new PresenceOf());
+
+        $man = new Cloneable('list_of_man');
+        $man->setLabel($this->i18n->_('Answers'));
+        $man->setBaseElements(array($name, $lastname));
+        $man->addValidator(new SizeOf(array('min' => 2, 'max' => 6)));
+        $man->setAssetsManager($this->assets);
+        $man->setUserOption('sortable', true);
+
+        $this->add($man);
+
+        // ...
+    }
+}</code></pre>
 
     <p>
         <br/>
@@ -209,19 +235,7 @@ $this->add($man);</code></pre>
     },
     'sortable': {
         'callback': function() {
-            var orderIndicator = 0;
-
-            $(options.row.selector).each(function() {
-                $(this).find(':input').each(function() {
-                    var matches = $(this).attr('name').match(/([^\[]*\[)(\d+)(\].*)/);
-
-                    if (matches) {
-                        $(this).attr('name', matches[1]+orderIndicator+matches[3]);
-                    }
-                });
-
-                orderIndicator++;
-            });
+            // your custom callback to replace cloneable default
         }
     }
 }</code></pre>
