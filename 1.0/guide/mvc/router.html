@@ -149,6 +149,9 @@ return array(
             <a href="#route-types-static">Static</a>
         </li>
         <li>
+            <a href="#route-types-base">Base</a>
+        </li>
+        <li>
             <a href="#route-types-rest">Rest</a>
         </li>
         <li>
@@ -189,6 +192,24 @@ return array(
             'action'    =>  'login'
         ),
         'type' => 'static'
+    )
+);</code></pre>
+</p>
+
+<h4 id="route-types-base">Base route</h4>
+<p>
+    In opposite to <strong>static route</strong>, base route will be overwritten by any other rule and route type.
+    <br />
+<pre class="php"><code>
+return array(
+    'default-page' =>  array(
+        'route' =>  '/{slug}',
+        'paths' =>  array(
+            'module' => 'Default',
+            'controller'    =>  'Frontend\Page',
+            'action'    =>  'show'
+        ),
+        'type' => 'base'
     )
 );</code></pre>
 </p>
