@@ -91,12 +91,38 @@
     <li><a href="/1.0/guide.html">Guide</a></li>
     <li><a href="/1.0/guide.html#forms">Forms</a></li>
     <li><a href="/1.0/guide.html#element">Element</a></li>
-    <li class="active"><a href="/1.0/guide/forms/element/cloneable.html">Datepicker</a></li>
+    <li class="active"><a href="/1.0/guide/forms/element/datepicker.html">Datepicker</a></li>
                 </ol>
             </div>
             <hr />
             <div class="main-body">
-                
+                    <h2>Vegas CMF Form Elements</h2>
+
+    <h3>Vegas\Forms\Element\Datepicker</h3>
+
+    <p>
+        Simple input with <a href="http://eonasdan.github.io/bootstrap-datetimepicker/" target="_blank">bootstrap-datetimepicker</a>.
+        By default, date will be saved as timestamp.<br/><br/>
+        All required js and css files are included in vegas library.
+        Check <a href="/1.0/guide/forms/installation.html">installation</a> guide for more details.
+    </p>
+
+    <h4 id="configuration">Configuration</h4>
+
+    <pre class="php"><code>namespace Foo\Forms;
+
+use Vegas\Forms\Element\Datepicker;
+
+class Bar extends \Vegas\Forms\Form
+{
+    public function initialize()
+    {
+        $date = new Datepicker('date');
+        $date->setAssetsManager($this->assets);
+
+        // ...
+    }
+}</code></pre>
             </div>
             <hr />
             <div class="main-footer">

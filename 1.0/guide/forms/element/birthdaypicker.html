@@ -84,8 +84,8 @@
                 </form>
             </div>
                 <ul class="nav nav-sidebar">
-        <li><a href="/1.0/getting-started/requirements.html">Requirements</a></li>
-        <li><a href="/1.0/getting-started/vegaser.html">Vegaser Tool</a></li>
+        <li><a href="/1.0/guide/forms/element/birthdaypicker.html#configuration">Configuration</a></li>
+        <li><a href="/1.0/guide/forms/element/birthdaypicker.html#saved-value">Saved value</a></li>
     </ul>
         </div>
         <div class="col-sm-12 main">
@@ -94,33 +94,54 @@
                         <li><a href="/">Vegas CMF</a></li>
     <li><a href="/1.0/guide.html">Guide</a></li>
     <li><a href="/1.0/guide.html#forms">Forms</a></li>
-    <li class="active"><a href="/1.0/guide/forms/installation.html">Requirements/installation</a></li>
+    <li><a href="/1.0/guide.html#element">Element</a></li>
+    <li class="active"><a href="/1.0/guide/forms/element/birthdaypicker.html">Birthdaypicker</a></li>
                 </ol>
             </div>
             <hr />
             <div class="main-body">
-                <h2>Vegas CMF Guide</h2>
+                    <h2>Vegas CMF Form Elements</h2>
 
-<h3>Forms library</h3>
+    <h3>Vegas\Forms\Element\Birthdaypicker</h3>
 
-<h4>Requirements</h4>
+    <p>
+        Simple input with <a href="http://eonasdan.github.io/bootstrap-datetimepicker/" target="_blank">bootstrap-datetimepicker</a>.
+        By default, date will be saved as array, read <a href="#saved-value">saved value</a> part for more details.<br/><br/>
+        All required js and css files are included in vegas library.
+        Check <a href="/1.0/guide/forms/installation.html">installation</a> guide for more details.
+    </p>
 
-<p>
-    Forms lib <b>do not</b> use <i>vegas-cmf-core</i> lib. Only requirements is php 5.4+ with
-    <a href="http://phalconphp.com/en/" target="_blank">phalcon 1.3.x</a> installed.
-</p>
+    <h4 id="configuration">Configuration</h4>
 
-<h4>Installation</h4>
+    <pre class="php"><code>namespace Foo\Forms;
 
-<p>Add <i>vegas-cmf-forms</i> to your composer.json. Run:</p>
+use Vegas\Forms\Element\Birthdaypicker;
 
-    <pre class="shell"><code>php composer.phar update</code></pre>
+class Bar extends \Vegas\Forms\Form
+{
+    public function initialize()
+    {
+        $date = new Birthdaypicker('date');
+        $date->setAssetsManager($this->assets);
 
-<p><br/>Copy <code>/vegas-cmf/forms/assets</code> from your composer vendor to your project public directory.</p>
+        // ...
+    }
+}</code></pre>
 
-<p>If you have <b>vegas-cmf-core</b> with CLI installed, you can copy those files automaticaly by using command:</p>
+    <h4 id="saved-value">Saved value</h4>
 
-    <pre class="shell"><code>php /path/to/cli.php vegas:assets publish</code></pre>
+    <p>
+        Lets assume that you will choose <i>1984-10-14</i> in datepicker and submit form with filled <strong>date</strong> field.
+        Binding model with given form will give you following results:
+    </p>
+
+    <pre class="php"><code>
+$form = new Foo\Forms\Bar();
+$form->bind($postData, $model);
+
+echo $model->date['year']; // output: 1984
+echo $model->date['month']; // output: 10
+echo $model->date['day']; // output: 14</code></pre>
             </div>
             <hr />
             <div class="main-footer">
