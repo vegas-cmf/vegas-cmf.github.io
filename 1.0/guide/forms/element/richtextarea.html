@@ -83,7 +83,11 @@
                     <input type="text" class="form-control" placeholder="Search docs" />
                 </form>
             </div>
-                    </div>
+                <ul class="nav nav-sidebar">
+        <li><a href="/1.0/guide/forms/element/richtextarea.html#configuration">Configuration</a></li>
+        <li><a href="/1.0/guide/forms/element/richtextarea.html#filemanager">File manager</a></li>
+    </ul>
+        </div>
         <div class="col-sm-12 main">
             <div class="main-header">
                 <ol class="breadcrumb">
@@ -101,9 +105,145 @@
     <h3>Vegas\Forms\Element\RichTextArea</h3>
 
     <p>
-        TextArea extension with <a href="http://ckeditor.com/" target="_blank">ckEditor</a>.
+        TextArea extension with <a href="http://ckeditor.com/" target="_blank">ckEditor</a>.<br/><br/>
+        All required js and css files are included in vegas library.
+        Check <a href="/1.0/guide/forms/installation.html">installation</a> guide for more details.
     </p>
 
+    <h4 id="configuration">Configuration</h4>
+
+    <pre class="php"><code>namespace Foo\Forms;
+
+use Vegas\Forms\Element\RichTextArea;
+
+class Bar extends \Vegas\Forms\Form
+{
+    public function initialize()
+    {
+        $content = new RichTextArea('content');
+        $content->setAssetsManager($this->assets);
+
+        // ...
+    }
+}</code></pre>
+
+    <br/>
+    <h4 id="filemanager">File manager</h4>
+
+    <p>
+        In forms assets we already included <a href="https://github.com/Studio-42/elFinder" target="_blank">ElFinder</a>
+        library with html templates. It is used as default file manager for <strong>RichTextArea</strong> element.
+        <br/><br/>
+        To make if fully functional we need to create additional module. Creation of example FileManager module will be
+        featured below:
+    </p>
+
+    <ol>
+    <li>Create a module named <strong>FileManager</strong> with the following directory structure:
+<pre><code>FileManager
+├── config
+|   ├── config.php
+|   └── routes.php
+├── controllers
+|   └── frontend
+|       └── ManagerController.php
+├── services
+|   └── Adapter
+|       ├── ElFinder
+|       └── ElFinder.php
+└── Module.php
+</code></pre>
+    </li>
+    <li>
+        Put <a href="https://github.com/Studio-42/elFinder/tree/2.x/php" target="_blank">ElFinder php classes</a> to
+        <code>services\Adapter\Elfinder</code> directory. <strong>ElFinder.php</strong> service should look like:
+        <pre><code class="php">namespace FileManager\Services\Adapter;
+
+use Phalcon\DI\InjectionAwareInterface;
+use Vegas\DI\InjectionAwareTrait;
+use Vegas\Utils\Path;
+
+define('ADAPTER_PATH', dirname(__FILE__) . '/ElFinder/');
+include_once ADAPTER_PATH.'elFinderConnector.class.php';
+include_once ADAPTER_PATH.'elFinder.class.php';
+include_once ADAPTER_PATH.'elFinderVolumeDriver.class.php';
+include_once ADAPTER_PATH.'elFinderVolumeLocalFileSystem.class.php';
+
+class ElFinder implements InjectionAwareInterface
+{
+
+    use InjectionAwareTrait;
+
+    public function getConnector()
+    {
+        error_reporting(0);
+        /**
+         * Simple function to demonstrate how to control file access using "accessControl" callback.
+         * This method will disable accessing files/folders starting from '.' (dot)
+         *
+         * @param  string $attr attribute name (read|write|locked|hidden)
+         * @param  string $path file path relative to volume root directory started with directory separator
+         * @param $data
+         * @param $volume
+         * @return bool|null
+         */
+        function access($attr, $path, $data, $volume) {
+            return strpos(basename($path), '.') === 0       // if file/folder begins with '.' (dot)
+                ? !($attr == 'read' || $attr == 'write')    // set read+write to false, other (locked+hidden) set to true
+                :  null;                                    // else elFinder decide it itself
+        }
+
+        // Documentation for connector options:
+        // https://github.com/Studio-42/elFinder/wiki/Connector-configuration-options
+        $opts = array(
+            // 'debug' => true,
+            'roots' => array(
+                array(
+                    'driver'        => 'LocalFileSystem',   // driver for accessing file system (REQUIRED)
+                    'path'          => Path::getPublicPath() . '/upload',       // path to files (REQUIRED)
+                    'URL'           => Path::getRelativePath(false).'upload', // URL to files (REQUIRED)
+                    'accessControl' => 'access'             // disable and hide dot starting files (OPTIONAL)
+                )
+            )
+        );
+
+        // run elFinder
+        $connector = new \elFinderConnector(new \elFinder($opts));
+        $connector->run();
+    }
+} </code></pre>
+    </li>
+    <li>Fill frontend <strong>ManagerController.php</strong> with following code:
+<pre><code class="php">namespace FileManager\Controllers\Frontend;
+
+use Vegas\Mvc\Controller\ControllerAbstract;
+use Vegas\Utils\Path;
+
+class ManagerController extends ControllerAbstract
+{
+    public function indexAction()
+    {
+        $elFinder = $this->serviceManager->getService('fileManager:adapter\ElFinder');
+        $elFinder->getConnector();
+    }
+}</code></pre>
+    </li>
+    <li>Add route below to <code>routes.php</code>:
+<pre><code class="php">return [
+    'file-manager' => [
+        'route' => '/file-manager',
+        'paths' => [
+            'module' => 'FileManager',
+            'controller' => 'Frontend\Manager',
+            'action' => 'index'
+        ],
+        'static' => true
+    ]
+];</code></pre>
+    </li>
+    <li>In addition you can edit html templates for ElFinder, placed by default in <code>public/assets/html/ui</code>
+        directory.</li>
+</ol>
             </div>
             <hr />
             <div class="main-footer">
