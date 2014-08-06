@@ -96,7 +96,33 @@
             </div>
             <hr />
             <div class="main-body">
-                
+                    <h2>Vegas CMF Form Elements</h2>
+
+    <h3>Vegas\Forms\Element\Timepicker</h3>
+
+    <p>
+        Simple input with <a href="http://eonasdan.github.io/bootstrap-datetimepicker/" target="_blank">bootstrap-datetimepicker</a>.
+        By default, time will be saved as string with <i>HH:mm</i> format.<br/><br/>
+        All required js and css files are included in vegas library.
+        Check <a href="/1.0/guide/forms/installation.html">installation</a> guide for more details.
+    </p>
+
+    <h4 id="configuration">Configuration</h4>
+
+    <pre class="php"><code>namespace Foo\Forms;
+
+use Vegas\Forms\Element\Timepicker;
+
+class Bar extends \Vegas\Forms\Form
+{
+    public function initialize()
+    {
+        $time = new Timepicker('time');
+        $time->setAssetsManager($this->assets);
+
+        // ...
+    }
+}</code></pre>
             </div>
             <hr />
             <div class="main-footer">

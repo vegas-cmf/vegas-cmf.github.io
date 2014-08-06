@@ -96,7 +96,34 @@
             </div>
             <hr />
             <div class="main-body">
-                
+                    <h2>Vegas CMF Form Elements</h2>
+
+    <h3>Vegas\Forms\Element\Select</h3>
+
+    <p>
+        Phalcon framework Select element extended with additional <strong>addOptions</strong> method that allows to add
+        multiple options at once when providing just one array. Added options are merged with those already set.
+    </p>
+
+    <h4 id="configuration">Configuration</h4>
+
+    <pre class="php"><code>namespace Foo\Forms;
+
+use Vegas\Forms\Element\Select;
+
+class Bar extends \Vegas\Forms\Form
+{
+    public function initialize()
+    {
+        $roles = new Select('roles');
+        $roles->addOptions([
+            'key1' => 'value1',
+            'key2' => 'value2'
+        ]);
+
+        // ...
+    }
+}</code></pre>
             </div>
             <hr />
             <div class="main-footer">

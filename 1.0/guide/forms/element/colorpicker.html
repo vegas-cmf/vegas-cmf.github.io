@@ -96,7 +96,35 @@
             </div>
             <hr />
             <div class="main-body">
-                
+                    <h2>Vegas CMF Form Elements</h2>
+
+    <h3>Vegas\Forms\Element\Colorpicker</h3>
+
+    <p>
+        <strong>Colorpicker</strong> is input field element with
+        <a href="https://github.com/mjolnic/bootstrap-colorpicker" target="_blank">Bootstrap Colorpicker</a> included.
+        Chosen color is saved as hex string (example: '#000000' for black).
+        <br/><br/>
+        All required js and css files are included in vegas library.
+        Check <a href="/1.0/guide/forms/installation.html">installation</a> guide for more details.
+    </p>
+
+    <h4 id="configuration">Configuration</h4>
+
+    <pre class="php"><code>namespace Foo\Forms;
+
+use Vegas\Forms\Element\Colorpicker;
+
+class Bar extends \Vegas\Forms\Form
+{
+    public function initialize()
+    {
+        $background = new Colorpicker('background');
+        $background->setAssetsManager($this->assets);
+
+        // ...
+    }
+}</code></pre>
             </div>
             <hr />
             <div class="main-footer">
