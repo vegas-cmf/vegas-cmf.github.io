@@ -7,3 +7,7 @@ h3 {
 .mgl4 {
     margin-left:40px;
 }
+
+a.empty {
+    text-decoration:line-through;
+}
