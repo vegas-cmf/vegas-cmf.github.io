@@ -89,46 +89,59 @@
                 <ol class="breadcrumb">
                         <li><a href="/">Vegas CMF</a></li>
     <li><a href="/1.0/guide.html">Guide</a></li>
-    <li><a href="/1.0/guide.html#forms">Forms</a></li>
-    <li><a href="/1.0/guide.html#form-element">Element</a></li>
-    <li class="active"><a href="/1.0/guide/forms/element/multiselect.html">MultiSelect</a></li>
+    <li><a href="/1.0/guide.html#validation">Validation</a></li>
+    <li class="active"><a href="/1.0/guide/validation/vvalidatortrait.html">Validator Trait</a></li>
                 </ol>
             </div>
             <hr />
             <div class="main-body">
-                    <h2>Vegas CMF Form Elements</h2>
+                    <h2>Vegas CMF Validation</h2>
 
-    <h3>Vegas\Forms\Element\MultiSelect</h3>
+    <h3>Vegas\Validation\ValidatorTrait</h3>
+
+    <h4>Description</h4>
 
     <p>
-        Extended Select element, with possiblity of selecting multiple values. Visual part is provided by
-        <a href="http://loudev.com/" target="_blank">jquery.multiselect.js</a> - drop-in replacement for the standard
-        &lt;select&gt;.<br/><br/>
-        All required js and css files are included in vegas library.
-        Check <a href="/1.0/guide/forms/installation.html">installation</a> guide for more details.
+        You can use this trait to change validator behavior. Class will validate not only single values but also each
+        of arrayed values.
     </p>
 
-    <h4 id="configuration">Configuration</h4>
+    <h4>Usage</h4>
 
-    <pre class="php"><code>namespace Foo\Forms;
+<pre class="php"><code>use Phalcon\Validation\Validator;
+use Phalcon\Validation\Message;
 
-use Vegas\Forms\Element\MultiSelect;
-
-class Bar extends \Vegas\Forms\Form
+class Email extends Validator
 {
-    public function initialize()
-    {
-        $roles = new MultiSelect('roles');
-        $roles->setAssetsManager($this->assets);
-        $roles->addOptions([
-            'key1' => 'value1',
-            'key2' => 'value2'
-        ]);
-        $this->add($roles);
+    use \Vegas\Validation\ValidatorTrait;
 
-        // ....
+    protected function validateSingle($value)
+    {
+        if ($value && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
+            $this->validator->appendMessage(new Message($this->getMessage(), $this->attribute, 'Email'));
+    return false;
+    }
+
+    return true;
+    }
+
+    private function getMessage()
+    {
+    $message = $this->getOption('message');
+    if (!$message) {
+    $message = 'One of the emails is not valid.';
+    }
+
+    return $message;
     }
 }</code></pre>
+
+    <p>
+        <br/>
+        All validators from Vegas CMF Validation package are using <code>Vegas\Validation\ValidatorTrait</code>
+        to validate both single and array values.
+    </p>
+
             </div>
             <hr />
             <div class="main-footer">

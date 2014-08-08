@@ -90,7 +90,7 @@
                         <li><a href="/">Vegas CMF</a></li>
     <li><a href="/1.0/guide.html">Guide</a></li>
     <li><a href="/1.0/guide.html#forms">Forms</a></li>
-    <li><a href="/1.0/guide.html#element">Element</a></li>
+    <li><a href="/1.0/guide.html#form-element">Element</a></li>
     <li class="active"><a href="/1.0/guide/forms/element/timepicker.html">Timepicker</a></li>
                 </ol>
             </div>
@@ -119,6 +119,7 @@ class Bar extends \Vegas\Forms\Form
     {
         $time = new Timepicker('time');
         $time->setAssetsManager($this->assets);
+        $this->add($time);
 
         // ...
     }

@@ -89,44 +89,40 @@
                 <ol class="breadcrumb">
                         <li><a href="/">Vegas CMF</a></li>
     <li><a href="/1.0/guide.html">Guide</a></li>
-    <li><a href="/1.0/guide.html#forms">Forms</a></li>
-    <li><a href="/1.0/guide.html#form-element">Element</a></li>
-    <li class="active"><a href="/1.0/guide/forms/element/multiselect.html">MultiSelect</a></li>
+    <li><a href="/1.0/guide.html#validation">Validation</a></li>
+    <li><a href="/1.0/guide.html#validator">Validator</a></li>
+    <li class="active"><a href="/1.0/guide/validation/validator/identical.html">Identical</a></li>
                 </ol>
             </div>
             <hr />
             <div class="main-body">
-                    <h2>Vegas CMF Form Elements</h2>
+                    <h2>Vegas CMF Validation</h2>
 
-    <h3>Vegas\Forms\Element\MultiSelect</h3>
+    <h3>Vegas\Validation\Validator\Identical</h3>
 
     <p>
-        Extended Select element, with possiblity of selecting multiple values. Visual part is provided by
-        <a href="http://loudev.com/" target="_blank">jquery.multiselect.js</a> - drop-in replacement for the standard
-        &lt;select&gt;.<br/><br/>
-        All required js and css files are included in vegas library.
-        Check <a href="/1.0/guide/forms/installation.html">installation</a> guide for more details.
+        This is extended version of <a href="http://docs.phalconphp.com/pl/latest/api/Phalcon_Validation_Validator_Identical.html" target="_blank">Phalcon\Validation\Validator\Identical</a>
+        with <a href="/1.0/guide/validation/validatortrait.html">Validator Trait</a> implemented.
     </p>
 
-    <h4 id="configuration">Configuration</h4>
+    <h4 id="example">Example</h4>
 
     <pre class="php"><code>namespace Foo\Forms;
 
-use Vegas\Forms\Element\MultiSelect;
+use Phalcon\Forms\Element\Text;
+use Vegas\Validation\Validator\Identical;
 
 class Bar extends \Vegas\Forms\Form
 {
     public function initialize()
     {
-        $roles = new MultiSelect('roles');
-        $roles->setAssetsManager($this->assets);
-        $roles->addOptions([
-            'key1' => 'value1',
-            'key2' => 'value2'
-        ]);
-        $this->add($roles);
+        $terms = new Text('terms');
+        $terms->addValidator(new Identical(array(
+            'value' => 'yes'
+        ));
+        $this->add($terms);
 
-        // ....
+        // ...
     }
 }</code></pre>
             </div>
