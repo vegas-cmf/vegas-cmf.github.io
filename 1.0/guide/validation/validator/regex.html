@@ -91,17 +91,17 @@
     <li><a href="/1.0/guide.html">Guide</a></li>
     <li><a href="/1.0/guide.html#validation">Validation</a></li>
     <li><a href="/1.0/guide.html#validator">Validator</a></li>
-    <li class="active"><a href="/1.0/guide/validation/validator/email.html">Email</a></li>
+    <li class="active"><a href="/1.0/guide/validation/validator/regex.html">Regex</a></li>
                 </ol>
             </div>
             <hr />
             <div class="main-body">
                     <h2>Vegas CMF Validation</h2>
 
-    <h3>Vegas\Validation\Validator\Email</h3>
+    <h3>Vegas\Validation\Validator\Regex</h3>
 
     <p>
-        This is extended version of <a href="http://docs.phalconphp.com/pl/latest/api/Phalcon_Validation_Validator_Email.html" target="_blank">Phalcon\Validation\Validator\Email</a>
+        This is extended version of <a href="http://docs.phalconphp.com/pl/latest/api/Phalcon_Validation_Validator_Regex.html" target="_blank">Phalcon\Validation\Validator\Regex</a>
         with <a href="/1.0/guide/validation/validatortrait.html">Validator Trait</a> implemented.
     </p>
 
@@ -110,17 +110,15 @@
     <pre class="php"><code>namespace Foo\Forms;
 
 use Phalcon\Forms\Element\Text;
-use Vegas\Validation\Validator\Email;
+use Vegas\Validation\Validator\Regex;
 
 class Bar extends \Vegas\Forms\Form
 {
     public function initialize()
     {
-        $email = new Text('email');
-        $email->addValidator(new Email([
-            'message' => $this->i18n->_('This is not a valid e-mail address!')
-        ]));
-        $this->add($grade);
+        $foobar = new Text('foobar');
+        $foobar->addValidator(new Regex(['pattern' => '/[abfor]{6}/']));
+        $this->add($foobar);
 
         // ...
     }

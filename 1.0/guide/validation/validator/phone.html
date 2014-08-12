@@ -117,9 +117,9 @@ class Bar extends \Vegas\Forms\Form
     public function initialize()
     {
         $phone = new Text('phone');
-        $phone->addValidator(new Phone(array(
+        $phone->addValidator(new Phone([
             'message' => $this->i18n->_('The phone number should be in the +XX XXXXXXXXX or XXXX XXXXXXXXX format.')
-        ));
+        ]));
         $this->add($phone);
 
         // ...

@@ -83,7 +83,11 @@
                     <input type="text" class="form-control" placeholder="Search docs" />
                 </form>
             </div>
-                    </div>
+                <ul class="nav nav-sidebar">
+        <li><a href="/1.0/guide/validation/validator/sameas.html#example">Example</a></li>
+        <li><a href="/1.0/guide/validation/validator/sameas.html#arrayed">Arrayed values</a></li>
+    </ul>
+        </div>
         <div class="col-sm-12 main">
             <div class="main-header">
                 <ol class="breadcrumb">
@@ -91,18 +95,18 @@
     <li><a href="/1.0/guide.html">Guide</a></li>
     <li><a href="/1.0/guide.html#validation">Validation</a></li>
     <li><a href="/1.0/guide.html#validator">Validator</a></li>
-    <li class="active"><a href="/1.0/guide/validation/validator/email.html">Email</a></li>
+    <li class="active"><a href="/1.0/guide/validation/validator/sameas.html">SameAs</a></li>
                 </ol>
             </div>
             <hr />
             <div class="main-body">
                     <h2>Vegas CMF Validation</h2>
 
-    <h3>Vegas\Validation\Validator\Email</h3>
+    <h3>Vegas\Validation\Validator\SameAs</h3>
 
     <p>
-        This is extended version of <a href="http://docs.phalconphp.com/pl/latest/api/Phalcon_Validation_Validator_Email.html" target="_blank">Phalcon\Validation\Validator\Email</a>
-        with <a href="/1.0/guide/validation/validatortrait.html">Validator Trait</a> implemented.
+        <strong>SameAs</strong> validator compare two fields values. Field is valid if matched field value and value
+        type are the same.
     </p>
 
     <h4 id="example">Example</h4>
@@ -110,21 +114,62 @@
     <pre class="php"><code>namespace Foo\Forms;
 
 use Phalcon\Forms\Element\Text;
-use Vegas\Validation\Validator\Email;
+use Vegas\Validation\Validator\SameAs;
 
 class Bar extends \Vegas\Forms\Form
 {
     public function initialize()
     {
-        $email = new Text('email');
-        $email->addValidator(new Email([
-            'message' => $this->i18n->_('This is not a valid e-mail address!')
-        ]));
-        $this->add($grade);
+        $this->add(new Text('email'));
+
+        $emailConfirm = new Text('email_confirm');
+        $emailConfirm->addValidator(new SameAs(['match' => 'email']));
+        $this->add($emailConfirm);
 
         // ...
     }
 }</code></pre>
+
+    <h4 id="arrayed">Arrayed values</h4>
+
+    <p>
+        There is possibility to validate values in array. Possible output for this type of validation may look as follows:
+    </p>
+
+    <pre class="php"><code>use Vegas\Validation\Validator\SameAs;
+
+$validation = new \Phalcon\Validation();
+$validation->add('field1', new SameAs(['match' => 'field2']));
+
+$values = array(
+    'field1' => [
+        0 => 'foo',
+        1 => 'bar'
+    ],
+    'field2' => 'baz'
+);
+$messages = $validation->validate($values);
+// $messages not empty; values not valid
+
+$values = array(
+    'field1' => [
+        0 => 'foo',
+        1 => 'bar'
+    ],
+    'field2' => 'foo'
+);
+$messages = $this->validation->validate($values);
+// $messages not empty because one of "field1" values do not match "field2" value
+
+$values = array(
+    'field1' => [
+        0 => 'foo',
+        1 => 'foo'
+    ],
+    'field2' => 'foo'
+);
+$messages = $this->validation->validate($values);
+// $messages empty, both values match field2 value</code></pre>
             </div>
             <hr />
             <div class="main-footer">

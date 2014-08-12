@@ -180,7 +180,7 @@ class Bar extends \Vegas\Forms\Form
         $lastname->addValidator(new PresenceOf());
 
         $man = new Cloneable('list_of_man');
-        $man->setLabel($this->i18n->_('Answers'));
+        $man->setLabel($this->i18n->_('List'));
         $man->setBaseElements(array($name, $lastname));
         $man->addValidator(new SizeOf(array('min' => 2, 'max' => 6)));
         $man->setAssetsManager($this->assets);

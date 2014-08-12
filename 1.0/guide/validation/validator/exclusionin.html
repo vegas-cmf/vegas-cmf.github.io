@@ -117,9 +117,9 @@ class Bar extends \Vegas\Forms\Form
     public function initialize()
     {
         $status = new Text('status');
-        $status->addValidator(new ExclusionIn(array(
+        $status->addValidator(new ExclusionIn([
             'domain' => array('Foo', 'Bar')
-        ));
+        ]));
         $this->add($status);
 
         // ...

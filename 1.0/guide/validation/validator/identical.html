@@ -117,9 +117,9 @@ class Bar extends \Vegas\Forms\Form
     public function initialize()
     {
         $terms = new Text('terms');
-        $terms->addValidator(new Identical(array(
+        $terms->addValidator(new Identical([
             'value' => 'yes'
-        ));
+        ]));
         $this->add($terms);
 
         // ...

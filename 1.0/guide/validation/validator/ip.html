@@ -116,9 +116,9 @@ class Bar extends \Vegas\Forms\Form
     public function initialize()
     {
         $ip = new Text('ip');
-        $ip->addValidator(new Ip(array(
+        $ip->addValidator(new Ip([
             'message' => $this->i18n->_('Invalid IP!')
-        ));
+        ]));
         $this->add($ip);
 
         // ...

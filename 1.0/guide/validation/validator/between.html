@@ -117,10 +117,10 @@ class Bar extends \Vegas\Forms\Form
     public function initialize()
     {
         $grade = new Text('grade');
-        $grade->addValidator(new Between(array(
+        $grade->addValidator(new Between([
             'min' => 1,
             'max' => 6
-        ));
+        ]));
         $this->add($grade);
 
         // ...
