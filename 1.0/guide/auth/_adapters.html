@@ -797,7 +797,7 @@ class AuthController extends ControllerAbstract
         if ($this->request->isPost()) {
             try {
                 $service = $this->serviceManager->getService('auth:auth');
-                $service->authenticateByEmail($this->request->get('email'));
+                $service->login($this->request->get('email'));
 
                 return $this->response->redirect(array('for' => 'root'));
             } catch (\Vegas\Security\Authentication\Exception $ex) {

@@ -153,6 +153,7 @@ class Category extends Form
         $upload = new Upload('files');
         $upload->setUploadUrl('/your/upload}/url');
         $upload->setAssetsManager($this->assets);
+        $upload->setModel(new \File\Models\File()); //File model required by preview. It represents
         $upload->setPreviewSize(array('width' => 140, 'height' => 100)); //Size of preview images
         $upload->setMode(Upload::MODE_MULTI); //Upload multiple files. Constants MODE_MULTI, MODE_SINGLE
         $upload->addValidator(new SizeOf(array('min' => 1))); //SizeOf Validator
