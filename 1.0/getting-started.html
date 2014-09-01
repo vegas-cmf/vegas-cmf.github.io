@@ -160,12 +160,19 @@ sudo apt-get install php5-dev libpcre3-dev gcc make php5-mysql
 </code></pre>
 
 <br>
+<p>Download Phalcon</p>
 
-<p>Compile Phalcon</p>
-<pre><code class="shell">cd /var/www
-git clone --depth=1 git://github.com/phalcon/cphalcon.git
-cd cphalcon/build
-sudo ./install
+<pre><code class="shell">//Ubuntu
+sudo apt-add-repository ppa:phalcon/stable
+sudo apt-get update
+sudo apt-get install php5-phalcon
+</code></pre>
+
+<br/>
+<p>If you are missing apt-add-repository run the following command:</p>
+
+<pre><code class="shell">//Ubuntu
+sudo apt-get-install python-software-properties
 </code></pre>
 
 <br>
