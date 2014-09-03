@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta charset="utf-8"/>
+    <title>API Documentation</title>
+    <meta name="author" content=""/>
+    <meta name="description" content=""/>
+
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/prism.css" rel="stylesheet" media="all"/>
+    <link href="../css/template.css" rel="stylesheet" media="all"/>
+    
+    <!--[if lt IE 9]>
+    <script src="https://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+    <![endif]-->
+    <script src="https://code.jquery.com/jquery-1.11.0.min.js" type="text/javascript"></script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="../js/jquery.smooth-scroll.js"></script>
+    <script src="../js/prism.min.js"></script>
+    <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
+        <script type="text/javascript">
+        function loadExternalCodeSnippets() {
+            Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach(function (pre) {
+                var src = pre.getAttribute('data-src');
+                var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
+                var language = 'php';
+
+                var code = document.createElement('code');
+                code.className = 'language-' + language;
+
+                pre.textContent = '';
+
+                code.textContent = 'Loading…';
+
+                pre.appendChild(code);
+
+                var xhr = new XMLHttpRequest();
+
+                xhr.open('GET', src, true);
+
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4) {
+
+                        if (xhr.status < 400 && xhr.responseText) {
+                            code.textContent = xhr.responseText;
+
+                            Prism.highlightElement(code);
+                        }
+                        else if (xhr.status >= 400) {
+                            code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                        }
+                        else {
+                            code.textContent = '✖ Error: File does not exist or is empty';
+                        }
+                    }
+                };
+
+                xhr.send(null);
+            });
+        }
+
+        $(document).ready(function(){
+            loadExternalCodeSnippets();
+        });
+        $('#source-view').on('shown', function () {
+            loadExternalCodeSnippets();
+        })
+    </script>
+
+    <link rel="shortcut icon" href="../images/favicon.ico"/>
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="../images/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="../images/apple-touch-icon-114x114.png"/>
+</head>
+<body>
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <i class="icon-ellipsis-vertical"></i>
+            </a>
+            <a class="brand" href="../index.html">API Documentation</a>
+
+            <div class="nav-collapse">
+                <ul class="nav pull-right">
+                                        <li class="dropdown">
+                        <a href="../index.html" class="dropdown-toggle" data-toggle="dropdown">
+                            API Documentation <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                                                        <li><a href="../namespaces/Vegas.html">\Vegas</a></li>
+                                                    </ul>
+                    </li>
+                                        <li class="dropdown" id="charts-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Charts <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../graphs/class.html">
+                                    <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="reports-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Reports <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../reports/errors.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">42</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/markers.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">0</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/deprecated.html">
+                                                                                                            <i class="icon-list-alt"></i>&#160;Deprecated <span class="label label-info pull-right">0</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--<div class="go_to_top">-->
+    <!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
+    <!--</div>-->
+</div>
+
+<div id="___" class="container-fluid">
+        <section class="row-fluid">
+        <div class="span2 sidebar">
+                                <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-839878021"></a>
+                                <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
+            </div>
+            <div id="namespace-839878021" class="accordion-body collapse in">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-992185383"></a>
+                                <a href="../namespaces/Vegas.html" style="margin-left: 30px; padding-left: 0">Vegas</a>
+            </div>
+            <div id="namespace-992185383" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-364666344"></a>
+                                <a href="../namespaces/Vegas.Application.html" style="margin-left: 30px; padding-left: 0">Application</a>
+            </div>
+            <div id="namespace-364666344" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Application.Bootstrap.html">Bootstrap</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-51334341"></a>
+                                <a href="../namespaces/Vegas.Assets.html" style="margin-left: 30px; padding-left: 0">Assets</a>
+            </div>
+            <div id="namespace-51334341" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Assets.Manager.html">Manager</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1312979662"></a>
+                                <a href="../namespaces/Vegas.Cli.html" style="margin-left: 30px; padding-left: 0">Cli</a>
+            </div>
+            <div id="namespace-1312979662" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1636448888"></a>
+                                <a href="../namespaces/Vegas.Cli.EventsListener.html" style="margin-left: 30px; padding-left: 0">EventsListener</a>
+            </div>
+            <div id="namespace-1636448888" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Cli.EventsListener.TaskListener.html">TaskListener</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1614249362"></a>
+                                <a href="../namespaces/Vegas.Cli.Exception.html" style="margin-left: 30px; padding-left: 0">Exception</a>
+            </div>
+            <div id="namespace-1614249362" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Cli.Exception.TaskActionNotSpecifiedException.html">TaskActionNotSpecifiedException</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Cli.Exception.TaskNotFoundException.html">TaskNotFoundException</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-2115016399"></a>
+                                <a href="../namespaces/Vegas.Cli.Task.html" style="margin-left: 30px; padding-left: 0">Task</a>
+            </div>
+            <div id="namespace-2115016399" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1661146346"></a>
+                                <a href="../namespaces/Vegas.Cli.Task.Exception.html" style="margin-left: 30px; padding-left: 0">Exception</a>
+            </div>
+            <div id="namespace-1661146346" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Cli.Task.Exception.InvalidArgumentException.html">InvalidArgumentException</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Cli.Task.Exception.InvalidOptionException.html">InvalidOptionException</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Cli.Task.Exception.MissingArgumentException.html">MissingArgumentException</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Cli.Task.Exception.MissingRequiredArgumentException.html">MissingRequiredArgumentException</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Cli.Task.Action.html">Action</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Cli.Task.Option.html">Option</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                            <li class="trait"><a href="../classes/Vegas.Cli.ColorsOuputTrait.html">ColorsOuputTrait</a></li>
+                                                                            <li class="class"><a href="../classes/Vegas.Cli.Bootstrap.html">Bootstrap</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Cli.Console.html">Console</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Cli.Exception.html">Exception</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Cli.Loader.html">Loader</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Cli.OptionParser.html">OptionParser</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Cli.Task.html">Task</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-585617118"></a>
+                                <a href="../namespaces/Vegas.Db.html" style="margin-left: 30px; padding-left: 0">Db</a>
+            </div>
+            <div id="namespace-585617118" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1453373045"></a>
+                                <a href="../namespaces/Vegas.Db.Adapter.html" style="margin-left: 30px; padding-left: 0">Adapter</a>
+            </div>
+            <div id="namespace-1453373045" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-236563389"></a>
+                                <a href="../namespaces/Vegas.Db.Adapter.Mongo.html" style="margin-left: 30px; padding-left: 0">Mongo</a>
+            </div>
+            <div id="namespace-236563389" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                            <li class="trait"><a href="../classes/Vegas.Db.Adapter.Mongo.AdapterTrait.html">AdapterTrait</a></li>
+                                                                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1336975090"></a>
+                                <a href="../namespaces/Vegas.Db.Decorator.html" style="margin-left: 30px; padding-left: 0">Decorator</a>
+            </div>
+            <div id="namespace-1336975090" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1987592068"></a>
+                                <a href="../namespaces/Vegas.Db.Decorator.Helper.html" style="margin-left: 30px; padding-left: 0">Helper</a>
+            </div>
+            <div id="namespace-1987592068" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                            <li class="trait"><a href="../classes/Vegas.Db.Decorator.Helper.MappingHelperTrait.html">MappingHelperTrait</a></li>
+                                                    <li class="trait"><a href="../classes/Vegas.Db.Decorator.Helper.SlugTrait.html">SlugTrait</a></li>
+                                                    <li class="trait"><a href="../classes/Vegas.Db.Decorator.Helper.WriteAttributesTrait.html">WriteAttributesTrait</a></li>
+                                                                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Db.Decorator.CollectionAbstract.html">CollectionAbstract</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Db.Decorator.ModelAbstract.html">ModelAbstract</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-677821494"></a>
+                                <a href="../namespaces/Vegas.Db.Exception.html" style="margin-left: 30px; padding-left: 0">Exception</a>
+            </div>
+            <div id="namespace-677821494" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Db.Exception.InvalidMappingClassException.html">InvalidMappingClassException</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Db.Exception.MappingClassNotFoundException.html">MappingClassNotFoundException</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Db.Exception.NoRequiredServiceException.html">NoRequiredServiceException</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-971804383"></a>
+                                <a href="../namespaces/Vegas.Db.Mapping.html" style="margin-left: 30px; padding-left: 0">Mapping</a>
+            </div>
+            <div id="namespace-971804383" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Db.Mapping.Json.html">Json</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Vegas.Db.AdapterInterface.html">AdapterInterface</a></li>
+                                                    <li class="interface"><a href="../classes/Vegas.Db.MappingInterface.html">MappingInterface</a></li>
+                                                                            <li class="trait"><a href="../classes/Vegas.Db.MappingResolverTrait.html">MappingResolverTrait</a></li>
+                                                                            <li class="class"><a href="../classes/Vegas.Db.Exception.html">Exception</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Db.MappingManager.html">MappingManager</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-276792021"></a>
+                                <a href="../namespaces/Vegas.DI.html" style="margin-left: 30px; padding-left: 0">DI</a>
+            </div>
+            <div id="namespace-276792021" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-875583418"></a>
+                                <a href="../namespaces/Vegas.DI.Scaffolding.html" style="margin-left: 30px; padding-left: 0">Scaffolding</a>
+            </div>
+            <div id="namespace-875583418" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1403223131"></a>
+                                <a href="../namespaces/Vegas.DI.Scaffolding.Adapter.html" style="margin-left: 30px; padding-left: 0">Adapter</a>
+            </div>
+            <div id="namespace-1403223131" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.DI.Scaffolding.Adapter.Mongo.html">Mongo</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.DI.Scaffolding.Adapter.Mysql.html">Mysql</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1927235442"></a>
+                                <a href="../namespaces/Vegas.DI.Scaffolding.Exception.html" style="margin-left: 30px; padding-left: 0">Exception</a>
+            </div>
+            <div id="namespace-1927235442" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.DI.Scaffolding.Exception.DeleteFailureException.html">DeleteFailureException</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.DI.Scaffolding.Exception.InvalidFormException.html">InvalidFormException</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.DI.Scaffolding.Exception.RecordNotFoundException.html">RecordNotFoundException</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Vegas.DI.Scaffolding.AdapterInterface.html">AdapterInterface</a></li>
+                                                                                                    <li class="class"><a href="../classes/Vegas.DI.Scaffolding.Exception.html">Exception</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-880852402"></a>
+                                <a href="../namespaces/Vegas.DI.Service.html" style="margin-left: 30px; padding-left: 0">Service</a>
+            </div>
+            <div id="namespace-880852402" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1849163930"></a>
+                                <a href="../namespaces/Vegas.DI.Service.Component.html" style="margin-left: 30px; padding-left: 0">Component</a>
+            </div>
+            <div id="namespace-1849163930" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Vegas.DI.Service.Component.RendererInterface.html">RendererInterface</a></li>
+                                                                                                    <li class="class"><a href="../classes/Vegas.DI.Service.Component.Renderer.html">Renderer</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1505411026"></a>
+                                <a href="../namespaces/Vegas.DI.Service.Exception.html" style="margin-left: 30px; padding-left: 0">Exception</a>
+            </div>
+            <div id="namespace-1505411026" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.DI.Service.Exception.MethodNotFoundException.html">MethodNotFoundException</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.DI.Service.Exception.ProxyMethodNotFoundException.html">ProxyMethodNotFoundException</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Vegas.DI.Service.ComponentInterface.html">ComponentInterface</a></li>
+                                                                                                    <li class="class"><a href="../classes/Vegas.DI.Service.ComponentAbstract.html">ComponentAbstract</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.DI.Service.Exception.html">Exception</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.DI.Service.ModelProxyAbstract.html">ModelProxyAbstract</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Vegas.DI.ScaffoldingInterface.html">ScaffoldingInterface</a></li>
+                                                    <li class="interface"><a href="../classes/Vegas.DI.ServiceProviderInterface.html">ServiceProviderInterface</a></li>
+                                                                            <li class="trait"><a href="../classes/Vegas.DI.InjectionAwareTrait.html">InjectionAwareTrait</a></li>
+                                                                            <li class="class"><a href="../classes/Vegas.DI.Scaffolding.html">Scaffolding</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.DI.ServiceManager.html">ServiceManager</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.DI.ServiceProviderLoader.html">ServiceProviderLoader</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-2108347590"></a>
+                                <a href="../namespaces/Vegas.Http.html" style="margin-left: 30px; padding-left: 0">Http</a>
+            </div>
+            <div id="namespace-2108347590" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1561696806"></a>
+                                <a href="../namespaces/Vegas.Http.Response.html" style="margin-left: 30px; padding-left: 0">Response</a>
+            </div>
+            <div id="namespace-1561696806" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Http.Response.Json.html">Json</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Http.Method.html">Method</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-758647211"></a>
+                                <a href="../namespaces/Vegas.Mvc.html" style="margin-left: 30px; padding-left: 0">Mvc</a>
+            </div>
+            <div id="namespace-758647211" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1397102354"></a>
+                                <a href="../namespaces/Vegas.Mvc.Controller.html" style="margin-left: 30px; padding-left: 0">Controller</a>
+            </div>
+            <div id="namespace-1397102354" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-326505649"></a>
+                                <a href="../namespaces/Vegas.Mvc.Controller.Crud.html" style="margin-left: 30px; padding-left: 0">Crud</a>
+            </div>
+            <div id="namespace-326505649" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1536061745"></a>
+                                <a href="../namespaces/Vegas.Mvc.Controller.Crud.Exception.html" style="margin-left: 30px; padding-left: 0">Exception</a>
+            </div>
+            <div id="namespace-1536061745" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.Controller.Crud.Exception.NotConfiguredException.html">NotConfiguredException</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.Controller.Crud.Exception.PostRequiredException.html">PostRequiredException</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.Controller.Crud.Events.html">Events</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1970670958"></a>
+                                <a href="../namespaces/Vegas.Mvc.Controller.Exception.html" style="margin-left: 30px; padding-left: 0">Exception</a>
+            </div>
+            <div id="namespace-1970670958" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.Controller.Exception.RequestIsNotAjaxException.html">RequestIsNotAjaxException</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.Controller.ControllerAbstract.html">ControllerAbstract</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.Controller.Crud.html">Crud</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.Controller.Exception.html">Exception</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1326823335"></a>
+                                <a href="../namespaces/Vegas.Mvc.Dispatcher.html" style="margin-left: 30px; padding-left: 0">Dispatcher</a>
+            </div>
+            <div id="namespace-1326823335" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-729165476"></a>
+                                <a href="../namespaces/Vegas.Mvc.Dispatcher.Events.html" style="margin-left: 30px; padding-left: 0">Events</a>
+            </div>
+            <div id="namespace-729165476" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.Dispatcher.Events.BeforeException.html">BeforeException</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1549796992"></a>
+                                <a href="../namespaces/Vegas.Mvc.Dispatcher.Exception.html" style="margin-left: 30px; padding-left: 0">Exception</a>
+            </div>
+            <div id="namespace-1549796992" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.Dispatcher.Exception.CannotHandleErrorException.html">CannotHandleErrorException</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.Dispatcher.Exception.html">Exception</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.Dispatcher.ExceptionResolver.html">ExceptionResolver</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1874665492"></a>
+                                <a href="../namespaces/Vegas.Mvc.Module.html" style="margin-left: 30px; padding-left: 0">Module</a>
+            </div>
+            <div id="namespace-1874665492" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.Module.ModuleLoader.html">ModuleLoader</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1704050456"></a>
+                                <a href="../namespaces/Vegas.Mvc.Router.html" style="margin-left: 30px; padding-left: 0">Router</a>
+            </div>
+            <div id="namespace-1704050456" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-82319105"></a>
+                                <a href="../namespaces/Vegas.Mvc.Router.Adapter.html" style="margin-left: 30px; padding-left: 0">Adapter</a>
+            </div>
+            <div id="namespace-82319105" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.Router.Adapter.Standard.html">Standard</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-407362660"></a>
+                                <a href="../namespaces/Vegas.Mvc.Router.Exception.html" style="margin-left: 30px; padding-left: 0">Exception</a>
+            </div>
+            <div id="namespace-407362660" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.Router.Exception.InvalidRouteTypeException.html">InvalidRouteTypeException</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-549875133"></a>
+                                <a href="../namespaces/Vegas.Mvc.Router.Route.html" style="margin-left: 30px; padding-left: 0">Route</a>
+            </div>
+            <div id="namespace-549875133" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.Router.Route.BaseRoute.html">BaseRoute</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.Router.Route.DefaultRoute.html">DefaultRoute</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.Router.Route.NotfoundRoute.html">NotfoundRoute</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.Router.Route.RestRoute.html">RestRoute</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.Router.Route.StaticRoute.html">StaticRoute</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Vegas.Mvc.Router.RouteInterface.html">RouteInterface</a></li>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.Router.Exception.html">Exception</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.Router.Route.html">Route</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1594904643"></a>
+                                <a href="../namespaces/Vegas.Mvc.View.html" style="margin-left: 30px; padding-left: 0">View</a>
+            </div>
+            <div id="namespace-1594904643" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1376513069"></a>
+                                <a href="../namespaces/Vegas.Mvc.View.Engine.html" style="margin-left: 30px; padding-left: 0">Engine</a>
+            </div>
+            <div id="namespace-1376513069" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-943003818"></a>
+                                <a href="../namespaces/Vegas.Mvc.View.Engine.Volt.html" style="margin-left: 30px; padding-left: 0">Volt</a>
+            </div>
+            <div id="namespace-943003818" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-98608002"></a>
+                                <a href="../namespaces/Vegas.Mvc.View.Engine.Volt.Exception.html" style="margin-left: 30px; padding-left: 0">Exception</a>
+            </div>
+            <div id="namespace-98608002" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.View.Engine.Volt.Exception.InvalidFilterException.html">InvalidFilterException</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.View.Engine.Volt.Exception.InvalidHelperException.html">InvalidHelperException</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.View.Engine.Volt.Exception.UnknownFilterException.html">UnknownFilterException</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.View.Engine.Volt.Exception.UnknownHelperException.html">UnknownHelperException</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-308710705"></a>
+                                <a href="../namespaces/Vegas.Mvc.View.Engine.Volt.Filter.html" style="margin-left: 30px; padding-left: 0">Filter</a>
+            </div>
+            <div id="namespace-308710705" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.View.Engine.Volt.Filter.ToString.html">ToString</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1320632161"></a>
+                                <a href="../namespaces/Vegas.Mvc.View.Engine.Volt.Helper.html" style="margin-left: 30px; padding-left: 0">Helper</a>
+            </div>
+            <div id="namespace-1320632161" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.View.Engine.Volt.Helper.Pagination.html">Pagination</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.View.Engine.Volt.Helper.ShortenText.html">ShortenText</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.View.Engine.Volt.VoltFilterAbstract.html">VoltFilterAbstract</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.View.Engine.Volt.VoltHelperAbstract.html">VoltHelperAbstract</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                            <li class="trait"><a href="../classes/Vegas.Mvc.View.Engine.RegisterFilters.html">RegisterFilters</a></li>
+                                                    <li class="trait"><a href="../classes/Vegas.Mvc.View.Engine.RegisterHelpers.html">RegisterHelpers</a></li>
+                                                                            <li class="class"><a href="../classes/Vegas.Mvc.View.Engine.Exception.html">Exception</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.View.Engine.Volt.html">Volt</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.View.Exception.html">Exception</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.View.Simple.html">Simple</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.Application.html">Application</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.Exception.html">Exception</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.ModuleAbstract.html">ModuleAbstract</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.Router.html">Router</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.View.html">View</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1722048187"></a>
+                                <a href="../namespaces/Vegas.Paginator.html" style="margin-left: 30px; padding-left: 0">Paginator</a>
+            </div>
+            <div id="namespace-1722048187" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-258172442"></a>
+                                <a href="../namespaces/Vegas.Paginator.Adapter.html" style="margin-left: 30px; padding-left: 0">Adapter</a>
+            </div>
+            <div id="namespace-258172442" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-576397450"></a>
+                                <a href="../namespaces/Vegas.Paginator.Adapter.Exception.html" style="margin-left: 30px; padding-left: 0">Exception</a>
+            </div>
+            <div id="namespace-576397450" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Paginator.Adapter.Exception.DbNotSetException.html">DbNotSetException</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Paginator.Adapter.Exception.ModelNotSetException.html">ModelNotSetException</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Paginator.Adapter.Exception.html">Exception</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Paginator.Adapter.Mongo.html">Mongo</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Paginator.Page.html">Page</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1833958157"></a>
+                                <a href="../namespaces/Vegas.Tag.html" style="margin-left: 30px; padding-left: 0">Tag</a>
+            </div>
+            <div id="namespace-1833958157" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Tag.Pagination.html">Pagination</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Tag.ShortenText.html">ShortenText</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1402426650"></a>
+                                <a href="../namespaces/Vegas.Task.html" style="margin-left: 30px; padding-left: 0">Task</a>
+            </div>
+            <div id="namespace-1402426650" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Task.AssetsTask.html">AssetsTask</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Task.CacheTask.html">CacheTask</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-331469339"></a>
+                                <a href="../namespaces/Vegas.Util.html" style="margin-left: 30px; padding-left: 0">Util</a>
+            </div>
+            <div id="namespace-331469339" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Util.FileWriter.html">FileWriter</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Vegas.BootstrapInterface.html">BootstrapInterface</a></li>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Constants.html">Constants</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Exception.html">Exception</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        </div>
+    </section>
+    <section class="row-fluid">
+        <div class="span10 offset2">
+            <div class="row-fluid">
+                <div class="span8 content file">
+                    <nav>
+                                                                    </nav>
+
+                    <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal"><i class="icon-code"></i></a>
+                    <h1><small>Mvc/View/Engine/Volt/Exception</small>InvalidFilterException.php</h1>
+                    <p><em>This file is part of Vegas package</em></p>
+                    
+
+                    
+                    
+                                        <h2>Classes</h2>
+                    <table class="table table-hover">
+                                            <tr>
+                            <td><a href="../classes/Vegas.Mvc.View.Engine.Volt.Exception.InvalidFilterException.html">InvalidFilterException</a></td>
+                            <td><em>Class InvalidFilterException</em></td>
+                        </tr>
+                                        </table>
+                                    </div>
+
+                <aside class="span4 detailsbar">
+                    <dl>
+                                                    <dt>Package</dt>
+                            <dd><div class="namespace-wrapper">\Default</div></dd>
+                        
+                        
+                    </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                                                    <tr>
+                                <th>
+                                    author
+                                </th>
+                                <td>
+                                                                            <p>Slawomir Zytko <a href="mailto:slawomir.zytko@gmail.com">slawomir.zytko@gmail.com</a></p>
+                                                                    </td>
+                            </tr>
+                                                    <tr>
+                                <th>
+                                    copyright
+                                </th>
+                                <td>
+                                                                            <p>Amsterdam Standard Sp. Z o.o.</p>
+                                                                    </td>
+                            </tr>
+                                                    <tr>
+                                <th>
+                                    homepage
+                                </th>
+                                <td>
+                                                                            <p><a href="http://vegas-cmf.github.io">http://vegas-cmf.github.io</a></p>
+<p>For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.</p>
+                                                                    </td>
+                            </tr>
+                                            </table>
+
+                </aside>
+            </div>
+
+            
+            
+        </div>
+    </section>
+
+    <div id="source-view" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="source-view-label" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="source-view-label"></h3>
+        </div>
+        <div class="modal-body">
+            <pre data-src="../files/Mvc/View/Engine/Volt/Exception/InvalidFilterException.php.txt" class="language-php line-numbers"></pre>
+        </div>
+    </div>
+
+    <footer class="row-fluid">
+        <section class="span10 offset2">
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <section class="row-fluid footer-sections">
+                        <section class="span4">
+                                                        <h1><i class="icon-code"></i></h1>
+                            <div>
+                                <ul>
+                                                                            <li><a href="../namespaces/Vegas.html">\Vegas</a></li>
+                                                                    </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-bar-chart"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../graphs/class.html">Class Hierarchy Diagram</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-pushpin"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../reports/errors.html">Errors</a></li>
+                                    <li><a href="../reports/markers.html">Markers</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <hr />
+                    Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
+                    on September 3rd, 2014 at 10:57.
+                </section>
+            </section>
+        </section>
+    </footer>
+</div>
+
+</body>
+</html>

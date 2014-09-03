@@ -85,7 +85,7 @@
             </div>
                 <ul class="nav nav-sidebar">
         <li><a href="#modules">Modules</a></li>
-        <li><a href="#new_module">Create New Module</a></li>
+        <li><a href="#new_module">Create Module</a></li>
         <li><a href="#structure">Module structure</a></li>
     </ul>
         </div>
@@ -106,24 +106,19 @@
 <h3 id="modules">Modules</h3>
 
 <p>
-Application based on Vegas CMF is separated on modules. Each module has own config file and routes definition. As module we can implement in example: image slider, facebook followers banner, twitter recent posts block, footer, menu, auth and whatever you want.
+Application based on Vegas CMF is divided to modules. Each module has own config file and routes definition. As module we can implement in example: news, user, auth, acl, gallery, settings, contact and whatever you want.
 </p>
 
-<h3 id="new_module">Create new module</h3>
-<p>For example we are going to create new module</p>
-<pre class="shell"><code>cd your-project</code></pre>
-
-<br>
-<p>Create directory for module (camelcase)</p>
-<pre class="shell"><code>mkdir -p app/modules/Foo</code></pre>
-
-<br>
-<p>Create module file</p>
-<pre class="shell"><code>touch app/modules/Foo/Module.php</code></pre>
+<h3 id="new_module">Create module</h3>
+<p>To create module named "Foo" you have to do the following steps.</p>
+<pre class="shell"><code>cd your-project
+mkdir -p app/modules/Foo
+touch app/modules/Foo/Module.php</code></pre>
 
 <br>
 <p>Fill the Module.php file the following content</p>
-<pre class="php"><code>namespace Foo;
+<pre class="php"><code>
+namespace Foo;
 
 class Module extends \Vegas\Mvc\ModuleAbstract
 {
@@ -135,8 +130,7 @@ class Module extends \Vegas\Mvc\ModuleAbstract
 </code></pre>
 
 <br>
-<p>All modules in application are loaded automatically and defined in <strong>app/config/modules.php</strong> file. In the <i>development</i> environment,
-list of modules is rebuilding for each request, so you do not have to care about it, when you create a new module.</p>
+<p>All modules are loaded automatically and defined in <strong>app/config/modules.php</strong> file. When vegas project enviroment is set to "development" mode then list of modules is rebuilt for each request in this file.</p>
 
 <br>
 <p>Create config</p>
@@ -186,7 +180,7 @@ class FooController extends ControllerAbstract
 <br>
 <p>Create view for frontend scope</p>
 <pre class="shell"><code>mkdir app/modules/Foo/views
-mkdir app/modules/Foo/views/frontend
+mkdir -p app/modules/Foo/views/frontend/foo
 touch app/modules/Foo/views/frontend/foo/index.volt
 </code></pre>
 

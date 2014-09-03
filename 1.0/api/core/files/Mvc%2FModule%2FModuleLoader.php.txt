@@ -1,0 +1,71 @@
+<?php
+/**
+ * This file is part of Vegas package
+ *
+ * @author Slawomir Zytko <slawomir.zytko@gmail.com>
+ * @copyright Amsterdam Standard Sp. Z o.o.
+ * @homepage http://vegas-cmf.github.io
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+ 
+namespace Vegas\Mvc\Module;
+
+use Phalcon\DiInterface;
+use Vegas\Util\FileWriter;
+
+/**
+ * Class ModuleLoader
+ * @package Vegas\Mvc
+ */
+class ModuleLoader
+{
+    /**
+     * Default name of file containing module settings
+     */
+    const MODULE_SETTINGS_FILE = 'Module.php';
+
+    /**
+     * Generates list of modules into source file
+     *
+     * @param DiInterface $di
+     * @return array
+     */
+    public static function dump(DiInterface $di)
+    {
+        $modulesList = array();
+
+        //extracts list of modules from module directory
+        $config = $di->get('config');
+        $directoryIterator = new \DirectoryIterator($config->application->moduleDir);
+        foreach ($directoryIterator as $moduleDir) {
+            if ($moduleDir->isDot()) continue;
+            $moduleSettingsFile = $moduleDir->getPathname() . DIRECTORY_SEPARATOR . self::MODULE_SETTINGS_FILE;
+            if (!file_exists($moduleSettingsFile)) {
+                continue;
+            }
+            $modulesList[$moduleDir->getBasename()] = array(
+                'className' =>  $moduleDir->getBasename() . '\\' . pathinfo(self::MODULE_SETTINGS_FILE, PATHINFO_FILENAME),
+                'path'  =>  $moduleSettingsFile
+            );
+        }
+
+        //saves generated array to php source file
+        FileWriter::write($config->application->configDir . 'modules.php', self::createFileContent($modulesList), true);
+
+        return $modulesList;
+    }
+
+    /**
+     * Creates file's content with list of modules
+     *
+     * @param $modulesList
+     * @return string
+     * @internal
+     */
+    private static function createFileContent($modulesList)
+    {
+        return '<?php return ' . var_export($modulesList, true) . ';';
+    }
+} 

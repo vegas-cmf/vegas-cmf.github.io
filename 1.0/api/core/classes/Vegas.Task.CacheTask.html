@@ -1,0 +1,2024 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta charset="utf-8"/>
+    <title>API Documentation</title>
+    <meta name="author" content=""/>
+    <meta name="description" content=""/>
+
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/prism.css" rel="stylesheet" media="all"/>
+    <link href="../css/template.css" rel="stylesheet" media="all"/>
+    
+    <!--[if lt IE 9]>
+    <script src="https://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+    <![endif]-->
+    <script src="https://code.jquery.com/jquery-1.11.0.min.js" type="text/javascript"></script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="../js/jquery.smooth-scroll.js"></script>
+    <script src="../js/prism.min.js"></script>
+    <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
+    <script type="text/javascript">
+    function loadExternalCodeSnippets() {
+        Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach(function (pre) {
+            var src = pre.getAttribute('data-src');
+            var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
+            var language = 'php';
+
+            var code = document.createElement('code');
+            code.className = 'language-' + language;
+
+            pre.textContent = '';
+
+            code.textContent = 'Loading…';
+
+            pre.appendChild(code);
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('GET', src, true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+
+                    if (xhr.status < 400 && xhr.responseText) {
+                        code.textContent = xhr.responseText;
+
+                        Prism.highlightElement(code);
+                    }
+                    else if (xhr.status >= 400) {
+                        code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                    }
+                    else {
+                        code.textContent = '✖ Error: File does not exist or is empty';
+                    }
+                }
+            };
+
+            xhr.send(null);
+        });
+    }
+
+    $(document).ready(function(){
+        loadExternalCodeSnippets();
+    });
+    $('#source-view').on('shown', function () {
+        loadExternalCodeSnippets();
+    })
+</script>
+
+    <link rel="shortcut icon" href="../images/favicon.ico"/>
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="../images/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="../images/apple-touch-icon-114x114.png"/>
+</head>
+<body>
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <i class="icon-ellipsis-vertical"></i>
+            </a>
+            <a class="brand" href="../index.html">API Documentation</a>
+
+            <div class="nav-collapse">
+                <ul class="nav pull-right">
+                                        <li class="dropdown">
+                        <a href="../index.html" class="dropdown-toggle" data-toggle="dropdown">
+                            API Documentation <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                                                        <li><a href="../namespaces/Vegas.html">\Vegas</a></li>
+                                                    </ul>
+                    </li>
+                                        <li class="dropdown" id="charts-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Charts <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../graphs/class.html">
+                                    <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="reports-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Reports <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../reports/errors.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">42</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/markers.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">0</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/deprecated.html">
+                                                                                                            <i class="icon-list-alt"></i>&#160;Deprecated <span class="label label-info pull-right">0</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--<div class="go_to_top">-->
+    <!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
+    <!--</div>-->
+</div>
+
+<div id="___" class="container-fluid">
+        <section class="row-fluid">
+        <div class="span2 sidebar">
+                                <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-845623398"></a>
+                                <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
+            </div>
+            <div id="namespace-845623398" class="accordion-body collapse in">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-678724613"></a>
+                                <a href="../namespaces/Vegas.html" style="margin-left: 30px; padding-left: 0">Vegas</a>
+            </div>
+            <div id="namespace-678724613" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1076359492"></a>
+                                <a href="../namespaces/Vegas.Application.html" style="margin-left: 30px; padding-left: 0">Application</a>
+            </div>
+            <div id="namespace-1076359492" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Application.Bootstrap.html">Bootstrap</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-561025757"></a>
+                                <a href="../namespaces/Vegas.Assets.html" style="margin-left: 30px; padding-left: 0">Assets</a>
+            </div>
+            <div id="namespace-561025757" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Assets.Manager.html">Manager</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1173448668"></a>
+                                <a href="../namespaces/Vegas.Cli.html" style="margin-left: 30px; padding-left: 0">Cli</a>
+            </div>
+            <div id="namespace-1173448668" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-568489557"></a>
+                                <a href="../namespaces/Vegas.Cli.EventsListener.html" style="margin-left: 30px; padding-left: 0">EventsListener</a>
+            </div>
+            <div id="namespace-568489557" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Cli.EventsListener.TaskListener.html">TaskListener</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1905579904"></a>
+                                <a href="../namespaces/Vegas.Cli.Exception.html" style="margin-left: 30px; padding-left: 0">Exception</a>
+            </div>
+            <div id="namespace-1905579904" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Cli.Exception.TaskActionNotSpecifiedException.html">TaskActionNotSpecifiedException</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Cli.Exception.TaskNotFoundException.html">TaskNotFoundException</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-759805895"></a>
+                                <a href="../namespaces/Vegas.Cli.Task.html" style="margin-left: 30px; padding-left: 0">Task</a>
+            </div>
+            <div id="namespace-759805895" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1944756233"></a>
+                                <a href="../namespaces/Vegas.Cli.Task.Exception.html" style="margin-left: 30px; padding-left: 0">Exception</a>
+            </div>
+            <div id="namespace-1944756233" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Cli.Task.Exception.InvalidArgumentException.html">InvalidArgumentException</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Cli.Task.Exception.InvalidOptionException.html">InvalidOptionException</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Cli.Task.Exception.MissingArgumentException.html">MissingArgumentException</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Cli.Task.Exception.MissingRequiredArgumentException.html">MissingRequiredArgumentException</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Cli.Task.Action.html">Action</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Cli.Task.Option.html">Option</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                            <li class="trait"><a href="../classes/Vegas.Cli.ColorsOuputTrait.html">ColorsOuputTrait</a></li>
+                                                                            <li class="class"><a href="../classes/Vegas.Cli.Bootstrap.html">Bootstrap</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Cli.Console.html">Console</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Cli.Exception.html">Exception</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Cli.Loader.html">Loader</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Cli.OptionParser.html">OptionParser</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Cli.Task.html">Task</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1065821602"></a>
+                                <a href="../namespaces/Vegas.Db.html" style="margin-left: 30px; padding-left: 0">Db</a>
+            </div>
+            <div id="namespace-1065821602" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1798133260"></a>
+                                <a href="../namespaces/Vegas.Db.Adapter.html" style="margin-left: 30px; padding-left: 0">Adapter</a>
+            </div>
+            <div id="namespace-1798133260" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1548913577"></a>
+                                <a href="../namespaces/Vegas.Db.Adapter.Mongo.html" style="margin-left: 30px; padding-left: 0">Mongo</a>
+            </div>
+            <div id="namespace-1548913577" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                            <li class="trait"><a href="../classes/Vegas.Db.Adapter.Mongo.AdapterTrait.html">AdapterTrait</a></li>
+                                                                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-374269954"></a>
+                                <a href="../namespaces/Vegas.Db.Decorator.html" style="margin-left: 30px; padding-left: 0">Decorator</a>
+            </div>
+            <div id="namespace-374269954" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-641747846"></a>
+                                <a href="../namespaces/Vegas.Db.Decorator.Helper.html" style="margin-left: 30px; padding-left: 0">Helper</a>
+            </div>
+            <div id="namespace-641747846" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                            <li class="trait"><a href="../classes/Vegas.Db.Decorator.Helper.MappingHelperTrait.html">MappingHelperTrait</a></li>
+                                                    <li class="trait"><a href="../classes/Vegas.Db.Decorator.Helper.SlugTrait.html">SlugTrait</a></li>
+                                                    <li class="trait"><a href="../classes/Vegas.Db.Decorator.Helper.WriteAttributesTrait.html">WriteAttributesTrait</a></li>
+                                                                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Db.Decorator.CollectionAbstract.html">CollectionAbstract</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Db.Decorator.ModelAbstract.html">ModelAbstract</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1676019663"></a>
+                                <a href="../namespaces/Vegas.Db.Exception.html" style="margin-left: 30px; padding-left: 0">Exception</a>
+            </div>
+            <div id="namespace-1676019663" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Db.Exception.InvalidMappingClassException.html">InvalidMappingClassException</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Db.Exception.MappingClassNotFoundException.html">MappingClassNotFoundException</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Db.Exception.NoRequiredServiceException.html">NoRequiredServiceException</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1076754960"></a>
+                                <a href="../namespaces/Vegas.Db.Mapping.html" style="margin-left: 30px; padding-left: 0">Mapping</a>
+            </div>
+            <div id="namespace-1076754960" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Db.Mapping.Json.html">Json</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Vegas.Db.AdapterInterface.html">AdapterInterface</a></li>
+                                                    <li class="interface"><a href="../classes/Vegas.Db.MappingInterface.html">MappingInterface</a></li>
+                                                                            <li class="trait"><a href="../classes/Vegas.Db.MappingResolverTrait.html">MappingResolverTrait</a></li>
+                                                                            <li class="class"><a href="../classes/Vegas.Db.Exception.html">Exception</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Db.MappingManager.html">MappingManager</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1714402829"></a>
+                                <a href="../namespaces/Vegas.DI.html" style="margin-left: 30px; padding-left: 0">DI</a>
+            </div>
+            <div id="namespace-1714402829" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-417554308"></a>
+                                <a href="../namespaces/Vegas.DI.Scaffolding.html" style="margin-left: 30px; padding-left: 0">Scaffolding</a>
+            </div>
+            <div id="namespace-417554308" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-955622489"></a>
+                                <a href="../namespaces/Vegas.DI.Scaffolding.Adapter.html" style="margin-left: 30px; padding-left: 0">Adapter</a>
+            </div>
+            <div id="namespace-955622489" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.DI.Scaffolding.Adapter.Mongo.html">Mongo</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.DI.Scaffolding.Adapter.Mysql.html">Mysql</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-379820230"></a>
+                                <a href="../namespaces/Vegas.DI.Scaffolding.Exception.html" style="margin-left: 30px; padding-left: 0">Exception</a>
+            </div>
+            <div id="namespace-379820230" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.DI.Scaffolding.Exception.DeleteFailureException.html">DeleteFailureException</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.DI.Scaffolding.Exception.InvalidFormException.html">InvalidFormException</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.DI.Scaffolding.Exception.RecordNotFoundException.html">RecordNotFoundException</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Vegas.DI.Scaffolding.AdapterInterface.html">AdapterInterface</a></li>
+                                                                                                    <li class="class"><a href="../classes/Vegas.DI.Scaffolding.Exception.html">Exception</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-978252080"></a>
+                                <a href="../namespaces/Vegas.DI.Service.html" style="margin-left: 30px; padding-left: 0">Service</a>
+            </div>
+            <div id="namespace-978252080" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1448413190"></a>
+                                <a href="../namespaces/Vegas.DI.Service.Component.html" style="margin-left: 30px; padding-left: 0">Component</a>
+            </div>
+            <div id="namespace-1448413190" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Vegas.DI.Service.Component.RendererInterface.html">RendererInterface</a></li>
+                                                                                                    <li class="class"><a href="../classes/Vegas.DI.Service.Component.Renderer.html">Renderer</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-77458842"></a>
+                                <a href="../namespaces/Vegas.DI.Service.Exception.html" style="margin-left: 30px; padding-left: 0">Exception</a>
+            </div>
+            <div id="namespace-77458842" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.DI.Service.Exception.MethodNotFoundException.html">MethodNotFoundException</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.DI.Service.Exception.ProxyMethodNotFoundException.html">ProxyMethodNotFoundException</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Vegas.DI.Service.ComponentInterface.html">ComponentInterface</a></li>
+                                                                                                    <li class="class"><a href="../classes/Vegas.DI.Service.ComponentAbstract.html">ComponentAbstract</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.DI.Service.Exception.html">Exception</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.DI.Service.ModelProxyAbstract.html">ModelProxyAbstract</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Vegas.DI.ScaffoldingInterface.html">ScaffoldingInterface</a></li>
+                                                    <li class="interface"><a href="../classes/Vegas.DI.ServiceProviderInterface.html">ServiceProviderInterface</a></li>
+                                                                            <li class="trait"><a href="../classes/Vegas.DI.InjectionAwareTrait.html">InjectionAwareTrait</a></li>
+                                                                            <li class="class"><a href="../classes/Vegas.DI.Scaffolding.html">Scaffolding</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.DI.ServiceManager.html">ServiceManager</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.DI.ServiceProviderLoader.html">ServiceProviderLoader</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-539541548"></a>
+                                <a href="../namespaces/Vegas.Http.html" style="margin-left: 30px; padding-left: 0">Http</a>
+            </div>
+            <div id="namespace-539541548" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-978798043"></a>
+                                <a href="../namespaces/Vegas.Http.Response.html" style="margin-left: 30px; padding-left: 0">Response</a>
+            </div>
+            <div id="namespace-978798043" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Http.Response.Json.html">Json</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Http.Method.html">Method</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-431876620"></a>
+                                <a href="../namespaces/Vegas.Mvc.html" style="margin-left: 30px; padding-left: 0">Mvc</a>
+            </div>
+            <div id="namespace-431876620" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1638068106"></a>
+                                <a href="../namespaces/Vegas.Mvc.Controller.html" style="margin-left: 30px; padding-left: 0">Controller</a>
+            </div>
+            <div id="namespace-1638068106" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1867816545"></a>
+                                <a href="../namespaces/Vegas.Mvc.Controller.Crud.html" style="margin-left: 30px; padding-left: 0">Crud</a>
+            </div>
+            <div id="namespace-1867816545" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1738596392"></a>
+                                <a href="../namespaces/Vegas.Mvc.Controller.Crud.Exception.html" style="margin-left: 30px; padding-left: 0">Exception</a>
+            </div>
+            <div id="namespace-1738596392" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.Controller.Crud.Exception.NotConfiguredException.html">NotConfiguredException</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.Controller.Crud.Exception.PostRequiredException.html">PostRequiredException</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.Controller.Crud.Events.html">Events</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1385600484"></a>
+                                <a href="../namespaces/Vegas.Mvc.Controller.Exception.html" style="margin-left: 30px; padding-left: 0">Exception</a>
+            </div>
+            <div id="namespace-1385600484" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.Controller.Exception.RequestIsNotAjaxException.html">RequestIsNotAjaxException</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.Controller.ControllerAbstract.html">ControllerAbstract</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.Controller.Crud.html">Crud</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.Controller.Exception.html">Exception</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1182960440"></a>
+                                <a href="../namespaces/Vegas.Mvc.Dispatcher.html" style="margin-left: 30px; padding-left: 0">Dispatcher</a>
+            </div>
+            <div id="namespace-1182960440" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-11516391"></a>
+                                <a href="../namespaces/Vegas.Mvc.Dispatcher.Events.html" style="margin-left: 30px; padding-left: 0">Events</a>
+            </div>
+            <div id="namespace-11516391" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.Dispatcher.Events.BeforeException.html">BeforeException</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-354953281"></a>
+                                <a href="../namespaces/Vegas.Mvc.Dispatcher.Exception.html" style="margin-left: 30px; padding-left: 0">Exception</a>
+            </div>
+            <div id="namespace-354953281" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.Dispatcher.Exception.CannotHandleErrorException.html">CannotHandleErrorException</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.Dispatcher.Exception.html">Exception</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.Dispatcher.ExceptionResolver.html">ExceptionResolver</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1051868815"></a>
+                                <a href="../namespaces/Vegas.Mvc.Module.html" style="margin-left: 30px; padding-left: 0">Module</a>
+            </div>
+            <div id="namespace-1051868815" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.Module.ModuleLoader.html">ModuleLoader</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-2011510808"></a>
+                                <a href="../namespaces/Vegas.Mvc.Router.html" style="margin-left: 30px; padding-left: 0">Router</a>
+            </div>
+            <div id="namespace-2011510808" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-820052328"></a>
+                                <a href="../namespaces/Vegas.Mvc.Router.Adapter.html" style="margin-left: 30px; padding-left: 0">Adapter</a>
+            </div>
+            <div id="namespace-820052328" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.Router.Adapter.Standard.html">Standard</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1361313066"></a>
+                                <a href="../namespaces/Vegas.Mvc.Router.Exception.html" style="margin-left: 30px; padding-left: 0">Exception</a>
+            </div>
+            <div id="namespace-1361313066" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.Router.Exception.InvalidRouteTypeException.html">InvalidRouteTypeException</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-617906012"></a>
+                                <a href="../namespaces/Vegas.Mvc.Router.Route.html" style="margin-left: 30px; padding-left: 0">Route</a>
+            </div>
+            <div id="namespace-617906012" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.Router.Route.BaseRoute.html">BaseRoute</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.Router.Route.DefaultRoute.html">DefaultRoute</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.Router.Route.NotfoundRoute.html">NotfoundRoute</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.Router.Route.RestRoute.html">RestRoute</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.Router.Route.StaticRoute.html">StaticRoute</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Vegas.Mvc.Router.RouteInterface.html">RouteInterface</a></li>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.Router.Exception.html">Exception</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.Router.Route.html">Route</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-759004451"></a>
+                                <a href="../namespaces/Vegas.Mvc.View.html" style="margin-left: 30px; padding-left: 0">View</a>
+            </div>
+            <div id="namespace-759004451" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-454751341"></a>
+                                <a href="../namespaces/Vegas.Mvc.View.Engine.html" style="margin-left: 30px; padding-left: 0">Engine</a>
+            </div>
+            <div id="namespace-454751341" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1024044257"></a>
+                                <a href="../namespaces/Vegas.Mvc.View.Engine.Volt.html" style="margin-left: 30px; padding-left: 0">Volt</a>
+            </div>
+            <div id="namespace-1024044257" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-268889588"></a>
+                                <a href="../namespaces/Vegas.Mvc.View.Engine.Volt.Exception.html" style="margin-left: 30px; padding-left: 0">Exception</a>
+            </div>
+            <div id="namespace-268889588" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.View.Engine.Volt.Exception.InvalidFilterException.html">InvalidFilterException</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.View.Engine.Volt.Exception.InvalidHelperException.html">InvalidHelperException</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.View.Engine.Volt.Exception.UnknownFilterException.html">UnknownFilterException</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.View.Engine.Volt.Exception.UnknownHelperException.html">UnknownHelperException</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1317934436"></a>
+                                <a href="../namespaces/Vegas.Mvc.View.Engine.Volt.Filter.html" style="margin-left: 30px; padding-left: 0">Filter</a>
+            </div>
+            <div id="namespace-1317934436" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.View.Engine.Volt.Filter.ToString.html">ToString</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1745490689"></a>
+                                <a href="../namespaces/Vegas.Mvc.View.Engine.Volt.Helper.html" style="margin-left: 30px; padding-left: 0">Helper</a>
+            </div>
+            <div id="namespace-1745490689" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.View.Engine.Volt.Helper.Pagination.html">Pagination</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.View.Engine.Volt.Helper.ShortenText.html">ShortenText</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.View.Engine.Volt.VoltFilterAbstract.html">VoltFilterAbstract</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.View.Engine.Volt.VoltHelperAbstract.html">VoltHelperAbstract</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                            <li class="trait"><a href="../classes/Vegas.Mvc.View.Engine.RegisterFilters.html">RegisterFilters</a></li>
+                                                    <li class="trait"><a href="../classes/Vegas.Mvc.View.Engine.RegisterHelpers.html">RegisterHelpers</a></li>
+                                                                            <li class="class"><a href="../classes/Vegas.Mvc.View.Engine.Exception.html">Exception</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.View.Engine.Volt.html">Volt</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.View.Exception.html">Exception</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.View.Simple.html">Simple</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Mvc.Application.html">Application</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.Exception.html">Exception</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.ModuleAbstract.html">ModuleAbstract</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.Router.html">Router</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Mvc.View.html">View</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-145441812"></a>
+                                <a href="../namespaces/Vegas.Paginator.html" style="margin-left: 30px; padding-left: 0">Paginator</a>
+            </div>
+            <div id="namespace-145441812" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-901921044"></a>
+                                <a href="../namespaces/Vegas.Paginator.Adapter.html" style="margin-left: 30px; padding-left: 0">Adapter</a>
+            </div>
+            <div id="namespace-901921044" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-2038766141"></a>
+                                <a href="../namespaces/Vegas.Paginator.Adapter.Exception.html" style="margin-left: 30px; padding-left: 0">Exception</a>
+            </div>
+            <div id="namespace-2038766141" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Paginator.Adapter.Exception.DbNotSetException.html">DbNotSetException</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Paginator.Adapter.Exception.ModelNotSetException.html">ModelNotSetException</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Paginator.Adapter.Exception.html">Exception</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Paginator.Adapter.Mongo.html">Mongo</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Paginator.Page.html">Page</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1472522656"></a>
+                                <a href="../namespaces/Vegas.Tag.html" style="margin-left: 30px; padding-left: 0">Tag</a>
+            </div>
+            <div id="namespace-1472522656" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Tag.Pagination.html">Pagination</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Tag.ShortenText.html">ShortenText</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-584538322"></a>
+                                <a href="../namespaces/Vegas.Task.html" style="margin-left: 30px; padding-left: 0">Task</a>
+            </div>
+            <div id="namespace-584538322" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Task.AssetsTask.html">AssetsTask</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Task.CacheTask.html">CacheTask</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1049568249"></a>
+                                <a href="../namespaces/Vegas.Util.html" style="margin-left: 30px; padding-left: 0">Util</a>
+            </div>
+            <div id="namespace-1049568249" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Util.FileWriter.html">FileWriter</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/Vegas.BootstrapInterface.html">BootstrapInterface</a></li>
+                                                                                                    <li class="class"><a href="../classes/Vegas.Constants.html">Constants</a></li>
+                                                    <li class="class"><a href="../classes/Vegas.Exception.html">Exception</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        </div>
+    </section>
+    <section class="row-fluid">
+        <div class="span10 offset2">
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <nav>
+                                                <a href="../namespaces/Vegas.Task.html">\Vegas\Task</a> <i class="icon-level-up"></i>
+                                            </nav>
+                    <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal"><i class="icon-code"></i></a>
+
+                    <h1><small>\Vegas\Task</small>CacheTask</h1>
+                    <p><em>Class CacheTask</em></p>
+                    
+
+                    <section id="summary">
+                        <h2>Summary</h2>
+                        <section class="row-fluid heading">
+                            <section class="span4">
+                                <a href="#methods">Methods</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#properties">Properties</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#constants">Constants</a>
+                            </section>
+                        </section>
+                        <section class="row-fluid public">
+                            <section class="span4">
+                                                                    <a href="../classes/Vegas.Task.CacheTask.html#method_setOptions" class="">setOptions()</a><br />
+                                                                    <a href="../classes/Vegas.Cli.Task.html#method_beforeExecuteRoute" class="">beforeExecuteRoute()</a><br />
+                                                                    <a href="../classes/Vegas.Cli.Task.html#method_mainAction" class="">mainAction()</a><br />
+                                                                    <a href="../classes/Vegas.Cli.Task.html#method_getOutput" class="">getOutput()</a><br />
+                                                                    <a href="../classes/Vegas.Cli.Task.html#method_putText" class="">putText()</a><br />
+                                                                    <a href="../classes/Vegas.Cli.Task.html#method_putWarn" class="">putWarn()</a><br />
+                                                                    <a href="../classes/Vegas.Cli.Task.html#method_putSuccess" class="">putSuccess()</a><br />
+                                                                    <a href="../classes/Vegas.Cli.Task.html#method_putError" class="">putError()</a><br />
+                                                                    <a href="../classes/Vegas.Cli.Task.html#method_pubObject" class="">pubObject()</a><br />
+                                                                    <a href="../classes/Vegas.Cli.ColorsOuputTrait.html#method___construct" class="">__construct()</a><br />
+                                                                    <a href="../classes/Vegas.Cli.ColorsOuputTrait.html#method_getColoredString" class="">getColoredString()</a><br />
+                                                                    <a href="../classes/Vegas.Cli.ColorsOuputTrait.html#method_getForegroundColors" class="">getForegroundColors()</a><br />
+                                                                    <a href="../classes/Vegas.Cli.ColorsOuputTrait.html#method_getBackgroundColors" class="">getBackgroundColors()</a><br />
+                                                                    <a href="../classes/Vegas.Task.CacheTask.html#method_cleanAction" class="">cleanAction()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No public properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/Vegas.Cli.Task.html#constant_HELP_OPTION" class="">HELP_OPTION</a><br />
+                                                                    <a href="../classes/Vegas.Cli.Task.html#constant_HELP_SHORTOPTION" class="">HELP_SHORTOPTION</a><br />
+                                                            </section>
+                        </section>
+                        <section class="row-fluid protected">
+                            <section class="span4">
+                                                                    <a href="../classes/Vegas.Cli.Task.html#method_getArgs" class="">getArgs()</a><br />
+                                                                    <a href="../classes/Vegas.Cli.Task.html#method_getArg" class="">getArg()</a><br />
+                                                                    <a href="../classes/Vegas.Cli.Task.html#method_getOption" class="">getOption()</a><br />
+                                                                    <a href="../classes/Vegas.Cli.Task.html#method_addTaskAction" class="">addTaskAction()</a><br />
+                                                                    <a href="../classes/Vegas.Cli.Task.html#method_renderActionHelp" class="">renderActionHelp()</a><br />
+                                                                    <a href="../classes/Vegas.Cli.Task.html#method_renderTaskHelp" class="">renderTaskHelp()</a><br />
+                                                                    <a href="../classes/Vegas.Cli.Task.html#method_validate" class="">validate()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No protected properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                        <section class="row-fluid private">
+                            <section class="span4">
+                                                                    <em>No private methods found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No private properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                    </section>
+                </div>
+                <aside class="span4 detailsbar">
+                                        
+                    
+                    <dl>
+                        <dt>File</dt>
+                            <dd><a href="../files/Task.CacheTask.html"><div class="path-wrapper">Task/CacheTask.php</div></a></dd>
+                                                <dt>Package</dt>
+                            <dd><div class="namespace-wrapper">\Vegas\Task</div></dd>
+                                                <dt>Class hierarchy</dt>
+                            <dd class="hierarchy">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                        <div class="namespace-wrapper">\Phalcon\CLI\Task</div>
+                                                                    
+                                        <div class="namespace-wrapper"><a href="../classes/Vegas.Cli.Task.html">\Vegas\Cli\Task</a></div>
+                                                                                                    <div class="namespace-wrapper">\Vegas\Task\CacheTask</div>
+                            </dd>
+
+                        
+                        
+                        
+                        
+                                                                        </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                                            <tr><td colspan="2"><em>None found</em></td></tr>
+                                        </table>
+                </aside>
+            </div>
+
+                                    <a id="constants" name="constants"></a>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <h2>Constants</h2>
+                </div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_HELP_OPTION" name="constant_HELP_OPTION" class="anchor"></a>
+            <article id="constant_HELP_OPTION" class="constant">
+                <h3 class="">HELP_OPTION</h3>
+                <pre class="signature">HELP_OPTION</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Vegas.Cli.Task.html"><div class="path-wrapper">\Vegas\Cli\Task</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_HELP_SHORTOPTION" name="constant_HELP_SHORTOPTION" class="anchor"></a>
+            <article id="constant_HELP_SHORTOPTION" class="constant">
+                <h3 class="">HELP_SHORTOPTION</h3>
+                <pre class="signature">HELP_SHORTOPTION</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Vegas.Cli.Task.html"><div class="path-wrapper">\Vegas\Cli\Task</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                            
+                        
+                                    <a id="methods" name="methods"></a>
+            <div class="row-fluid">
+                <div class="span8 content class"><h2>Methods</h2></div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setOptions" name="method_setOptions" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setOptions()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setOptions() : mixed</pre>
+                <p><em>Task&#039;s available options</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_beforeExecuteRoute" name="method_beforeExecuteRoute" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">beforeExecuteRoute()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">beforeExecuteRoute() : boolean</pre>
+                <p><em>Sets available actions with options
+Validates command line arguments and options for command
+Stops dispatching when detects help option</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Vegas.Cli.Task.html"><div class="path-wrapper">\Vegas\Cli\Task</div></a></dd>
+                                                                            <dt>See also</dt>
+                                                                <dd><a href="http://docs.phalconphp.com/pl/latest/reference/dispatching.html"><span class="namespace-wrapper"></span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_mainAction" name="method_mainAction" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">mainAction()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">mainAction()</pre>
+                <p><em>Action executed by default when no action was specified in execution</em></p>
+                
+
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                    <span class="label label-info">final</span>
+                                    <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Vegas.Cli.Task.html"><div class="path-wrapper">\Vegas\Cli\Task</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getOutput" name="method_getOutput" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getOutput()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getOutput() : string</pre>
+                <p><em>Returns collected output</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Vegas.Cli.Task.html"><div class="path-wrapper">\Vegas\Cli\Task</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_putText" name="method_putText" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">putText()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">putText( <span class="argument">$str</span>)</pre>
+                <p><em>Puts text into buffer</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$str </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Vegas.Cli.Task.html"><div class="path-wrapper">\Vegas\Cli\Task</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_putWarn" name="method_putWarn" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">putWarn()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">putWarn( <span class="argument">$str</span>)</pre>
+                <p><em>Puts warning into buffer</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$str </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Vegas.Cli.Task.html"><div class="path-wrapper">\Vegas\Cli\Task</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_putSuccess" name="method_putSuccess" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">putSuccess()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">putSuccess( <span class="argument">$str</span>)</pre>
+                <p><em>Puts success into buffer</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$str </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Vegas.Cli.Task.html"><div class="path-wrapper">\Vegas\Cli\Task</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_putError" name="method_putError" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">putError()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">putError( <span class="argument">$str</span>)</pre>
+                <p><em>Puts error into buffer</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$str </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Vegas.Cli.Task.html"><div class="path-wrapper">\Vegas\Cli\Task</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_pubObject" name="method_pubObject" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">pubObject()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">pubObject( <span class="argument">$object</span>)</pre>
+                <p><em>Dumps object into buffer</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$object </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Vegas.Cli.Task.html"><div class="path-wrapper">\Vegas\Cli\Task</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___construct" name="method___construct" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__construct()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__construct()</pre>
+                <p><em>Constructors
+Defines available colors</em></p>
+                
+
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Vegas.Cli.ColorsOuputTrait.html"><div class="path-wrapper">\Vegas\Cli\ColorsOuputTrait</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getColoredString" name="method_getColoredString" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getColoredString()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getColoredString( <span class="argument">$string</span>, null <span class="argument">$foreground_color</span>, null <span class="argument">$background_color</span>) : string</pre>
+                <p><em>Returns colored string</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$string </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>null</td>
+                                <td>$foreground_color </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>null</td>
+                                <td>$background_color </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Vegas.Cli.ColorsOuputTrait.html"><div class="path-wrapper">\Vegas\Cli\ColorsOuputTrait</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getForegroundColors" name="method_getForegroundColors" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getForegroundColors()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getForegroundColors() : array</pre>
+                <p><em>Returns all foreground color names</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Vegas.Cli.ColorsOuputTrait.html"><div class="path-wrapper">\Vegas\Cli\ColorsOuputTrait</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getBackgroundColors" name="method_getBackgroundColors" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getBackgroundColors()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getBackgroundColors() : array</pre>
+                <p><em>Returns all background color names</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Vegas.Cli.ColorsOuputTrait.html"><div class="path-wrapper">\Vegas\Cli\ColorsOuputTrait</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_cleanAction" name="method_cleanAction" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">cleanAction()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">cleanAction()</pre>
+                <p><em>Cleans application cache</em></p>
+                
+
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getArgs" name="method_getArgs" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">getArgs()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getArgs() : array</pre>
+                <p><em>Returns array of execution arguments</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Vegas.Cli.Task.html"><div class="path-wrapper">\Vegas\Cli\Task</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getArg" name="method_getArg" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">getArg()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getArg( <span class="argument">$index</span>) : null</pre>
+                <p><em>Return argument from indicated index</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$index </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    null
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Vegas.Cli.Task.html"><div class="path-wrapper">\Vegas\Cli\Task</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getOption" name="method_getOption" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">getOption()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getOption( <span class="argument">$name</span>, null <span class="argument">$default</span>) : mixed</pre>
+                <p><em>Get option value for action from command line</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$name </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>null</td>
+                                <td>$default </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Vegas\Cli\Task\Exception\MissingArgumentException</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    mixed
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Vegas.Cli.Task.html"><div class="path-wrapper">\Vegas\Cli\Task</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_addTaskAction" name="method_addTaskAction" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">addTaskAction()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">addTaskAction(\Vegas\Cli\Task\Action <span class="argument">$action</span>) : $this</pre>
+                <p><em>Adds available action for current Task</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td><a href="../classes/Vegas.Cli.Task.Action.html">\Vegas\Cli\Task\Action</a></td>
+                                <td>$action </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    $this
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                    <span class="label label-info">final</span>
+                                    <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Vegas.Cli.Task.html"><div class="path-wrapper">\Vegas\Cli\Task</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_renderActionHelp" name="method_renderActionHelp" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">renderActionHelp()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">renderActionHelp()</pre>
+                <p><em>Renders help for task action</em></p>
+                
+
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Vegas.Cli.Task.html"><div class="path-wrapper">\Vegas\Cli\Task</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_renderTaskHelp" name="method_renderTaskHelp" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">renderTaskHelp()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">renderTaskHelp()</pre>
+                <p><em>Renders help for task</em></p>
+                
+
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Vegas.Cli.Task.html"><div class="path-wrapper">\Vegas\Cli\Task</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_validate" name="method_validate" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">validate()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">validate()</pre>
+                <p><em>Validates action options</em></p>
+                
+
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/Vegas.Cli.Task.html"><div class="path-wrapper">\Vegas\Cli\Task</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                    </div>
+    </section>
+
+    <div id="source-view" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="source-view-label" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="source-view-label">CacheTask.php</h3>
+        </div>
+        <div class="modal-body">
+            <pre data-src="../files/Task/CacheTask.php.txt" class="language-php line-numbers"></pre>
+        </div>
+    </div>
+
+    <footer class="row-fluid">
+        <section class="span10 offset2">
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <section class="row-fluid footer-sections">
+                        <section class="span4">
+                                                        <h1><i class="icon-code"></i></h1>
+                            <div>
+                                <ul>
+                                                                            <li><a href="../namespaces/Vegas.html">\Vegas</a></li>
+                                                                    </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-bar-chart"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../graphs/class.html">Class Hierarchy Diagram</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-pushpin"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../reports/errors.html">Errors</a></li>
+                                    <li><a href="../reports/markers.html">Markers</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <hr />
+                    Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
+                    on September 3rd, 2014 at 10:57.
+                </section>
+            </section>
+        </section>
+    </footer>
+</div>
+
+</body>
+</html>
