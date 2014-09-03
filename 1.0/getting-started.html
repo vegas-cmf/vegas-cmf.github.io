@@ -108,12 +108,12 @@
 <p>
 Install php (at least 5.4 version). Vegas library is based on PHP language.
 </p>
-<pre><code class="shell">//Ubuntu
+<pre><code class="shell">//Ubuntu 14.04
 sudo apt-get install php5
 sudo apt-get install php-pear
 </code></pre>
 <br>
-<p>Install one HTTP server. You can choose Apache or Nginx</p>
+<p>Install HTTP server. You can choose between Apache and Nginx.</p>
 <table>
 <thead>
 <tr>
@@ -124,12 +124,12 @@ sudo apt-get install php-pear
 <tbody>
 <tr>
 <td>
-<pre><code class="shell">//Ubuntu (Apache)
+<pre><code class="shell">//Ubuntu 14.04 (Apache)
 sudo apt-get install apache2
 </code></pre>
 </td>
 <td>
-<pre><code class="shell">//Ubuntu (Nginx)
+<pre><code class="shell">//Ubuntu 14.04 (Nginx)
 sudo apt-get install nginx
 </code></pre>
 </td>
@@ -139,15 +139,22 @@ sudo apt-get install nginx
 
 <br>
 <p>Install git</p>
-<pre><code class="shell">//Ubuntu
+<pre><code class="shell">//Ubuntu 14.04
 sudo apt-get install git
+</code></pre>
+
+
+<br>
+<p>Install curl</p>
+<pre><code class="shell">//Ubuntu 14.04
+sudo apt-get install curl
 </code></pre>
 
 <br>
 <p>Install phing</p>
-<pre><code class="shell">//Ubuntu
+<pre><code class="shell">//Ubuntu 14.04
 pear channel-discover pear.phing.info
-pear install phing/phing
+sudo pear install phing/phing
 </code></pre>
 
 <br>
@@ -155,35 +162,34 @@ pear install phing/phing
 <div style="padding:20px;background:url('/media/img/phalcon_bg.jpg')">
 <div style="padding:20px;background:#fff;opacity:0.8;">
 <p>Install Phalcon Library</p>
-<pre><code class="shell">//Ubuntu
+<pre><code class="shell">//Ubuntu 14.04
 sudo apt-get install php5-dev libpcre3-dev gcc make php5-mysql
 </code></pre>
 
 <br>
+<p>Download Phalcon</p>
 
-<p>Compile Phalcon</p>
-<pre><code class="shell">cd /var/www
-git clone --depth=1 git://github.com/phalcon/cphalcon.git
-cd cphalcon/build
-sudo ./install
+<pre><code class="shell">//Ubuntu 14.04
+sudo apt-add-repository ppa:phalcon/stable
+sudo apt-get update
+sudo apt-get install php5-phalcon
 </code></pre>
 
-<br>
+<br/>
+<p>If you are missing apt-add-repository run the following command:</p>
 
-<p>Add extension of phalcon to the php configuration <span  style="color:red;">*(In different systems there might be different locations of the php configuration file)</span></p>
-<pre><code class="shell">echo 'extension=phalcon.so' > /etc/php5/apache2/conf.d/20-phalcon.ini
+<pre><code class="shell">//Ubuntu 14.04
+sudo apt-get-install python-software-properties
 </code></pre>
 </div>
 </div>
 
 <br>
 <h3 id="instructions">Build project</h3>
-<br>
-
 <p>Create your project using vegaser tool</p>
 <pre><code class="shell">cd /var/www
-mkdir vegas-test
-chown {your_user}:{your_user} -R vegas-test
+sudo mkdir vegas-test
+sudo chown {your_user}:{your_user} -R vegas-test
 cd vegas-test
 wget https://github.com/vegas-cmf/vegaser/raw/master/build/vegaser.phar --no-cache
 php vegaser.phar build-project
@@ -218,7 +224,7 @@ Enter project domain [vegasdemo.com] vegas-test.local
 <td style="vertical-align: top;">
 <br>
 <p>Create virtual host file</p>
-<pre><code class="shell">//Ubuntu
+<pre><code class="shell">//Ubuntu 14.04
 cd /etc/apache2/sites-available
 sudo vim vegas-test.conf</code></pre>
 <br>
@@ -244,8 +250,14 @@ sudo service apache2 restart</code></pre>
 </td>
 <td style="vertical-align: top;">
 <br>
+<p>Install php5-fpm</p>
+<pre><code class="shell">sudo apt-get install php5-fpm</code></pre>
+<br>
+<p>Find line similar to "listen = /var/run/php5-fpm.sock" inside www.conf file and copy its value. You will later paste it in "fastcgi_pass unix:" option of nginx virtual host.</p>
+<pre><code class="shell">sudo vim /etc/php5/fpm/pool.d/www.conf</code></pre>
+<br>
 <p>Create virtual host file</p>
-<pre><code class="shell">//Ubuntu
+<pre><code class="shell">//Ubuntu 14.04
 cd /etc/nginx/sites-available/
 sudo vim vegas-test.conf
 </code></pre>
@@ -293,7 +305,7 @@ sudo vim vegas-test.conf
 
         ##fastcgi_pass 127.0.0.1:9000;
         ## Or use unix-socket with &#039;fastcgi_pass unix:/var/run/php5-fpm.sock;&#039;
-        fastcgi_pass unix:/var/run/php5-fpm-vegas-test.local.sock;
+        fastcgi_pass unix:/var/run/php5-fpm.sock; #value is copied as described above
     }
 
     location ~* ^/(css|img|js|flv|swf|download)/(.+)$ {
@@ -328,7 +340,7 @@ sudo vim vegas-test.conf
             <div class="main-footer">
     <div role="contentinfo">
         <p>
-            &copy; 2014 Amsterdam Standard Sp. z o.o.
+            &copy; 2014 <a href="http://amsterdamstandard.nl" target="_blank">Amsterdam Standard</a>
         </p>
     </div>
 </div>

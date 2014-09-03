@@ -84,8 +84,9 @@
                 </form>
             </div>
                 <ul class="nav nav-sidebar">
-        <li><a href="/1.0/getting-started/requirements.html">Requirements</a></li>
-        <li><a href="/1.0/getting-started/vegaser.html">Vegaser Tool</a></li>
+        <li><a href="/1.0/guide/profiler/installation.html">Requirements/installation</a></li>
+        <li><a href="/1.0/guide/profiler/data-collector/interface.html">Interface</a></li>
+        <li class="active"><a href="/1.0/guide/profiler/data-collector/default.html">Default classes</a></li>
     </ul>
         </div>
         <div class="col-sm-12 main">
@@ -115,6 +116,13 @@
     <br />
     Gets a list of loaded services in current request with dispatcher information
     - things like used route, module, controller, action names etc.
+</p>
+
+<p>
+    <strong>Exception</strong><br />
+    Attached to events of dispatcher
+    <br />
+    Gets information about exceptions during the request - such as file, error code and stacktrace.
 </p>
 
 <p>
@@ -163,7 +171,7 @@
             <div class="main-footer">
     <div role="contentinfo">
         <p>
-            &copy; 2014 Amsterdam Standard Sp. z o.o.
+            &copy; 2014 <a href="http://amsterdamstandard.nl" target="_blank">Amsterdam Standard</a>
         </p>
     </div>
 </div>

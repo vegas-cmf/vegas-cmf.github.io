@@ -109,7 +109,10 @@
     In the following example, we create a simple mapper, that decodes value using base64_decode function. <br />
     <small>You can put this class to the lib/Vegas/Db/Mapping directory.</small>
     <br />
-<pre class="php"><code>namespace Vegas\Db\Mapping\Decoder.php
+<pre class="shell"><code>mkdir -p lib/Vegas/Db/Mapping
+touch lib/Vegas/Db/Mapping/Decoder.php</code></pre>
+<br />
+<pre class="php"><code>namespace Vegas\Db\Mapping\Decoder;
 
 use Vegas\Db\MappingInterface;
 
@@ -201,7 +204,7 @@ $this->assertTrue(base64_encode('test'), $result->readAttribute('encoded_field')
             <div class="main-footer">
     <div role="contentinfo">
         <p>
-            &copy; 2014 Amsterdam Standard Sp. z o.o.
+            &copy; 2014 <a href="http://amsterdamstandard.nl" target="_blank">Amsterdam Standard</a>
         </p>
     </div>
 </div>

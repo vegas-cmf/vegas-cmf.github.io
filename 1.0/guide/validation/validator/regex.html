@@ -83,97 +83,46 @@
                     <input type="text" class="form-control" placeholder="Search docs" />
                 </form>
             </div>
-                <ul class="nav nav-sidebar">
-        <li><a href="/1.0/guide/forms/element/upload.html#minimal">Minimal configuration</a></li>
-        <li><a href="/1.0/guide/forms/element/upload.html#full">Full configuration</a></li>
-    </ul>
-        </div>
+                    </div>
         <div class="col-sm-12 main">
             <div class="main-header">
                 <ol class="breadcrumb">
                         <li><a href="/">Vegas CMF</a></li>
     <li><a href="/1.0/guide.html">Guide</a></li>
-    <li><a href="/1.0/guide.html#forms">Forms</a></li>
-    <li><a href="/1.0/guide.html#form-element">Element</a></li>
-    <li class="active"><a href="/1.0/guide/forms/element/upload.html">Upload</a></li>
+    <li><a href="/1.0/guide.html#validation">Validation</a></li>
+    <li><a href="/1.0/guide.html#validator">Validator</a></li>
+    <li class="active"><a href="/1.0/guide/validation/validator/regex.html">Regex</a></li>
                 </ol>
             </div>
             <hr />
             <div class="main-body">
-                <h2>Vegas CMF Form Elements</h2>
+                    <h2>Vegas CMF Validation</h2>
 
-<h3>Requirements</h3>
+    <h3>Vegas\Validation\Validator\Regex</h3>
 
-<p>
-    Before you use Upload Form Element make sure that you installed the "jquery-uploader" JS library.
-    More information about the JS library you can find here: <a target="_blank" href="https://github.com/adrianmalik/jquery-uploader">jquery-uploader</a>.
-    After implementation form element and embeding form inside the view, please make sure also if you set "uploadAction()" properly in controller file.
-    <br/><br/>
-    All required js and css files are included in vegas library.
-    Check <a href="/1.0/guide/forms/installation.html">installation</a> guide for more details.
-</p>
+    <p>
+        This is extended version of <a href="http://docs.phalconphp.com/pl/latest/api/Phalcon_Validation_Validator_Regex.html" target="_blank">Phalcon\Validation\Validator\Regex</a>
+        with <a href="/1.0/guide/validation/validatortrait.html">Validator Trait</a> implemented.
+    </p>
 
-<h3>Vegas\Forms\Element\Upload</h3>
+    <h4 id="example">Example</h4>
 
-<p>
-    Element to upload files.
-</p>
+    <pre class="php"><code>namespace Foo\Forms;
 
-<h4>Form</h4>
-<h5 id="minimal">Minimal configuration:</h5>
-<pre><code class="php">
-namespace Category\Forms;
+use Phalcon\Forms\Element\Text;
+use Vegas\Validation\Validator\Regex;
 
-use Vegas\Forms\Element\Upload;
-use Vegas\Forms\Form;
-
-class Category extends Form
+class Bar extends \Vegas\Forms\Form
 {
     public function initialize()
     {
-        $upload = new Upload('files');
-        $upload->setUploadUrl('/your/upload/url');
-        $upload->setAssetsManager($this->assets);
-        $this->add($upload);
+        $foobar = new Text('foobar');
+        $foobar->addValidator(new Regex(['pattern' => '/[abfor]{6}/']));
+        $this->add($foobar);
+
+        // ...
     }
-}
-</code></pre>
-<br/>
-<h5 id="full">Full configuration:</h5>
-<pre><code class="php">
-namespace Category\Forms;
-
-use Vegas\Forms\Element\Upload;
-use Vegas\Forms\Form;
-
-class Category extends Form
-{
-    public function initialize()
-    {
-        $upload = new Upload('files');
-        $upload->setUploadUrl('/your/upload}/url');
-        $upload->setAssetsManager($this->assets);
-        $upload->setModel(new \File\Models\File()); //File model required by preview. It represents
-        $upload->setPreviewSize(array('width' => 140, 'height' => 100)); //Size of preview images
-        $upload->setMode(Upload::MODE_MULTI); //Upload multiple files. Constants MODE_MULTI, MODE_SINGLE
-        $upload->addValidator(new SizeOf(array('min' => 1))); //SizeOf Validator
-        $upload->setButtonLabels(array('add' => 'Add File')); //Sets label for add button
-        $upload->setExtensions(array('jpg', 'png')); //Allowed extensions
-        $upload->setMimeTypes(array('image/jpeg', 'image/png'));
-        $upload->setTriggerType('button'); //Trigger for selecting files. Options: 'button', 'dropzone'
-        $upload->setMaxFiles(4); //Sets max number of files
-        $upload->setMaxFileSize(1024*1024); //Sets max size of upload file
-        $upload->setBaseElements(array(
-            new Text('title'),
-            new Text('description'),
-            ... //You can add whichever form element you want to single file
-        ));
-        $this->add($upload);
-    }
-}
-</code></pre>
-
-
+}</code></pre>
             </div>
             <hr />
             <div class="main-footer">

@@ -84,8 +84,7 @@
                 </form>
             </div>
                 <ul class="nav nav-sidebar">
-        <li><a href="/1.0/guide/forms/element/upload.html#minimal">Minimal configuration</a></li>
-        <li><a href="/1.0/guide/forms/element/upload.html#full">Full configuration</a></li>
+        <li><a href="#crud">Behind the CRUD</a></li>
     </ul>
         </div>
         <div class="col-sm-12 main">
@@ -93,87 +92,80 @@
                 <ol class="breadcrumb">
                         <li><a href="/">Vegas CMF</a></li>
     <li><a href="/1.0/guide.html">Guide</a></li>
-    <li><a href="/1.0/guide.html#forms">Forms</a></li>
-    <li><a href="/1.0/guide.html#form-element">Element</a></li>
-    <li class="active"><a href="/1.0/guide/forms/element/upload.html">Upload</a></li>
+    <li><a href="/1.0/guide.html#mvc">Mvc</a></li>
+    <li><a href="/1.0/guide/mvc/scaffolding.html">Scaffolding</a></li>
                 </ol>
             </div>
             <hr />
             <div class="main-body">
-                <h2>Vegas CMF Form Elements</h2>
+                
+    <h2>Scaffolding</h2>
 
-<h3>Requirements</h3>
+    <h3 id="crud">Behind the CRUD</h3>
 
-<p>
-    Before you use Upload Form Element make sure that you installed the "jquery-uploader" JS library.
-    More information about the JS library you can find here: <a target="_blank" href="https://github.com/adrianmalik/jquery-uploader">jquery-uploader</a>.
-    After implementation form element and embeding form inside the view, please make sure also if you set "uploadAction()" properly in controller file.
-    <br/><br/>
-    All required js and css files are included in vegas library.
-    Check <a href="/1.0/guide/forms/installation.html">installation</a> guide for more details.
-</p>
+    <p>
+        Scaffolding is used by our <a href="/1.0/guide/mvc/controller.html#crud">CRUD controllers</a>. Thanks to this
+        additional layer of abstraction you can switch between different databases adapter without changing your controller
+        actions or attached events. Scaffolding should be <a href="/1.0/guide/di/service-provider.html#scaffolding">
+        registered as DI service</a>, therefore it can be used outside the CRUD.
+    </p>
 
-<h3>Vegas\Forms\Element\Upload</h3>
+    <p>
+        In the following example we will use scaffolding with event manager to extend basic CRUD functionality:
+    </p>
 
-<p>
-    Element to upload files.
-</p>
+    <pre class="php"><code>namespace Foo\Controllers\Foo;
 
-<h4>Form</h4>
-<h5 id="minimal">Minimal configuration:</h5>
-<pre><code class="php">
-namespace Category\Forms;
+use Phalcon\Forms\Element\Text;
+use Vegas\Mvc\Controller\Crud\Events;
+use Vegas\Mvc\Controller\Crud;
 
-use Vegas\Forms\Element\Upload;
-use Vegas\Forms\Form;
-
-class Category extends Form
+class FooController extends Crud
 {
+    protected $formName = 'Foo\Forms\Foo';
+    protected $modelName = 'Foo\Models\Foo';
+
     public function initialize()
     {
-        $upload = new Upload('files');
-        $upload->setUploadUrl('/your/upload/url');
-        $upload->setAssetsManager($this->assets);
-        $this->add($upload);
+        parent::initialize();
+
+        $this->dispatcher->getEventsManager()->attach(Events::AFTER_CREATE, function () {
+            $this->changeFakeValue();
+            $this->redirect();
+        });
+
+        $this->dispatcher->getEventsManager()->attach(Events::AFTER_EDIT, function () {
+            $this->addExtraField();
+        });
     }
-}
-</code></pre>
-<br/>
-<h5 id="full">Full configuration:</h5>
-<pre><code class="php">
-namespace Category\Forms;
 
-use Vegas\Forms\Element\Upload;
-use Vegas\Forms\Form;
+    // ...
 
-class Category extends Form
-{
-    public function initialize()
+    private function changeFakeValue()
     {
-        $upload = new Upload('files');
-        $upload->setUploadUrl('/your/upload}/url');
-        $upload->setAssetsManager($this->assets);
-        $upload->setModel(new \File\Models\File()); //File model required by preview. It represents
-        $upload->setPreviewSize(array('width' => 140, 'height' => 100)); //Size of preview images
-        $upload->setMode(Upload::MODE_MULTI); //Upload multiple files. Constants MODE_MULTI, MODE_SINGLE
-        $upload->addValidator(new SizeOf(array('min' => 1))); //SizeOf Validator
-        $upload->setButtonLabels(array('add' => 'Add File')); //Sets label for add button
-        $upload->setExtensions(array('jpg', 'png')); //Allowed extensions
-        $upload->setMimeTypes(array('image/jpeg', 'image/png'));
-        $upload->setTriggerType('button'); //Trigger for selecting files. Options: 'button', 'dropzone'
-        $upload->setMaxFiles(4); //Sets max number of files
-        $upload->setMaxFileSize(1024*1024); //Sets max size of upload file
-        $upload->setBaseElements(array(
-            new Text('title'),
-            new Text('description'),
-            ... //You can add whichever form element you want to single file
+        $record = $this->scaffolding->getRecord();
+        $record->fake = 'Fixed value';
+        $record->save();
+    }
+
+    private function addExtraField()
+    {
+        $form = $this->scaffolding->getForm($this->scaffolding->getRecord());
+
+        $field = new Text('extra_field');
+        $field->setLabel('Extra field');
+
+        $form->add($field);
+        $this->scaffolding->setForm($form);
+    }
+
+    public function redirect(){
+        $this->response->redirect(array(
+            'for' => 'foo/crud',
+            'action' => 'index',
         ));
-        $this->add($upload);
     }
-}
-</code></pre>
-
-
+}</code></pre>
             </div>
             <hr />
             <div class="main-footer">

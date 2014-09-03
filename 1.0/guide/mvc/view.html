@@ -84,8 +84,9 @@
                 </form>
             </div>
                 <ul class="nav nav-sidebar">
-        <li><a href="/1.0/guide/forms/element/upload.html#minimal">Minimal configuration</a></li>
-        <li><a href="/1.0/guide/forms/element/upload.html#full">Full configuration</a></li>
+        <li><a href="#basics">View basics</a></li>
+        <li><a href="#filters">New filters</a></li>
+        <li><a href="#helpers">New helpers</a></li>
     </ul>
         </div>
         <div class="col-sm-12 main">
@@ -93,86 +94,133 @@
                 <ol class="breadcrumb">
                         <li><a href="/">Vegas CMF</a></li>
     <li><a href="/1.0/guide.html">Guide</a></li>
-    <li><a href="/1.0/guide.html#forms">Forms</a></li>
-    <li><a href="/1.0/guide.html#form-element">Element</a></li>
-    <li class="active"><a href="/1.0/guide/forms/element/upload.html">Upload</a></li>
+    <li><a href="/1.0/guide.html#mvc">Mvc</a></li>
+    <li><a href="/1.0/guide/mvc/view.html">View</a></li>
                 </ol>
             </div>
             <hr />
             <div class="main-body">
-                <h2>Vegas CMF Form Elements</h2>
+                
+    <h2>View</h2>
 
-<h3>Requirements</h3>
+    <h3 id="basics">View basics</h3>
 
-<p>
-    Before you use Upload Form Element make sure that you installed the "jquery-uploader" JS library.
-    More information about the JS library you can find here: <a target="_blank" href="https://github.com/adrianmalik/jquery-uploader">jquery-uploader</a>.
-    After implementation form element and embeding form inside the view, please make sure also if you set "uploadAction()" properly in controller file.
-    <br/><br/>
-    All required js and css files are included in vegas library.
-    Check <a href="/1.0/guide/forms/installation.html">installation</a> guide for more details.
-</p>
+    <p>
+        By default, <code>Vegas\Mvc\ModuleAbstract</code> is using <code>Vegas\Mvc\View</code> with volt extenstion. If
+        you want to use custom View class, you need to overwrite <strong>registerViewComponent</strong> method in your
+        <strong>Module.php</strong>:
+    </p>
 
-<h3>Vegas\Forms\Element\Upload</h3>
+<pre class="php"><code>namespace Foo;
 
-<p>
-    Element to upload files.
-</p>
-
-<h4>Form</h4>
-<h5 id="minimal">Minimal configuration:</h5>
-<pre><code class="php">
-namespace Category\Forms;
-
-use Vegas\Forms\Element\Upload;
-use Vegas\Forms\Form;
-
-class Category extends Form
+class Module extends \Vegas\Mvc\ModuleAbstract
 {
-    public function initialize()
-    {
-        $upload = new Upload('files');
-        $upload->setUploadUrl('/your/upload/url');
-        $upload->setAssetsManager($this->assets);
-        $this->add($upload);
+    public function __construct() {
+        $this->namespace = __NAMESPACE__;
+        $this->dir = __DIR__;
     }
-}
-</code></pre>
-<br/>
-<h5 id="full">Full configuration:</h5>
-<pre><code class="php">
-namespace Category\Forms;
 
-use Vegas\Forms\Element\Upload;
-use Vegas\Forms\Form;
+    protected function registerViewComponent($di)
+    {
+        $di->set('view', function() use ($di) {
+            $viewDir = $this->dir . '/views';
+            $view = new CustomView($di->get('config')->application->view->toArray(), $viewDir);
 
-class Category extends Form
+            if (file_exists($viewDir)) {
+                $view->setViewsDir($viewDir);
+            }
+
+            $view->setEventsManager($di->getShared('eventsManager'));
+            return $view;
+        });
+    }
+}</code></pre>
+
+    <p>
+        <br/>
+        <code>Vegas\Mvc\View</code> extends <code>Phalcon\Mvc\View</code> with additional filters and helpers. In
+        addition you can use absolute path for layouts dir instead relative one.
+    </p>
+
+    <h3 id="filters">New filters</h3>
+
+    <br/>
+    <h4>toString</h4>
+
+    <p>
+        Cast variable to string.
+    </p>
+
+    <p><strong>Usage</strong></p>
+
+    
+    <pre class="twig"><code>{{ variable|toString }}</code></pre>
+    
+
+    <h3 id="helpers">New helpers</h3>
+
+    <br/>
+    <h4>pagination</h4>
+
+    <p>
+        A simple tag for pagination rendering.
+    </p>
+
+    <p><strong>Tag interface</strong></p>
+
+    <pre class="php"><code>public function pagination($page, $options=array()) {
+    $defaultSettings = [
+        'start_end_offset' => 2,
+        'middle_offset' => 3
+    ];
+    $settings = array_merge($defaultSettings, $settings);
+}</code></pre>
+
+    <p><br/><strong>Usage</strong></p>
+
+    <p>Make a paginator instance in your controller action...</p>
+
+    <pre class="php"><code>$paginator = new \Vegas\Paginator\Adapter\ExampleAdapter(...);
+$this->view->page = $paginator->getPaginate();</code></pre>
+
+    <p><br/>... and use in volt template:</p>
+
+    
+    <pre class="twig"><code>{{ pagination(page[, options]) }}</code></pre>
+    
+
+    <p><br/><strong>Options</strong></p>
+
+    <ul>
+        <li>'start_end_offset' - default: 2</li>
+        <li>'middle_offset' - default: 3</li>
+    </ul>
+
+    <p><br/><strong>Preview</strong></p>
+
+    <p>
+        <img src="/media/img/paginator.png" alt="example paginator preview" />
+    </p>
+
+    <br/>
+    <h4>shortenText</h4>
+
+    <p>
+        Cut text to string of given length and remove all html tags.
+    </p>
+
+    <p><strong>Tag interface</strong></p>
+
+    <pre class="php"><code>public function shortenText($text, $length = 100, $endString = '...')
 {
-    public function initialize()
-    {
-        $upload = new Upload('files');
-        $upload->setUploadUrl('/your/upload}/url');
-        $upload->setAssetsManager($this->assets);
-        $upload->setModel(new \File\Models\File()); //File model required by preview. It represents
-        $upload->setPreviewSize(array('width' => 140, 'height' => 100)); //Size of preview images
-        $upload->setMode(Upload::MODE_MULTI); //Upload multiple files. Constants MODE_MULTI, MODE_SINGLE
-        $upload->addValidator(new SizeOf(array('min' => 1))); //SizeOf Validator
-        $upload->setButtonLabels(array('add' => 'Add File')); //Sets label for add button
-        $upload->setExtensions(array('jpg', 'png')); //Allowed extensions
-        $upload->setMimeTypes(array('image/jpeg', 'image/png'));
-        $upload->setTriggerType('button'); //Trigger for selecting files. Options: 'button', 'dropzone'
-        $upload->setMaxFiles(4); //Sets max number of files
-        $upload->setMaxFileSize(1024*1024); //Sets max size of upload file
-        $upload->setBaseElements(array(
-            new Text('title'),
-            new Text('description'),
-            ... //You can add whichever form element you want to single file
-        ));
-        $this->add($upload);
-    }
-}
-</code></pre>
+    //...
+}</code></pre>
 
+    <p><br/><strong>Usage</strong></p>
+
+    
+    <pre class="twig"><code>{{ shortenText(text[, length[, endString]]) }}</code></pre>
+    
 
             </div>
             <hr />

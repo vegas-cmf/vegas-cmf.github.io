@@ -84,8 +84,8 @@
                 </form>
             </div>
                 <ul class="nav nav-sidebar">
-        <li><a href="/1.0/getting-started/requirements.html">Requirements</a></li>
-        <li><a href="/1.0/getting-started/vegaser.html">Vegaser Tool</a></li>
+        <li><a href="/1.0/guide/forms/element/cloneable.html#minimal">Simple setup</a></li>
+        <li><a href="/1.0/guide/forms/element/cloneable.html#full">Full setup</a></li>
     </ul>
         </div>
         <div class="col-sm-12 main">
@@ -94,7 +94,7 @@
                         <li><a href="/">Vegas CMF</a></li>
     <li><a href="/1.0/guide.html">Guide</a></li>
     <li><a href="/1.0/guide.html#forms">Forms</a></li>
-    <li><a href="/1.0/guide.html#element">Element</a></li>
+    <li><a href="/1.0/guide.html#form-element">Element</a></li>
     <li class="active"><a href="/1.0/guide/forms/element/cloneable.html">Cloneable</a></li>
                 </ol>
             </div>
@@ -107,61 +107,157 @@
 <p>
     Element with add/remove field buttons. You can use single field as base element
     (generated field name: <i>cloneableElementName[]</i>) or array of fields (generated fields names:
-    <i>cloneableElementName[0..n][baseFieldName]</i>).
+    <i>cloneableElementName[0..n][baseFieldName]</i>). <br/><br/>
+    All required js and css files are included in vegas library.
+    Check <a href="/1.0/guide/forms/installation.html">installation</a> guide for more details.
 </p>
 
-<h4>Usage</h4>
+<h4 id="minimal">Minimal configuration</h4>
 
-<pre><code class="php">
-// always set the base element!
-$answers = new Cloneable('answers');
+<pre class="php"><code>namespace Foo\Forms;
 
-$answers->setBaseElements(array(
-    new Text('field1'),
-    new Text('field2')
-);
-// and/or
-$answers->addBaseElement(new Text(''));
+use Phalcon\Forms\Element\Text;
 
-$answers->setLabel($this->i18n->_('Answers'));
-$answers->addValidator(new SizeOf(array('min' => 2, 'max' => 6)));
-$this->add($answers);
-</code></pre>
+class Bar extends \Vegas\Forms\Form
+{
+    public function initialize()
+    {
+        // always set the base element!
+        $answers = new Cloneable('answers');
 
-<p>
-    You can also add validators to base elements:
-</p>
+        $answers->setBaseElements(array(
+            new Text('field1'),
+            new Text('field2')
+        );
+        // and/or
+        $answers->addBaseElement(new Text(''));
 
-<pre><code class="php">
-$name = new Text('name');
-$name->addValidator(new PresenceOf());
+        $answers->setAssetsManager($this->assets);
 
-$answers->addBaseElement($name);
-</code></pre>
+        $this->add($answers);
 
+        // ...
+    }
+}</code></pre>
 
 <p>
+    <br/>
     It is possible to render cloneable field as one or get row and render each row element separately:
 </p>
 
 
-<pre><code class="html">
-{{ form.get('answers') }}
+<pre class="twig"><code>{{ form.get('answers') }}
 {% for row in form.get('answers').getRows() %}
-    <tr>
+    &lt;tr&gt;
         {% for item in row.getElements() %}
-            <td>{{ item }}</td>
+            &lt;td&gt;{{ item }}&lt;/td&gt;
         {% endfor %}
-    </tr>
-{% endfor %}
-</code></pre>
+    &lt;/tr&gt;
+{% endfor %}</code></pre>
 
+
+    <br/>
+    <h4 id="full">Full configuration</h4>
+
+    <p>
+        As you can see in the code below, you can also add validators to the base elements and enable sortable option:
+    </p>
+
+    <pre class="php"><code>namespace Foo\Forms;
+
+use Phalcon\Forms\Element\Text;
+use Vegas\Validation\Validator\PresenceOf;
+use Vegas\Validation\Validator\SizeOf;
+
+class Bar extends \Vegas\Forms\Form
+{
+    public function initialize()
+    {
+        $name = new Text('name');
+        $name->addValidator(new PresenceOf());
+
+        $lastname = new Text('lastname');
+        $lastname->addValidator(new PresenceOf());
+
+        $man = new Cloneable('list_of_man');
+        $man->setLabel($this->i18n->_('List'));
+        $man->setBaseElements(array($name, $lastname));
+        $man->addValidator(new SizeOf(array('min' => 2, 'max' => 6)));
+        $man->setAssetsManager($this->assets);
+        $man->setUserOption('sortable', true);
+
+        $this->add($man);
+
+        // ...
+    }
+}</code></pre>
+
+    <p>
+        <br/>
+        By default, if you set up forms with <code>php /path/to/cli.php vegas:assets publish</code> task,
+        <code>cloneable.js</code> will run following code:
+    </p>
+
+    <pre class="js"><code>$(document).ready(function() {
+    $('[vegas-cloneable]').vegasCloner();
+});</code></pre>
+
+    <p>
+        <br/>
+        You can customize options for <strong>cloneable</strong> and/or add this jQuery function to another selector
+        like this:
+    </p>
+
+    <pre class="js"><code>$(document).ready(function() {
+    $('.my-custom-cloneable-template').vegasCloner(options);
+});</code></pre>
+
+    <p>
+        <br/>
+        Possible options for <code>vegasCloner</code> function with default values:
+    </p>
+
+    <pre class="js"><code>{
+    'buttons': {
+        'add': {
+            'text': 'Add next',
+            'class': 'btn-form-submit'
+        },
+        'remove': {
+            'text': 'Remove last',
+            'class': 'btn-form-cancel'
+        },
+        'insertAfterSelector': jQuerySelector // by default it is just whole cloneable container
+    },
+    'row': {
+        'selector': 'fieldset',
+        'removeButton': $('&lt;a&gt;').html('x')
+            .attr('href','javascript:void(0);')
+            .addClass('cloner-row-remove')
+    },
+    'sortable': {
+        'callback': function() {
+            // your custom callback to replace cloneable default
+        }
+    }
+}</code></pre>
+
+    <p>
+        <br/>
+        Each time when <strong>row</strong> is added or removed, the <code>cloned</code> action is triggered on the
+        cloneable container. You can add your own functionality to this event.<br/><br/>
+        <strong>Important!</strong> <i>Preventing default event behavior may break script functionality.</i>
+    </p>
+
+    <pre class="js"><code>$('[vegas-cloneable]').on('cloned', function() {
+    // do something
+});</code></pre>
             </div>
             <hr />
             <div class="main-footer">
     <div role="contentinfo">
         <p>
-            &copy; 2014 Amsterdam Standard Sp. z o.o.
+            &copy; 2014 <a href="http://amsterdamstandard.nl" target="_blank">Amsterdam Standard</a>
         </p>
     </div>
 </div>

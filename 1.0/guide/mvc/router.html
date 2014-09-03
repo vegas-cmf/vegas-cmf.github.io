@@ -95,6 +95,7 @@
                 <ol class="breadcrumb">
                         <li><a href="/">Vegas CMF</a></li>
     <li><a href="/1.0/guide.html">Guide</a></li>
+    <li><a href="/1.0/guide.html#mvc">Mvc</a></li>
     <li><a href="/1.0/guide/mvc/router.html">Router</a></li>
                 </ol>
             </div>
@@ -148,6 +149,9 @@ return array(
             <a href="#route-types-static">Static</a>
         </li>
         <li>
+            <a href="#route-types-base">Base</a>
+        </li>
+        <li>
             <a href="#route-types-rest">Rest</a>
         </li>
         <li>
@@ -188,6 +192,24 @@ return array(
             'action'    =>  'login'
         ),
         'type' => 'static'
+    )
+);</code></pre>
+</p>
+
+<h4 id="route-types-base">Base route</h4>
+<p>
+    In opposite to <strong>static route</strong>, base route will be overwritten by any other rule and route type.
+    <br />
+<pre class="php"><code>
+return array(
+    'default-page' =>  array(
+        'route' =>  '/{slug}',
+        'paths' =>  array(
+            'module' => 'Default',
+            'controller'    =>  'Frontend\Page',
+            'action'    =>  'show'
+        ),
+        'type' => 'base'
     )
 );</code></pre>
 </p>
@@ -318,7 +340,7 @@ protected function initRoutes()
             <div class="main-footer">
     <div role="contentinfo">
         <p>
-            &copy; 2014 Amsterdam Standard Sp. z o.o.
+            &copy; 2014 <a href="http://amsterdamstandard.nl" target="_blank">Amsterdam Standard</a>
         </p>
     </div>
 </div>

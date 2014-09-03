@@ -121,8 +121,9 @@
 
 <h3 id="global">Global application task</h3>
 <p>
-<pre><code class="php">
-class CustomTask extends \Vegas\Cli\Task
+<pre class="shell"><code>touch app/tasks/CustomTask.php</code></pre>
+<br />
+<pre><code class="php">class CustomTask extends \Vegas\Cli\Task
 {
     /**
      * Available options
@@ -205,8 +206,9 @@ class CustomTask extends \Vegas\Cli\Task
 
 <h3 id="module">Application module task</h3>
 <p>
-<pre><code class="php">
-namespace Example\Tasks;
+<pre class="shell"><code>touch app/modules/Example/tasks/CustomTask.php</code></pre>
+<br />
+<pre><code class="php">namespace Example\Tasks;
 
 class CustomTask extends \Vegas\Cli\Task
 {
@@ -303,7 +305,7 @@ class CustomTask extends \Vegas\Cli\Task
             <div class="main-footer">
     <div role="contentinfo">
         <p>
-            &copy; 2014 Amsterdam Standard Sp. z o.o.
+            &copy; 2014 <a href="http://amsterdamstandard.nl" target="_blank">Amsterdam Standard</a>
         </p>
     </div>
 </div>

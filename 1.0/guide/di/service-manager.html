@@ -84,8 +84,8 @@
                 </form>
             </div>
                 <ul class="nav nav-sidebar">
-        <li><a href="/1.0/guide/forms/element/upload.html#minimal">Minimal configuration</a></li>
-        <li><a href="/1.0/guide/forms/element/upload.html#full">Full configuration</a></li>
+        <li><a href="#manager">Manager usage</a></li>
+        <li><a href="#components">"Components like" services</a></li>
     </ul>
         </div>
         <div class="col-sm-12 main">
@@ -93,86 +93,112 @@
                 <ol class="breadcrumb">
                         <li><a href="/">Vegas CMF</a></li>
     <li><a href="/1.0/guide.html">Guide</a></li>
-    <li><a href="/1.0/guide.html#forms">Forms</a></li>
-    <li><a href="/1.0/guide.html#form-element">Element</a></li>
-    <li class="active"><a href="/1.0/guide/forms/element/upload.html">Upload</a></li>
+    <li><a href="/1.0/guide.html#di">Dependency Injection</a></li>
+    <li><a href="/1.0/guide/di/service-manager.html">Service Manager</a></li>
                 </ol>
             </div>
             <hr />
             <div class="main-body">
-                <h2>Vegas CMF Form Elements</h2>
+                
+    <h2>Service Manager</h2>
 
-<h3>Requirements</h3>
+    <p>
+        If you followed <a href="/1.0/guide/mvc/module.html">Vegas CMF module schema</a> <strong>Service Manager</strong>
+        will allow you to load services from your modules without building service providers for any of them. They would
+        be loaded "on the fly". Of course they can be shared and reused.
+    </p>
 
-<p>
-    Before you use Upload Form Element make sure that you installed the "jquery-uploader" JS library.
-    More information about the JS library you can find here: <a target="_blank" href="https://github.com/adrianmalik/jquery-uploader">jquery-uploader</a>.
-    After implementation form element and embeding form inside the view, please make sure also if you set "uploadAction()" properly in controller file.
-    <br/><br/>
-    All required js and css files are included in vegas library.
-    Check <a href="/1.0/guide/forms/installation.html">installation</a> guide for more details.
-</p>
+    <h3 id="manager">Manager usage</h3>
 
-<h3>Vegas\Forms\Element\Upload</h3>
+    <p>
+        Take a look of the code below with example <strong>Bar</strong> service in <strong>Foo</strong> module:
+    </p>
 
-<p>
-    Element to upload files.
-</p>
+    <pre class="php"><code>namespace Foo\Services;
 
-<h4>Form</h4>
-<h5 id="minimal">Minimal configuration:</h5>
-<pre><code class="php">
-namespace Category\Forms;
+use Phalcon\DI\InjectionAwareInterface;
+use Vegas\DI\InjectionAwareTrait;
 
-use Vegas\Forms\Element\Upload;
-use Vegas\Forms\Form;
-
-class Category extends Form
+class Bar implements InjectionAwareInterface
 {
-    public function initialize()
+    use InjectionAwareTrait;
+
+    public function baz()
     {
-        $upload = new Upload('files');
-        $upload->setUploadUrl('/your/upload/url');
-        $upload->setAssetsManager($this->assets);
-        $this->add($upload);
+        // do something
     }
-}
-</code></pre>
-<br/>
-<h5 id="full">Full configuration:</h5>
-<pre><code class="php">
-namespace Category\Forms;
+} </code></pre>
 
-use Vegas\Forms\Element\Upload;
-use Vegas\Forms\Form;
+    <p>
+        <br/>
+        <strong>Usage in controller:</strong>
+    </p>
 
-class Category extends Form
+    <pre class="php"><code>$this->serviceManager->getService('foo:bar')->baz();</code></pre>
+
+    <p>
+        <br/>
+        <strong>Usage in class with injected DI:</strong>
+    </p>
+
+    <pre class="php"><code>$this->getDI()->get('serviceManager')->getService('foo:bar')->baz();</code></pre>
+
+    <p>
+        <br/>
+        <strong>Usage in volt template:</strong>
+    </p>
+
+    
+    <pre class="twig"><code>{{ serviceManager.getService('foo:bar').baz() }}</code></pre>
+    
+
+    <h3 id="components">"Components like" services</h3>
+
+    <p>
+        Sometimes you may want to use part of business logic along with rendering small template and include the whole
+        thing in several places through the application. In situation like this <strong>component services</strong>
+        can be useful. Extending typical service with <code>\Vegas\DI\Service\ComponentAbstract</code> class will give
+        you additional <code>render([$params])</code> method. Optional <code>$params</code> array will be passed to
+        <code>setUp</code> method.
+    </p>
+
+    <pre class="php"><code>namespace Foo\Services;
+
+/**
+ * Class SuperBar
+ * @package Foo\Services
+ */
+class SuperBar extends \Vegas\DI\Service\ComponentAbstract
 {
-    public function initialize()
+    protected function setUp($params = array())
     {
-        $upload = new Upload('files');
-        $upload->setUploadUrl('/your/upload}/url');
-        $upload->setAssetsManager($this->assets);
-        $upload->setModel(new \File\Models\File()); //File model required by preview. It represents
-        $upload->setPreviewSize(array('width' => 140, 'height' => 100)); //Size of preview images
-        $upload->setMode(Upload::MODE_MULTI); //Upload multiple files. Constants MODE_MULTI, MODE_SINGLE
-        $upload->addValidator(new SizeOf(array('min' => 1))); //SizeOf Validator
-        $upload->setButtonLabels(array('add' => 'Add File')); //Sets label for add button
-        $upload->setExtensions(array('jpg', 'png')); //Allowed extensions
-        $upload->setMimeTypes(array('image/jpeg', 'image/png'));
-        $upload->setTriggerType('button'); //Trigger for selecting files. Options: 'button', 'dropzone'
-        $upload->setMaxFiles(4); //Sets max number of files
-        $upload->setMaxFileSize(1024*1024); //Sets max size of upload file
-        $upload->setBaseElements(array(
-            new Text('title'),
-            new Text('description'),
-            ... //You can add whichever form element you want to single file
-        ));
-        $this->add($upload);
-    }
-}
-</code></pre>
+        // do something with params
+        if (empty($params['data']) {
+            $params['data'] = 'foobar';
+        }
 
+        return array('data' => $params['data']);
+    }
+}</code></pre>
+
+    <p>
+        <br/>
+        Template for SuperBar service should be placed in <code>app/modules/Foo/views/services/superBar.volt</code>.
+        Code may look like:
+    </p>
+
+    
+    <pre class="twig"><code>This is data: {{ data }}</code></pre>
+    
+
+    <p>
+        <br/>
+        In volt templates you can render this service using code below:
+    </p>
+
+    
+    <pre class="twig"><code>{{ serviceManager.getService('foo:superBar').render() }}</code></pre>
+    
 
             </div>
             <hr />

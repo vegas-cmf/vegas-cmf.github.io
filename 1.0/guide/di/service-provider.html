@@ -85,6 +85,7 @@
             </div>
                 <ul class="nav nav-sidebar">
         <li><a href="#register">Register a service</a></li>
+        <li><a href="#examples">Examples</a></li>
     </ul>
         </div>
         <div class="col-sm-12 main">
@@ -92,6 +93,7 @@
                 <ol class="breadcrumb">
                         <li><a href="/">Vegas CMF</a></li>
     <li><a href="/1.0/guide.html">Guide</a></li>
+    <li><a href="/1.0/guide.html#di">Dependency Injection</a></li>
     <li><a href="/1.0/guide/di/service-provider.html">Service provider</a></li>
                 </ol>
             </div>
@@ -111,12 +113,21 @@
     Service provider loader generates file <strong>services.php</strong> inside <strong>app/config</strong> directory,
     which contains the list of available services in the application. In <i>development</i> environment, that file is generated
     on every request. In case of <i>production</i> environment loader use already generated file to setups services.
-    <br />
-    In the following example we register a scaffolding service.
-    <br />
-    <br />
-<pre class="php"><code>
-use Phalcon\DiInterface;
+    <br /><br />
+    Service provider must implements <code>Vegas\DI\ServiceProviderInterface</code> and must have constant
+    <strong>const SERVICE_NAME</strong> that contains name of service. <br />
+    The <strong>register</strong> method registers service in the <i>dependency injection</i> container.
+    Method <strong>getDependencies</strong> must returns an array (also empty array) with list of depencened services,
+    for example, <a href="#scaffolding">scaffolding</a> requires Mongo and CollectionManager service.
+</p>
+
+    <h3 id="examples">Examples</h3>
+
+    <h4 id="scaffolding">Scaffolding Service Provider</h4>
+
+    <p>In the following example we register a scaffolding service:</p>
+
+<pre class="php"><code>use Phalcon\DiInterface;
 use Vegas\DI\ServiceProviderInterface;
 use Vegas\DI\Scaffolding;
 
@@ -142,19 +153,82 @@ class ScaffoldingServiceProvider implements ServiceProviderInterface
     }
 }
 </code></pre>
-    <br />
-    Service provider must implements <strong>Vegas\DI\ServiceProviderInterface</strong> and must have constant
-    <strong>const SERVICE_NAME</strong> that contains name of service. <br />
-    The <strong>register</strong> method registers service in the <i>dependency injection</i> container.
-    Method <strong>getDependencies</strong> must returns an array (also empty array) with list of depencened services,
-    for example, <i>scaffolding</i> requires Mongo and CollectionManager service.
-</p>
+
+    <h4 id="i18n">I18n Service Provider</h4>
+
+    <p>
+        In example below you can see Gettext based i18n service provider. For more informations about i18n adapters
+        available in Phalcon, check
+        <a href="https://github.com/phalcon/incubator/tree/master/Library/Phalcon/Translate/Adapter" target="_blank">
+            Phalcon Incubator
+        </a>.
+    </p>
+
+<pre class="php"><code>use Phalcon\DiInterface;
+use Vegas\DI\ServiceProviderInterface;
+
+class I18nServiceProvider implements ServiceProviderInterface
+{
+    const SERVICE_NAME = 'i18n';
+
+    /**
+     * {@inheritdoc}
+     */
+    public function register(DiInterface $di)
+    {
+        $config = $di->get('config');
+        $di->set('i18n', function() use ($config) {
+            return new \Phalcon\Translate\Adapter\Gettext(array(
+                'locale' => $config->application->language,
+                'file' => 'messages',
+                'directory' => APP_ROOT.'/lang'
+            ));
+        });
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDependencies()
+    {
+        return array();
+    }
+}</code></pre>
+
+    <h4 id="assets">Assets Manager Service Provider</h4>
+
+    <p>In the following example we register default Vegas CMF assets manager service:</p>
+
+    <pre class="php"><code>use Phalcon\DiInterface;
+use Vegas\DI\ServiceProviderInterface;
+
+/**
+ * Class AssetsServiceProvider
+ */
+class AssetsServiceProvider implements ServiceProviderInterface
+{
+    const SERVICE_NAME = 'assets';
+
+    /**
+     * {@inheritdoc}
+     */
+    public function register(DiInterface $di)
+    {
+        $di->set(self::SERVICE_NAME, '\Vegas\Assets\Manager', true);
+    }
+
+    public function getDependencies()
+    {
+        return array();
+    }
+}</code></pre>
+
             </div>
             <hr />
             <div class="main-footer">
     <div role="contentinfo">
         <p>
-            &copy; 2014 Amsterdam Standard Sp. z o.o.
+            &copy; 2014 <a href="http://amsterdamstandard.nl" target="_blank">Amsterdam Standard</a>
         </p>
     </div>
 </div>

@@ -797,7 +797,7 @@ class AuthController extends ControllerAbstract
         if ($this->request->isPost()) {
             try {
                 $service = $this->serviceManager->getService('auth:auth');
-                $service->login($this->request->get('email'));
+                $service->authenticateByEmail($this->request->get('email'));
 
                 return $this->response->redirect(array('for' => 'root'));
             } catch (\Vegas\Security\Authentication\Exception $ex) {
@@ -861,7 +861,7 @@ class AuthController extends ControllerAbstract
             <div class="main-footer">
     <div role="contentinfo">
         <p>
-            &copy; 2014 Amsterdam Standard Sp. z o.o.
+            &copy; 2014 <a href="http://amsterdamstandard.nl" target="_blank">Amsterdam Standard</a>
         </p>
     </div>
 </div>

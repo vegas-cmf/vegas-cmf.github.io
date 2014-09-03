@@ -94,6 +94,7 @@
                 <ol class="breadcrumb">
                         <li><a href="/">Vegas CMF</a></li>
     <li><a href="/1.0/guide.html">Guide</a></li>
+    <li><a href="/1.0/guide.html#mvc">Mvc</a></li>
     <li><a href="/1.0/guide/mvc/module.html">Module</a></li>
                 </ol>
             </div>
@@ -105,7 +106,7 @@
 <h3 id="modules">Modules</h3>
 
 <p>
-Application based on Vegas CMF is separated on modules. Each module has own config file and routes definition.
+Application based on Vegas CMF is separated on modules. Each module has own config file and routes definition. As module we can implement in example: image slider, facebook followers banner, twitter recent posts block, footer, menu, auth and whatever you want.
 </p>
 
 <h3 id="new_module">Create new module</h3>
@@ -139,9 +140,9 @@ list of modules is rebuilding for each request, so you do not have to care about
 
 <br>
 <p>Create config</p>
-<pre class="shell"><code>mkdir app/modules/config
-touch app/modules/config/config.php
-touch app/modules/config/routes.php
+<pre class="shell"><code>mkdir app/modules/Foo/config
+touch app/modules/Foo/config/config.php
+touch app/modules/Foo/config/routes.php
 </code></pre>
 
 <br>
@@ -163,9 +164,9 @@ touch app/modules/config/routes.php
 
 <br>
 <p>Create controller for frontend scope</p>
-<pre class="shell"><code>mkdir app/modules/controllers
-mkdir app/modules/controllers/frontend
-touch app/modules/controllers/frontend/FooController.php
+<pre class="shell"><code>mkdir app/modules/Foo/controllers
+mkdir app/modules/Foo/controllers/frontend
+touch app/modules/Foo/controllers/frontend/FooController.php
 </code></pre>
 <br>
 <p>Fill the FooController.php</p>
@@ -184,9 +185,9 @@ class FooController extends ControllerAbstract
 
 <br>
 <p>Create view for frontend scope</p>
-<pre class="shell"><code>mkdir app/modules/views
-mkdir app/modules/views/frontend
-touch app/modules/views/frontend/foo/index.volt
+<pre class="shell"><code>mkdir app/modules/Foo/views
+mkdir app/modules/Foo/views/frontend
+touch app/modules/Foo/views/frontend/foo/index.volt
 </code></pre>
 
 <br>
@@ -287,7 +288,7 @@ touch app/modules/views/frontend/foo/index.volt
             <div class="main-footer">
     <div role="contentinfo">
         <p>
-            &copy; 2014 Amsterdam Standard Sp. z o.o.
+            &copy; 2014 <a href="http://amsterdamstandard.nl" target="_blank">Amsterdam Standard</a>
         </p>
     </div>
 </div>
