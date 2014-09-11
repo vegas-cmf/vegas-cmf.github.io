@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800' rel='stylesheet' type='text/css'/>
+
+    <title>Vegas CMF - Documentation</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/styles/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/styles/dashboard.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="http://highlightjs.org/static/styles/zenburn.css">
+    <style>
+        pre  {
+            padding: 0;
+            margin: 0;
+        }
+        code  {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/scripts/bootstrap.min.js" type="text/javascript"></script>
+    <script src="http://highlightjs.org/static/highlight.pack.js"></script>
+
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-version">
+            <div class="navbar-button">
+                <span class="glyphicon glyphicon-book"></span>
+                <div class="pull-right"><span class="active">v: 1.0 </span> <span class="caret"></span></div>
+            </div>
+            <div class="navbar-more">
+                <dl>
+                    <dt>Versions</dt>
+                    <dd><a href="#">latest</a></dd>
+                    <dd><a href="#">develop</a></dd>
+                    <dd><a href="#"><strong>1.0</strong></a></dd>
+                </dl>
+                <dl>
+                    <dt>Downloads</dt>
+                    <dd><a href="#">PDF</a></dd>
+                    <dd><a href="#">HTML</a></dd>
+                </dl>
+                <dl>
+                    <dt>On GitHub</dt>
+                    <dd><a href="#">Edit</a></dd>
+                </dl>
+            </div>
+        </div>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Vegas CMF Documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">About</a></li>
+                <li><a href="#">Learn</a></li>
+                <li><a href="#">Get Started</a></li>
+            </ul>
+        </div>
+    </div>
+</div><div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-4 col-md-4 sidebar">
+            <div class="sidebar-search">
+                <form>
+                    <input type="text" class="form-control" placeholder="Search docs" />
+                </form>
+            </div>
+                <ul class="nav nav-sidebar">
+        <li><a href="/1.0/guide/acl/concepts.html">Basic concepts</a></li>
+        <li><a href="/1.0/guide/acl/installation.html">Requirements/installation</a></li>
+        <li class="active"><a href="/1.0/guide/acl/cli.html">CLI reference</a></li>
+    </ul>
+        </div>
+        <div class="col-sm-12 main">
+            <div class="main-header">
+                <ol class="breadcrumb">
+                        <li><a href="/">Vegas CMF</a></li>
+    <li><a href="/1.0/guide.html">Guide</a></li>
+    <li><a href="/1.0/guide.html#acl">Access Control List</a></li>
+    <li class="active"><a href="/1.0/guide/acl/cli.html">CLI reference</a></li>
+                </ol>
+            </div>
+            <hr />
+            <div class="main-body">
+                <h2>CLI reference</h2>
+
+<h3>Usage</h3>
+
+<p>
+    This is a quick guide how to use ACL command line interface. It assumes you understand the idea of tasks (see <a href="/1.0/guide/cli/task.html">CLI Task</a> for more information).
+    <br />
+
+    To display the list of available actions, just enter from the Vegas-built project root:
+    <br />
+    <pre><code class="shell">php cli/cli.php vegas:security_acl:role</code></pre>
+
+</p>
+
+<h3>Actions</h3>
+
+<h4>add</h4>
+<p>
+    <pre><code class="shell">php cli/cli.php vegas:security_acl:role add [options]
+
+[options]
+  --name           -n      Name of role
+  --description    -d      Description of role</code></pre><br/>
+    Creates new role.<br/>
+    Example usage:<br/>
+    <code>vegas:security_acl:role add -n Manager -d "Manages regular users"</code>
+</p>
+<br/>
+
+<h4>remove</h4>
+<p>
+    <pre><code class="shell">php cli/cli.php vegas:security_acl:role remove [options]
+
+[options]
+  --name           -n      Name of role</code></pre><br/>
+    Removes existing role.<br/>
+    Example usage:<br/>
+    <code>vegas:security_acl:role remove -n Manager</code>
+</p>
+<br/>
+
+<h4>allow</h4>
+<p>
+    <pre><code class="shell">php cli/cli.php vegas:security_acl:role allow [options]
+
+[options]
+  --name           -n      Name of role
+  --resource       -r      Resource to allow
+  --access_list    -al     List of accesses in resource to allow</code></pre><br/>
+    Grants access to a resource for specified role. Multiple access lists can be specified.<br/>
+    Both role and resource must exist before running this command.<br/>
+    Example usage:<br/>
+    <code>vegas:security_acl:role allow -n Editor -r mvc:wiki:Frontend-Handbook -al index</code>
+</p>
+<br/>
+
+<h4>deny</h4>
+<p>
+    <pre><code class="shell">php cli/cli.php vegas:security_acl:role deny [options]
+
+[options]
+  --name           -n      Name of role
+  --resource       -r      Resource to deny
+  --access_list    -al     List of accesses in resource to deny</code></pre><br/>
+    Removes access to a resource for specified role. Multiple access lists can be specified.<br/>
+    Both role and resource must exist before running this command.<br/>
+    Example usage:<br/>
+    <code>vegas:security_acl:role deny -n Editor -r mvc:wiki:Frontend-Handbook -al delete</code>
+</p>
+<br/>
+
+<h4>setup</h4>
+<p>
+    <pre><code class="shell">php cli/cli.php vegas:security_acl:role setup</code></pre><br/>
+    Populates application database with predefined roles: <em>Guest</em> and <em>SuperAdmin</em>.<br/>
+    Sets up all privileges to <em>SuperAdmin</em> user as well. Resource list must be generated first.
+</p>
+<br/>
+
+<h4>build</h4>
+<p>
+    <pre><code class="shell">php cli/cli.php vegas:security_acl:role build</code></pre><br/>
+    Clears stored list of resources with their accesses and recreates it based on <code>@ACL</code> annotations in controllers.<br/>
+    By default it adds one resource &amp; resource access combination used as <em>catch-all</em> for all possible actions. SuperAdmin role relies on it.<br/><br/>
+    For more flexible deployments, just add them into <code>app/config/config.php</code> DI configuration using following convention:<br/>
+    <pre><code class="php">return [
+    // ...
+    'acl' => [
+        \Vegas\Security\Acl\Resource::WILDCARD   =>  [
+            'description'   =>  'All privileges (for super admin)',
+            'accessList'    =>  [
+                [
+                    'name'  => \Vegas\Security\Acl\Resource::ACCESS_WILDCARD,
+                    'description' => 'All',
+                    'inherit' => ''
+                ]
+            ]
+        ],
+        // more resources...
+    ],
+];</code></pre>
+</p>
+            </div>
+            <hr />
+            <div class="main-footer">
+    <div role="contentinfo">
+        <p>
+            &copy; 2014 <a href="http://amsterdamstandard.nl" target="_blank">Amsterdam Standard</a>
+        </p>
+    </div>
+</div>
+        </div>
+    </div>
+</div>
+<script>
+    hljs.configure({tabReplace: '    '});
+    hljs.initHighlightingOnLoad();
+</script>
+</body>
+</html>
+

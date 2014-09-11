@@ -105,164 +105,92 @@
 
 <h3 id="standard-router">Standard router</h3>
 
-<p>
-    The standard router based on the PhalconPHP router
-    <a href="http://docs.phalconphp.com/en/latest/reference/routing.html">
-        http://docs.phalconphp.com/en/latest/reference/routing.html
-    </a><br />
-    Router rules by default are defined as array in php file called: <strong>routes.php</strong>. File is located in
-    the <strong>config</strong> directory for each module inside application.<br />
-    <br />
-    Route definition must be defined in the following format: <br />
-<pre class="php"><code>
-return array(
-    'home' =>  array(
-        'route' =>  '/',
-        'paths' =>  array(
+<p>Based on the   <a href="http://docs.phalconphp.com/en/latest/reference/routing.html">PhalconPHP router</a>. Global router rules
+are placed in <code>/app/config/router.php</code> directory, but local module rules are in <code>/app/modules/{Foo}/config/routes.php</code> where <code>{Foo}</code> is a module name.</p>
+<pre class="php"><code>return array(
+    'home' =>  array( //Route name
+        'route' => '/', //Route url
+        'paths' => array(
             'module' => 'Home',
-            'controller'    =>  'Frontend\Home',
-            'action'    =>  'index'
+            'controller' => 'Frontend\Home',
+            'action' =>  'index'
         )
     )
 );</code></pre>
-    <br />
-    The key <i>home</i> in this example, is a name of route, can be simply use in the URL helper, redirect and so on.
-    <br />
-    The key <i>route</i> defines the route URL.
-    <br />
-    The key <i>paths</i> determines the module, controller and action which should be executed, when route is matched by router.
-    <br />
-    <br />
-    Preceding example shows the minimal configuration of route rule.
-    <br />
-    <br />
-</p>
 
 <h3 id="route-types">Route types</h3>
-<p>
-    Vegas CMF defines four types of routes: <br />
-    <ul>
-        <li>
-            <a href="#route-types-default">Default</a>
-        </li>
-        <li>
-            <a href="#route-types-static">Static</a>
-        </li>
-        <li>
-            <a href="#route-types-base">Base</a>
-        </li>
-        <li>
-            <a href="#route-types-rest">Rest</a>
-        </li>
-        <li>
-            <a href="#route-types-notfound">Not found</a>
-        </li>
-    </ul>
-</p>
-
-<h4 id="route-types-default">Default route</h4>
-<p>
-    All rules without explicit type definition are added in default way to the router.
-    <br />
-<pre class="php"><code>
-return array(
+<p>Available types:</p>
+<ul>
+    <li>Default
+    <pre class="php"><code>return array(
     'home' =>  array(
-        'route' =>  '/',
-        'paths' =>  array(
+        'route' => '/',
+        'paths' => array(
             'module' => 'Home',
-            'controller'    =>  'Frontend\Home',
-            'action'    =>  'index'
+            'controller' => 'Frontend\Home',
+            'action' =>  'index'
         ),
-        'type' => 'default'
+        'type' => 'default' //Optional
     )
 );</code></pre>
-</p>
-
-<h4 id="route-types-static">Static route</h4>
-<p>
-    Static route works exactly in the same way, like <strong>default route</strong>, but cannot be overwritten by another rules.
-    <br />
-<pre class="php"><code>
-return array(
+        <br>
+    </li>
+    <li>Static - works the same way like <strong>default route</strong>, but cannot be overwritten by another rules.
+<pre class="php"><code>return array(
     'login' =>  array(
-        'route' =>  '/login',
-        'paths' =>  array(
-            'module' => 'Auth',
-            'controller'    =>  'Frontend\Auth',
-            'action'    =>  'login'
+        'route' => '/login',
+        'paths' => array(
+           'module' => 'Auth',
+            'controller' => 'Frontend\Auth',
+            'action' => 'login'
         ),
         'type' => 'static'
     )
 );</code></pre>
-</p>
-
-<h4 id="route-types-base">Base route</h4>
-<p>
-    In opposite to <strong>static route</strong>, base route will be overwritten by any other rule and route type.
-    <br />
-<pre class="php"><code>
-return array(
-    'default-page' =>  array(
-        'route' =>  '/{slug}',
-        'paths' =>  array(
-            'module' => 'Default',
-            'controller'    =>  'Frontend\Page',
-            'action'    =>  'show'
-        ),
-        'type' => 'base'
-    )
-);</code></pre>
-</p>
-
-<h4 id="route-types-rest">Rest route</h4>
-<p>
-    Rest route can be use for creating the REST Api. It allows to map HTTP methods with controller actions.
-    <br />
-<pre class="php"><code>
-use Vegas\Http\Method;
-//....
-return array(
+        <br>
+    </li>
+    <li>Rest - using to create REST Api. Allows to map HTTP methods with controller actions.
+<pre class="php"><code>return array(
     'products' =>  array(
-        'route' =>  '/products',
-        'paths' =>  array(
+        'route' => '/products',
+        'paths' => array(
             'module' => 'Product',
-            'controller'    =>  'Frontend\Product'
+            'controller' => 'Frontend\Product'
         ),
         'type' => 'rest',
         'params' => array(
             'actions' => array(
                 '/' =>  array(
-                    'index' =>  Method::GET,
-                    'create'  =>  Method::POST
+                    'index' => Vegas\Http\Method::GET,
+                    'create' => Vegas\Http\Method::POST
                 ),
-
                 '/{id}' =>  array(
-                    'show' => Method::GET,
-                    'update' => Method::PUT,
-                    'delete' => Method::DELETE
+                    'show' => Vegas\Http\Method::GET,
+                    'update' => Vegas\Http\Method::PUT,
+                    'delete' => Vegas\Http\Method::DELETE
                 )
             )
         )
     )
-);</code></pre>
-</p>
-
-<h4 id="route-types-notfound">Not found route</h4>
-<p>
-    Not found route is used when no route was matched by router.<br />
-<pre class="php"><code>
-return array(
-    'not-found' =>  array(
-        'route' =>  '',
-        'paths' =>  array(
+);
+</code></pre>
+<br>
+</li>
+<li>Not found - is used when no route is matched
+<pre class="php"><code>return array(
+    'not-found' => array(
+        'route' => '',
+        'paths' => array(
             'module' => 'Home',
-            'controller'    =>  'Frontend\Error',
-            'action'    =>  'error404'
+            'controller' => 'Frontend\Error',
+            'action' => 'error404'
         ),
         'type' => 'notfound'
     )
 );</code></pre>
-</p>
+</li>
+</ul>
+<br>
 
 <h3 id="route-hostname">Hostname constraints</h3>
 <p>
@@ -282,12 +210,12 @@ return array(
     <br />
 <pre class="php"><code>
 return array(
-    'not-found' =>  array(
-        'route' =>  '/foo',
-        'paths' =>  array(
+    'not-found' => array(
+        'route' => '/foo',
+        'paths' => array(
             'module' => 'Foo',
-            'controller'    =>  'Frontend\Foo',
-            'action'    =>  'index'
+            'controller' => 'Frontend\Foo',
+            'action' => 'index'
         ),
         'type' => 'default',
         'params' => array(

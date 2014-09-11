@@ -163,16 +163,16 @@ mkdir app/modules/Foo/controllers/frontend
 touch app/modules/Foo/controllers/frontend/FooController.php
 </code></pre>
 <br>
-<p>Fill the FooController.php</p>
+<p>Fill the FooController.php. (You can also use here <a href="/1.0/guide/mvc/controller.html#crud">CRUD Controller</a> or <a href="/1.0/guide/mvc/controller.html#crudUpload">CRUD Upload Controller</a>)</p>
 <pre class="php"><code>namespace Foo\Controllers\Frontend;
 
-use Vegas\Mvc\Controller\ControllerAbstract,
+use Vegas\Mvc\Controller\ControllerAbstract;
 
 class FooController extends ControllerAbstract
 {
     public function indexAction()
     {
-        $this->view->foo = 'Vegas';
+        //code...
     }
 }
 </code></pre>
