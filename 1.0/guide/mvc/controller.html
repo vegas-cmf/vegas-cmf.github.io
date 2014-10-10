@@ -163,44 +163,44 @@ class FooController extends Crud
 <ul>
     <li><strong>newAction()</strong>
         <ol>
-            <li><code>Vegas\Mvc\Controller\Crud\Events::BEFORE_NEW</code> - is triggered before reading the form to the view</li>
-            <li><code>Vegas\Mvc\Controller\Crud\Events::AFTER_NEW</code> - is triggered after reading the form to the view</li>
+            <li><code>beforeNew()</code> (Alias: Vegas\Mvc\Controller\Crud\Events::BEFORE_NEW) - is triggered before reading the form to the view</li>
+            <li><code>afterNew()</code> (Alias: Vegas\Mvc\Controller\Crud\Events::AFTER_NEW) - is triggered after reading the form to the view</li>
             <li><code>Foo\views\backend\foo\new.volt</code> view is loaded</li>
         </ol>
     </li>
     <li><strong>createAction()</strong>
         <ol>
-            <li><code>Vegas\Mvc\Controller\Crud\Events::BEFORE_CREATE</code> - is triggered before any instruction in action</li>
-            <li><code>Vegas\Mvc\Controller\Crud\Events::BEFORE_SAVE</code> - is triggered before create operation (and also before update operation in updateAction())</li>
-            <li><code>Vegas\Mvc\Controller\Crud\Events::AFTER_SAVE</code> - is triggered after create operation (and also after update operation in updateAction())</li>
-            <li><code>Vegas\Mvc\Controller\Crud\Events::AFTER_CREATE</code> - is triggered after create operation</li>
+            <li><code>beforeCreate</code> (Alias: Vegas\Mvc\Controller\Crud\Events::BEFORE_CREATE) - is triggered before any instruction in action</li>
+            <li><code>beforeSave</code> (Alias: Vegas\Mvc\Controller\Crud\Events::BEFORE_SAVE) - is triggered before create operation (and also before update operation in updateAction())</li>
+            <li><code>afterSave</code>  (Alias: Vegas\Mvc\Controller\Crud\Events::AFTER_SAVE) - is triggered after create operation (and also after update operation in updateAction())</li>
+            <li><code>afterCreate</code> (Alias: Vegas\Mvc\Controller\Crud\Events::AFTER_CREATE) - is triggered after create operation</li>
             <li><code>Vegas\Mvc\Controller\Crud\Events::AFTER_CREATE_EXCEPTION</code> - is triggered when any exception is thrown during create operation</li>
         </ol>
     </li>
     <li>
         <strong>editAction()</strong>
         <ol>
-            <li><code>Vegas\Mvc\Controller\Crud\Events::BEFORE_EDIT</code> - is triggered before any instruction in action</li>
-            <li><code>Vegas\Mvc\Controller\Crud\Events::AFTER_READ</code> - is triggered after reading record from database but before binding record with form</li>
-            <li><code>Vegas\Mvc\Controller\Crud\Events::AFTER_EDIT</code> - is triggered after binding record with form</li>
+            <li><code>beforeEdit()</code> (Alias: Vegas\Mvc\Controller\Crud\Events::BEFORE_EDIT) - is triggered before any instruction in action</li>
+            <li><code>afterRead()</code> (Alias: Vegas\Mvc\Controller\Crud\Events::AFTER_READ) - is triggered after reading record from database but before binding record with form</li>
+            <li><code>afterEdit()</code> (Alias: Vegas\Mvc\Controller\Crud\Events::AFTER_EDIT) - is triggered after binding record with form</li>
             <li><code>Foo\views\backend\foo\edit.volt</code> view is loaded</li>
         </ol>
     </li>
     <li>
         <strong>updateAction()</strong>
         <ol>
-            <li><code>Vegas\Mvc\Controller\Crud\Events::BEFORE_UPDATE</code> - is triggered before any instruction in action</li>
-            <li><code>Vegas\Mvc\Controller\Crud\Events::BEFORE_SAVE</code> - is triggered before update operation (and also before create operation in createAction())</li>
-            <li><code>Vegas\Mvc\Controller\Crud\Events::AFTER_SAVE</code> - is triggered after update operation (and also after insert operation in createAction())</li>
-            <li><code>Vegas\Mvc\Controller\Crud\Events::AFTER_UPDATE</code> - is triggered after update operation</li>
+            <li><code>beforeUpdate()</code> (Alias: Vegas\Mvc\Controller\Crud\Events::BEFORE_UPDATE) - is triggered before any instruction in action</li>
+            <li><code>beforeSave()</code> (Alias: Vegas\Mvc\Controller\Crud\Events::BEFORE_SAVE) - is triggered before update operation (and also before create operation in createAction())</li>
+            <li><code>afterSave()</code> (Alias: Vegas\Mvc\Controller\Crud\Events::AFTER_SAVE) - is triggered after update operation (and also after insert operation in createAction())</li>
+            <li><code>afterUpdate()</code> (Alias: Vegas\Mvc\Controller\Crud\Events::AFTER_UPDATE - is triggered after update operation</li>
             <li><code>Vegas\Mvc\Controller\Crud\Events::AFTER_UPDATE_EXCEPTION</code> - is triggered when any exception is thrown during update operation</li>
         </ol>
     </li>
     <li>
         <strong>deleteAction()</strong>
         <ol>
-            <li><code>Vegas\Mvc\Controller\Crud\Events::BEFORE_DELETE</code> - is triggered before delete operation</li>
-            <li><code>Vegas\Mvc\Controller\Crud\Events::AFTER_DELETE</code> - is triggered after delete operation</li>
+            <li><code>beforeDelete()</code> (Alias: Vegas\Mvc\Controller\Crud\Events::BEFORE_DELETE) - is triggered before delete operation</li>
+            <li><code>afterDelete()</code> (Alias: Vegas\Mvc\Controller\Crud\Events::AFTER_DELETE) - is triggered after delete operation</li>
         </ol>
     </li>
 </ul>
