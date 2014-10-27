@@ -87,6 +87,7 @@
         <li><a href="#basics">View basics</a></li>
         <li><a href="#filters">New filters</a></li>
         <li><a href="#helpers">New helpers</a></li>
+        <li><a href="#partials">Partials</a></li>
     </ul>
         </div>
         <div class="col-sm-12 main">
@@ -221,6 +222,97 @@ $this->view->page = $paginator->getPaginate();</code></pre>
     
     <pre class="twig"><code>{{ shortenText(text[, length[, endString]]) }}</code></pre>
     
+
+
+    <h3 id="partials">Partials</h3>
+    <br/>
+    <h4>Partials in views</h4>
+
+    <table>
+        <tr>
+            <td>
+
+            </td>
+            <td>
+                partialsDir is set
+            </td>
+            <td>
+                partialsDir is not set
+            </td>
+        </tr>
+        <tr>
+            <td>
+                includes global partial app/layouts/partials/header/menu.volt2
+            </td>
+            <td>
+                <code>
+                    
+                        {{ partial('header/menu') }}
+                    
+                </code>
+                or
+                <code>
+                    
+                        {{ partial('../../../layouts/partials/header/menu') }}
+                    
+                </code>
+            </td>
+            <td>
+                <code>
+                    
+                        {{ partial('../../../layouts/partials/header/menu') }}
+                    
+                </code>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                include controller view partial
+                app/modules/Test/views/frontend/test/partials/foo.volt
+            </td>
+            <td>
+                <code>
+                    
+                        {{ partial('./frontend/test/partials/foo') }}
+                    
+                </code>
+            </td>
+            <td>
+                <code>
+                    
+                        {{ partial('./frontend/test/partials/foo') }}
+                    
+                </code>
+                or
+                <code>
+                    
+                        {{ partial('partials/foo') }}
+                    
+                </code>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                include partial from absolute path
+                app/layouts/partials/header/menu.volt
+            </td>
+            <td>
+                <code>
+                    
+                    {{ partial(constant("APP_ROOT") ~ "/app/layouts/partials/header/menu") }}
+                    
+                </code>
+            </td>
+            <td>
+                <code>
+                    
+                    {{ partial(constant("APP_ROOT") ~ "/app/layouts/partials/header/menu") }}
+
+                    
+                </code>
+            </td>
+        </tr>
+    </table>
 
             </div>
             <hr />
