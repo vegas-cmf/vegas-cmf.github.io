@@ -228,21 +228,21 @@ $this->view->page = $paginator->getPaginate();</code></pre>
     <br/>
     <h4>Partials in views</h4>
 
-    <table>
+    <table class="table table-bordered">
         <tr>
             <td>
 
             </td>
             <td>
-                partialsDir is set
+                <strong>partialsDir is set</strong>
             </td>
             <td>
-                partialsDir is not set
+                <strong>partialsDir is not set</strong>
             </td>
         </tr>
         <tr>
             <td>
-                includes global partial app/layouts/partials/header/menu.volt2
+                includes global partial <code>app/layouts/partials/header/menu.volt2</code>
             </td>
             <td>
                 <code>
@@ -268,7 +268,7 @@ $this->view->page = $paginator->getPaginate();</code></pre>
         <tr>
             <td>
                 include controller view partial
-                app/modules/Test/views/frontend/test/partials/foo.volt
+                <code>app/modules/Test/views/frontend/test/partials/foo.volt</code>
             </td>
             <td>
                 <code>
@@ -294,7 +294,7 @@ $this->view->page = $paginator->getPaginate();</code></pre>
         <tr>
             <td>
                 include partial from absolute path
-                app/layouts/partials/header/menu.volt
+                <code>app/layouts/partials/header/menu.volt</code>
             </td>
             <td>
                 <code>
