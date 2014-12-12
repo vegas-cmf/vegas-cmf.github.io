@@ -123,9 +123,9 @@ class UploaderServiceProvider implements ServiceProviderInterface
     {
         $config = $di->get('config');
         $di->set(self::SERVICE_NAME, function () use ($config) {
-            $uploaderAdapter = new Uploader($config->session->toArray());
-            $uploaderAdapter->setExtensions('jpg', 'png');
-            $uploaderAdapter->setMimeTypes('image/jpeg', 'image/png');
+            $uploaderAdapter = new Uploader(new \File\Models\File());
+            $uploaderAdapter->setExtensions(['jpg', 'png']);
+            $uploaderAdapter->setMimeTypes(['image/jpeg', 'image/png']);
             $uploaderAdapter->setMaxFileSize('10MB');
             $uploaderAdapter->setTempDestination(\Vegas\Utils\Path::getRootPath() .'/public/temp');
             $uploaderAdapter->setOriginalDestination(\Vegas\Utils\Path::getRootPath() . '/public/uploads');
