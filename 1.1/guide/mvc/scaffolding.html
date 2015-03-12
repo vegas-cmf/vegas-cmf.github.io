@@ -129,18 +129,19 @@ class FooController extends CrudAbstract
     protected $formName = 'Foo\Forms\Foo';
     protected $modelName = 'Foo\Models\Foo';
 
-    public function initialize()
+    protected function afterCreate()
     {
-        parent::initialize();
+        parent::afterCreate();
 
-        $this->dispatcher->getEventsManager()->attach(Events::AFTER_CREATE, function () {
-            $this->changeFakeValue();
-            $this->redirect();
-        });
+        $this->changeFakeValue();
+        $this->redirect();
+    }
 
-        $this->dispatcher->getEventsManager()->attach(Events::AFTER_EDIT, function () {
-            $this->addExtraField();
-        });
+    protected function afterEdit()
+    {
+        parent::afterEdit();
+
+        $this->addExtraField();
     }
 
     // ...
