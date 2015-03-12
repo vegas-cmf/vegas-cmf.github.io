@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800' rel='stylesheet' type='text/css'/>
+
+    <title>Vegas CMF - Documentation</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/styles/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/styles/dashboard.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="http://highlightjs.org/static/styles/zenburn.css">
+    <style>
+        pre  {
+            padding: 0;
+            margin: 0;
+        }
+        code  {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/scripts/bootstrap.min.js" type="text/javascript"></script>
+    <script src="http://highlightjs.org/static/highlight.pack.js"></script>
+
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-version">
+            <div class="navbar-button">
+                <span class="glyphicon glyphicon-book"></span>
+                <div class="pull-right">
+                    <span class="active">v: 1.0 </span>
+                    <span class="caret"></span>
+                </div>
+            </div>
+            <div class="navbar-more">
+                <dl>
+                    <dt>Versions</dt>
+                    <dd><a href="#">latest</a></dd>
+                    <dd><a href="#">develop</a></dd>
+                    <dd><a href="#"><strong>1.0</strong></a></dd>
+                    <dd><a href="#"><strong>1.1</strong></a></dd>
+                </dl>
+                <dl>
+                    <dt>Downloads</dt>
+                    <dd><a href="#">PDF</a></dd>
+                    <dd><a href="#">HTML</a></dd>
+                </dl>
+                <dl>
+                    <dt>On GitHub</dt>
+                    <dd><a href="#">Edit</a></dd>
+                </dl>
+            </div>
+        </div>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Vegas CMF Documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">About</a></li>
+                <li><a href="#">Learn</a></li>
+                <li><a href="#">Get Started</a></li>
+            </ul>
+        </div>
+    </div>
+</div><div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-4 col-md-4 sidebar">
+            <div class="sidebar-search">
+                <form>
+                    <input type="text" class="form-control" placeholder="Search docs" />
+                </form>
+            </div>
+                <ul class="nav nav-sidebar">
+        <li><a href="#manager">Manager usage</a></li>
+        <li><a href="#components">"Components like" services</a></li>
+    </ul>
+        </div>
+        <div class="col-sm-12 main">
+            <div class="main-header">
+                <ol class="breadcrumb">
+                        <li><a href="/">Vegas CMF</a></li>
+    <li><a href="/1.1/guide.html">Guide</a></li>
+    <li><a href="/1.1/guide.html#di">Dependency Injection</a></li>
+    <li><a href="/1.1/guide/di/service-manager.html">Service Manager</a></li>
+                </ol>
+            </div>
+            <hr />
+            <div class="main-body">
+                
+    <h2>Service Manager</h2>
+
+    <p>
+        If you followed <a href="/1.1/guide/mvc/module.html">Vegas CMF module schema</a> <strong>Service Manager</strong>
+        will allow you to load services from your modules without building service providers for any of them. They would
+        be loaded "on the fly". Of course they can be shared and reused.
+    </p>
+
+    <h3 id="manager">Manager usage</h3>
+
+    <p>
+        Take a look of the code below with example <strong>Bar</strong> service in <strong>Foo</strong> module:
+    </p>
+
+    <pre class="php"><code>namespace Foo\Services;
+
+use Phalcon\DI\InjectionAwareInterface;
+use Vegas\DI\InjectionAwareTrait;
+
+class Bar implements InjectionAwareInterface
+{
+    use InjectionAwareTrait;
+
+    public function baz()
+    {
+        // do something
+    }
+} </code></pre>
+
+    <p>
+        <br/>
+        <strong>Usage in controller:</strong>
+    </p>
+
+    <pre class="php"><code>$this->serviceManager->getService('foo:bar')->baz();</code></pre>
+
+    <p>
+        <br/>
+        <strong>Usage in class with injected DI:</strong>
+    </p>
+
+    <pre class="php"><code>$this->getDI()->get('serviceManager')->getService('foo:bar')->baz();</code></pre>
+
+    <p>
+        <br/>
+        <strong>Usage in volt template:</strong>
+    </p>
+
+    
+    <pre class="twig"><code>{{ serviceManager.getService('foo:bar').baz() }}</code></pre>
+    
+
+    <h3 id="components">"Components like" services</h3>
+
+    <p>
+        Sometimes you may want to use part of business logic along with rendering small template and include the whole
+        thing in several places through the application. In situation like this <strong>component services</strong>
+        can be useful. Extending typical service with <code>\Vegas\DI\Service\ComponentAbstract</code> class will give
+        you additional <code>render([$params])</code> method. Optional <code>$params</code> array will be passed to
+        <code>setUp</code> method.
+    </p>
+
+    <pre class="php"><code>namespace Foo\Services;
+
+/**
+ * Class SuperBar
+ * @package Foo\Services
+ */
+class SuperBar extends \Vegas\DI\Service\ComponentAbstract
+{
+    protected function setUp($params = array())
+    {
+        // do something with params
+        if (empty($params['data']) {
+            $params['data'] = 'foobar';
+        }
+
+        return array('data' => $params['data']);
+    }
+}</code></pre>
+
+    <p>
+        <br/>
+        Template for SuperBar service should be placed in <code>app/modules/Foo/views/services/superBar.volt</code>.
+        Code may look like:
+    </p>
+
+    
+    <pre class="twig"><code>This is data: {{ data }}</code></pre>
+    
+
+    <p>
+        <br/>
+        In volt templates you can render this service using code below:
+    </p>
+
+    
+    <pre class="twig"><code>{{ serviceManager.getService('foo:superBar').render() }}</code></pre>
+    
+
+            </div>
+            <hr />
+            <div class="main-footer">
+    <div role="contentinfo">
+        <p>
+            &copy; 2014 <a href="http://amsterdamstandard.nl" target="_blank">Amsterdam Standard</a>
+        </p>
+    </div>
+</div>
+        </div>
+    </div>
+</div>
+<script>
+    hljs.configure({tabReplace: '    '});
+    hljs.initHighlightingOnLoad();
+</script>
+</body>
+</html>
+

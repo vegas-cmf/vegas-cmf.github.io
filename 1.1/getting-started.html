@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800' rel='stylesheet' type='text/css'/>
+
+    <title>Vegas CMF - Documentation</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/styles/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/styles/dashboard.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="http://highlightjs.org/static/styles/zenburn.css">
+    <style>
+        pre  {
+            padding: 0;
+            margin: 0;
+        }
+        code  {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/scripts/bootstrap.min.js" type="text/javascript"></script>
+    <script src="http://highlightjs.org/static/highlight.pack.js"></script>
+
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-version">
+            <div class="navbar-button">
+                <span class="glyphicon glyphicon-book"></span>
+                <div class="pull-right">
+                    <span class="active">v: 1.0 </span>
+                    <span class="caret"></span>
+                </div>
+            </div>
+            <div class="navbar-more">
+                <dl>
+                    <dt>Versions</dt>
+                    <dd><a href="#">latest</a></dd>
+                    <dd><a href="#">develop</a></dd>
+                    <dd><a href="#"><strong>1.0</strong></a></dd>
+                    <dd><a href="#"><strong>1.1</strong></a></dd>
+                </dl>
+                <dl>
+                    <dt>Downloads</dt>
+                    <dd><a href="#">PDF</a></dd>
+                    <dd><a href="#">HTML</a></dd>
+                </dl>
+                <dl>
+                    <dt>On GitHub</dt>
+                    <dd><a href="#">Edit</a></dd>
+                </dl>
+            </div>
+        </div>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Vegas CMF Documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">About</a></li>
+                <li><a href="#">Learn</a></li>
+                <li><a href="#">Get Started</a></li>
+            </ul>
+        </div>
+    </div>
+</div><div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-4 col-md-4 sidebar">
+            <div class="sidebar-search">
+                <form>
+                    <input type="text" class="form-control" placeholder="Search docs" />
+                </form>
+            </div>
+            <ul class="nav nav-sidebar">
+    <li><a href="#install_dependencies">Prepare environment</a></li>
+    <li><a href="#instructions">Build project</a></li>
+    <li><a href="#virtualhost">Create virtual host file</a></li>
+</ul>
+        </div>
+        <div class="col-sm-12 main">
+            <div class="main-header">
+                <ol class="breadcrumb">
+                        <li><a href="/">Vegas CMF</a></li>
+    <li><a href="/1.1/guide.html">Guide</a></li>
+    <li><a href="/1.1/getting-started.html">Getting started</a></li>
+                </ol>
+            </div>
+            <hr />
+            <div class="main-body">
+                <h2>Getting started</h2>
+<p>
+    In the following article you will know how to build the project on Vegas Library.
+</p>
+
+<h3 id="install_dependencies">Prepare environment</h3>
+
+<p>
+Install php (at least 5.4 version). Vegas library is based on PHP language.
+</p>
+<pre><code class="shell">//Ubuntu 14.04
+sudo apt-get install php5
+sudo apt-get install php-pear
+</code></pre>
+<br>
+<p>Install HTTP server. You can choose between Apache and Nginx.</p>
+<table>
+<thead>
+<tr>
+    <th>Apache</th>
+    <th>Nginx</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<pre><code class="shell">//Ubuntu 14.04 (Apache)
+sudo apt-get install apache2
+</code></pre>
+</td>
+<td>
+<pre><code class="shell">//Ubuntu 14.04 (Nginx)
+sudo apt-get install nginx
+</code></pre>
+</td>
+</tr>
+</tbody>
+</table>
+
+<br>
+<p>Install git</p>
+<pre><code class="shell">//Ubuntu 14.04
+sudo apt-get install git
+</code></pre>
+
+
+<br>
+<p>Install curl</p>
+<pre><code class="shell">//Ubuntu 14.04
+sudo apt-get install curl
+</code></pre>
+
+<br>
+<p>Install phing</p>
+<pre><code class="shell">//Ubuntu 14.04
+sudo pear channel-discover pear.phing.info
+sudo pear install phing/phing
+</code></pre>
+
+<br>
+<p>Install Phalcon</p>
+<div style="padding:20px;background:url('/media/img/phalcon_bg.jpg')">
+<div style="padding:20px;background:#fff;opacity:0.8;">
+<p>Install Phalcon Library</p>
+<pre><code class="shell">//Ubuntu 14.04
+sudo apt-get install php5-dev libpcre3-dev gcc make php5-mysql
+</code></pre>
+
+<br>
+<p>Download Phalcon</p>
+
+<pre><code class="shell">//Ubuntu 14.04
+sudo apt-add-repository ppa:phalcon/stable
+sudo apt-get update
+sudo apt-get install php5-phalcon
+</code></pre>
+
+<br/>
+<p>If you are missing apt-add-repository run the following command:</p>
+
+<pre><code class="shell">//Ubuntu 14.04
+sudo apt-get install python-software-properties
+</code></pre>
+</div>
+</div>
+
+<br>
+<h3 id="instructions">Build project</h3>
+<p>Create your project using vegaser tool</p>
+<pre><code class="shell">cd /var/www
+sudo mkdir vegas-test
+sudo chown {your_user}:{your_user} -R vegas-test
+cd vegas-test
+wget https://github.com/vegas-cmf/vegaser/raw/master/build/vegaser.phar --no-cache
+php vegaser.phar build-project
+</code></pre>
+<br>
+<p>During building project you will see some questions like</p>
+<pre><code class="shell">...
+Enter name of project (eg. vegas-demo): vegas-test
+Enter description of project [Project based on Vegas CMF] This is test of vegas project
+Enter project domain [vegasdemo.com] vegas-test.local
+...
+</code></pre>
+<br>
+<p><span style="color:red;">Remember the domain you answer to the question "Enter project domain" because you will need it for virtual host</span></p>
+<br>
+<p>Install vendors</p>
+<pre><code class="shell">php composer.phar install</code></pre>
+
+<br>
+<h3 id="instructions">Create virtual host</h3>
+<br>
+
+<table>
+<thead>
+<tr>
+<th>Virtual Host Apache</th>
+<th>Virtual Host Nginx</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: top;">
+<br>
+<p id="virtualhost">Create virtual host file</p>
+<pre><code class="shell">//Ubuntu 14.04
+cd /etc/apache2/sites-available
+sudo vim vegas-test.conf</code></pre>
+<br>
+<p>Set content of the file</p>
+<pre><code class="shell">&lt;VirtualHost *:80&gt;
+    ServerName vegas-test.local
+    ServerAlias www.vegas-test.local vegas-test.local
+    DocumentRoot /var/www/vegas-test/public
+
+    &lt;Directory /var/www/vegas-test/public&gt;
+        DirectoryIndex index.php
+        AllowOverride All
+        Order allow,deny
+        Allow from all
+    &lt;/Directory&gt;
+&lt;/VirtualHost&gt;
+</code></pre>
+<br>
+<p>Enable virtual host file and enable mod rewrite</p>
+<pre><code class="shell">sudo a2ensite vegas-test.conf
+sudo a2enmod rewrite
+sudo service apache2 restart</code></pre>
+</td>
+<td style="vertical-align: top;">
+<br>
+<p>Install php5-fpm</p>
+<pre><code class="shell">sudo apt-get install php5-fpm</code></pre>
+<br>
+<p>Create virtual host file</p>
+<pre><code class="shell">//Ubuntu 14.04
+cd /etc/nginx/sites-available/
+sudo vim vegas-test.conf
+</code></pre>
+<br>
+<p>Set content of the file</p>
+<pre><code class="shell">server {
+    listen 80;
+    server_name vegas-test.local;
+
+    # Path to the root of your installation
+    set $root_path /var/www/vegas-test/public;
+    root $root_path;
+
+    access_log /var/log/nginx/vegas-test.local-access.log combined;
+    error_log /var/log/nginx/vegas-test.local-error.log error;
+
+    client_max_body_size 32M; # set max upload size
+    fastcgi_buffers 64 4K;
+
+    index index.php index.html index.htm;
+
+    try_files $uri $uri/ @rewrite;
+
+    location @rewrite {
+        rewrite ^/(.*)$ /index.php?_url=/$1;
+    }
+
+    location = /robots.txt {
+        allow all;
+        log_not_found off;
+        access_log off;
+    }
+
+    location ~ \.php {
+        fastcgi_index  /index.php;
+        #try_files $1 = 404;
+
+        include fastcgi_params;
+
+        fastcgi_split_path_info       ^(.+\.php)(/.+)$;
+        fastcgi_param PATH_INFO       $fastcgi_path_info;
+        fastcgi_param PATH_TRANSLATED $document_root$fastcgi_path_info;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+
+
+        ##fastcgi_pass 127.0.0.1:9000;
+        ## Or use unix-socket with &#039;fastcgi_pass unix:/var/run/php5-fpm.sock;&#039;
+        fastcgi_pass unix:/var/run/php5-fpm.sock; #value is copied as described above
+    }
+
+    location ~* ^/(css|img|js|flv|swf|download)/(.+)$ {
+        root $root_path;
+    }
+
+    # Optional: set long EXPIRES header on static assets
+    location ~* ^.+\.(jpg|jpeg|gif|bmp|ico|png|css|js|swf)$ {
+        expires 30d;
+        # Optional: Don&#039;t log access to assets
+        access_log off;
+    }
+}</code></pre>
+<br>
+<p>Enable virtual host file</p>
+<pre><code class="shell">sudo ln -s /etc/nginx/sites-available/vegas-test.conf /etc/nginx/sites-enabled/vegas-test.conf</code></pre>
+<br>
+<p>Restart nginx</p>
+<pre><code class="shell">sudo service nginx restart</code></pre>
+<br>
+</td>
+</tr>
+</tbody>
+</table>
+<br>
+<p>Add host to /etc/hosts file</p>
+<pre><code class="shell">sudo vim /etc/hosts</code></pre>
+<br>
+<p>Add the following line to the file</p>
+<pre><code class="shell">127.0.0.1 www.vegas-test.local vegas-test.local</code></pre>
+<br>
+<p>Run your project in your browser <a href="http://vegas-test.local">http://vegas-test.local</a></p>
+            </div>
+            <hr />
+            <div class="main-footer">
+    <div role="contentinfo">
+        <p>
+            &copy; 2014 <a href="http://amsterdamstandard.nl" target="_blank">Amsterdam Standard</a>
+        </p>
+    </div>
+</div>
+        </div>
+    </div>
+</div>
+<script>
+    hljs.configure({tabReplace: '    '});
+    hljs.initHighlightingOnLoad();
+</script>
+</body>
+</html>
+

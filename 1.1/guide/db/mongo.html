@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800' rel='stylesheet' type='text/css'/>
+
+    <title>Vegas CMF - Documentation</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/styles/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/styles/dashboard.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="http://highlightjs.org/static/styles/zenburn.css">
+    <style>
+        pre  {
+            padding: 0;
+            margin: 0;
+        }
+        code  {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/scripts/bootstrap.min.js" type="text/javascript"></script>
+    <script src="http://highlightjs.org/static/highlight.pack.js"></script>
+
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-version">
+            <div class="navbar-button">
+                <span class="glyphicon glyphicon-book"></span>
+                <div class="pull-right">
+                    <span class="active">v: 1.0 </span>
+                    <span class="caret"></span>
+                </div>
+            </div>
+            <div class="navbar-more">
+                <dl>
+                    <dt>Versions</dt>
+                    <dd><a href="#">latest</a></dd>
+                    <dd><a href="#">develop</a></dd>
+                    <dd><a href="#"><strong>1.0</strong></a></dd>
+                    <dd><a href="#"><strong>1.1</strong></a></dd>
+                </dl>
+                <dl>
+                    <dt>Downloads</dt>
+                    <dd><a href="#">PDF</a></dd>
+                    <dd><a href="#">HTML</a></dd>
+                </dl>
+                <dl>
+                    <dt>On GitHub</dt>
+                    <dd><a href="#">Edit</a></dd>
+                </dl>
+            </div>
+        </div>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Vegas CMF Documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">About</a></li>
+                <li><a href="#">Learn</a></li>
+                <li><a href="#">Get Started</a></li>
+            </ul>
+        </div>
+    </div>
+</div><div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-4 col-md-4 sidebar">
+            <div class="sidebar-search">
+                <form>
+                    <input type="text" class="form-control" placeholder="Search docs" />
+                </form>
+            </div>
+                <ul class="nav nav-sidebar">
+        <li><a href="#connection">Setup connection</a></li>
+        <li><a href="#provider">Create provider</a></li>
+        <li><a href="#model">Create model</a></li>
+    </ul>
+        </div>
+        <div class="col-sm-12 main">
+            <div class="main-header">
+                <ol class="breadcrumb">
+                        <li><a href="/">Vegas CMF</a></li>
+    <li><a href="/1.1/guide.html">Guide</a></li>
+    <li><a href="/1.1/guide/db/mongo.html">Mongo</a></li>
+                </ol>
+            </div>
+            <hr />
+            <div class="main-body">
+                <h2>Mongo database</h2>
+
+<h3 id="connection">Setup connection</h3>
+<p>
+    Before we start using MongoDB in our project, we have to setup a connection details, by adding them to <code>app/config.config.php</code> file:
+    <br />
+<pre><code class="php">
+//...
+'mongo' => array(
+    'dbname' => 'test'
+),
+//...
+</code></pre>
+</p>
+
+<h3 id="provider">Create provider</h3>
+<p>
+    To make MongoDB available in the application, you have to create a <a href="/1.1/guide/di/service-provider.html">service provider</a>
+    <br />
+<pre><code class="php">
+use Phalcon\DiInterface;
+use Vegas\DI\ServiceProviderInterface;
+use Phalcon\Mvc\Url as UrlResolver;
+
+class MongoServiceProvider implements ServiceProviderInterface
+{
+    const SERVICE_NAME = 'mongo';
+
+    /**
+     * {@inheritdoc}
+     */
+    public function register(DiInterface $di)
+    {
+        $di->set(self::SERVICE_NAME, function() use ($di) {
+            $mongo = new \MongoClient();
+            return $mongo->selectDb($di->get('config')->mongo->db);
+        }, true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDependencies()
+    {
+        return array(
+            CollectionManagerServiceProvider::SERVICE_NAME
+        );
+    }
+}
+</code></pre>
+    <br />
+    Note that Mongo service provider requires <strong>CollectionManagerServiceProvider</strong>, which also has to be registered manually, as follows:
+    <br />
+    <br />
+<pre><code class="php">
+use Phalcon\DiInterface;
+use Vegas\DI\ServiceProviderInterface;
+use Phalcon\Mvc\Url as UrlResolver;
+
+class CollectionManagerServiceProvider implements ServiceProviderInterface
+{
+    const SERVICE_NAME = 'collectionManager';
+
+    /**
+     * {@inheritdoc}
+     */
+    public function register(DiInterface $di)
+    {
+        $di->set(self::SERVICE_NAME, function() use ($di) {
+           return new \Phalcon\Mvc\Collection\Manager();
+        }, true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDependencies()
+    {
+        return array();
+    }
+}
+</code></pre>
+</p>
+
+
+<h3 id="model">Create model</h3>
+<p>
+    Once we have a MongoDB setup in application, we can start creating a data-models. <br />
+    Create a file <strong>Foo.php</strong> in the <i>models</i> directory in one <a href="/1.1/guide/mvc/module.html">module</a>.
+    <br />
+<pre><code class="php">
+namespace Foo\Models;
+
+use Vegas\Db\Decorator\CollectionAbstract;
+
+class Fo extends CollectionAbstract
+{
+    /**
+     * Returns the name of Mongo collection
+     */
+    public function getSource()
+    {
+        return 'foo_collection';
+    }
+}
+</code></pre>
+    <br />
+    For more information about ODM check the following <a href="http://docs.phalconphp.com/pl/latest/reference/odm.html">link</a>.
+</p>
+            </div>
+            <hr />
+            <div class="main-footer">
+    <div role="contentinfo">
+        <p>
+            &copy; 2014 <a href="http://amsterdamstandard.nl" target="_blank">Amsterdam Standard</a>
+        </p>
+    </div>
+</div>
+        </div>
+    </div>
+</div>
+<script>
+    hljs.configure({tabReplace: '    '});
+    hljs.initHighlightingOnLoad();
+</script>
+</body>
+</html>
+

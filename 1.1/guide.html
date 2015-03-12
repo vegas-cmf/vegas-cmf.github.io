@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800' rel='stylesheet' type='text/css'/>
+
+    <title>Vegas CMF - Documentation</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/styles/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/styles/dashboard.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="http://highlightjs.org/static/styles/zenburn.css">
+    <style>
+        pre  {
+            padding: 0;
+            margin: 0;
+        }
+        code  {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/scripts/bootstrap.min.js" type="text/javascript"></script>
+    <script src="http://highlightjs.org/static/highlight.pack.js"></script>
+
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-version">
+            <div class="navbar-button">
+                <span class="glyphicon glyphicon-book"></span>
+                <div class="pull-right">
+                    <span class="active">v: 1.0 </span>
+                    <span class="caret"></span>
+                </div>
+            </div>
+            <div class="navbar-more">
+                <dl>
+                    <dt>Versions</dt>
+                    <dd><a href="#">latest</a></dd>
+                    <dd><a href="#">develop</a></dd>
+                    <dd><a href="#"><strong>1.0</strong></a></dd>
+                    <dd><a href="#"><strong>1.1</strong></a></dd>
+                </dl>
+                <dl>
+                    <dt>Downloads</dt>
+                    <dd><a href="#">PDF</a></dd>
+                    <dd><a href="#">HTML</a></dd>
+                </dl>
+                <dl>
+                    <dt>On GitHub</dt>
+                    <dd><a href="#">Edit</a></dd>
+                </dl>
+            </div>
+        </div>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Vegas CMF Documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">About</a></li>
+                <li><a href="#">Learn</a></li>
+                <li><a href="#">Get Started</a></li>
+            </ul>
+        </div>
+    </div>
+</div><div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-4 col-md-4 sidebar">
+            <div class="sidebar-search">
+                <form>
+                    <input type="text" class="form-control" placeholder="Search docs" />
+                </form>
+            </div>
+                <ul class="nav nav-sidebar">
+        <li><a href="/1.1/getting-started/requirements.html">Requirements</a></li>
+        <li><a href="/1.1/getting-started/vegaser.html">Vegaser Tool</a></li>
+    </ul>
+        </div>
+        <div class="col-sm-12 main">
+            <div class="main-header">
+                <ol class="breadcrumb">
+                        <li><a href="/">Vegas CMF</a></li>
+    <li class="active"><a href="/1.1/guide.html">Guide</a></li>
+                </ol>
+            </div>
+            <hr />
+            <div class="main-body">
+                <h2>Vegas CMF Guide</h2>
+
+<h3>Table of contents</h3>
+
+<h4>Core</h4>
+<p>
+    <ul>
+        <li id="mvc">
+            <a href="#mvc">Mvc</a>
+            <ul>
+                <li><a href="/1.1/guide/mvc/module.html">Module</a></li>
+                <li><a href="/1.1/guide/mvc/controller.html">Controller</a></li>
+                <li><a href="/1.1/guide/mvc/router.html">Router</a></li>
+                <li><a href="/1.1/guide/mvc/view.html">View</a></li>
+                <li><a href="/1.1/guide/mvc/scaffolding.html">Scaffolding</a></li>
+            </ul>
+        </li>
+        <li id="configuration">
+            <a href="/1.1/guide/configuration/config.html">Configuration</a>
+        </li>
+        <li id="cli">
+            <a href="#cli">Cli</a>
+            <ul>
+                <li><a href="/1.1/guide/cli/task.html">Task</a></li>
+            </ul>
+        </li>
+        <li id="db">
+            <a href="#db">Database</a>
+            <ul>
+                <li><a href="/1.1/guide/db/mongo.html">Mongo</a></li>
+                <li><a href="/1.1/guide/db/mysql.html">MySQL</a></li>
+                <li><a href="/1.1/guide/db/mapping.html">Mapping</a></li>
+            </ul>
+        </li>
+        <li id="di">
+            <a href="#di">Dependency Injection</a>
+            <ul>
+                <li><a href="/1.1/guide/di/service-provider.html">Service provider</a></li>
+                <li><a href="/1.1/guide/di/service-manager.html">Service manager</a></li>
+            </ul>
+        </li>
+        <li id="assets">
+            <a href="#assets">Assets</a>
+            <ul>
+                <li><a href="/1.1/guide/assets/manager.html">Simple manager</a></li>
+            </ul>
+        </li>
+        <li id="paginator">
+            <a href="#paginator">Paginator</a>
+            <ul>
+                <li><a href="/1.1/guide/paginator/mongo.html">Mongo</a></li>
+            </ul>
+        </li>
+    </ul>
+</p>
+
+<h4 id="forms">Forms</h4>
+<p>
+    <ul>
+        <li id="form-install">
+            <a href="/1.1/guide/forms/installation.html">Requirements/installation</a>
+        </li>
+        <li id="form-general">
+            <a href="/1.1/guide/forms/general.html">General informations</a>
+        </li>
+        <li id="form-element">
+            <a href="#form-element">Element</a>
+            <ul>
+                <li><a href="/1.1/guide/forms/element/birthdaypicker.html">Bithdaypicker</a></li>
+                <li><a href="/1.1/guide/forms/element/cloneable.html">Cloneable</a></li>
+                <li><a href="/1.1/guide/forms/element/colorpicker.html">Colorpicker</a></li>
+                <li><a href="/1.1/guide/forms/element/datepicker.html">Datepicker</a></li>
+                <li><a href="/1.1/guide/forms/element/multiselect.html">MultiSelect</a></li>
+                <li><a href="/1.1/guide/forms/element/richtextarea.html">RichTextArea</a></li>
+                <li><a href="/1.1/guide/forms/element/select.html">Select</a></li>
+                <li><a href="/1.1/guide/forms/element/timepicker.html">Timepicker</a></li>
+                <li><a href="/1.1/guide/forms/element/upload.html">Upload</a></li>
+            </ul>
+        </li>
+        <li id="form-builder">
+            <a href="/1.1/guide/forms/formbuilder.html">FormBuilder</a>
+        </li>
+        <li id="form-general">
+            <a href="/1.1/guide/forms/decorating.html" class="empty">Decorating elements</a>
+        </li>
+    </ul>
+</p>
+
+<h4 id="forms">Validation</h4>
+<p>
+    <ul>
+        <li id="validation-install">
+            <a href="/1.1/guide/validation/installation.html">Requirements/installation</a>
+        </li>
+        <li id="validator">
+            <a href="#validator">Validator</a>
+            <ul>
+                <li><a href="/1.1/guide/validation/validator/between.html">Between</a></li>
+                <li><a href="/1.1/guide/validation/validator/email.html">Email</a></li>
+                <li><a href="/1.1/guide/validation/validator/exclusionin.html">ExclusionIn</a></li>
+                <li><a href="/1.1/guide/validation/validator/identical.html">Identical</a></li>
+                <li><a href="/1.1/guide/validation/validator/inclusionin.html">InclusionIn</a></li>
+                <li><a href="/1.1/guide/validation/validator/ip.html">Ip</a></li>
+                <li><a href="/1.1/guide/validation/validator/phone.html">Phone</a></li>
+                <li><a href="/1.1/guide/validation/validator/presenceof.html">PresenceOf</a></li>
+                <li><a href="/1.1/guide/validation/validator/regex.html">Regex</a></li>
+                <li><a href="/1.1/guide/validation/validator/sameas.html">SameAs</a></li>
+                <li><a href="/1.1/guide/validation/validator/sizeof.html">SizeOf</a></li>
+                <li><a href="/1.1/guide/validation/validator/stringlength.html">StringLength</a></li>
+                <li><a href="/1.1/guide/validation/validator/unique.html">Unique</a></li>
+                <li><a href="/1.1/guide/validation/validator/url.html">Url</a></li>
+            </ul>
+        </li>
+        <li id="validator-trait">
+            <a href="/1.1/guide/validation/validatortrait.html">Validator Trait</a>
+        </li>
+    </ul>
+</p>
+
+<h4>Session</h4>
+<p>
+    <ul>
+        <li id="adapters">
+            <a href="/1.1/guide/session/adapters.html" class="empty">Adapters</a>
+        </li>
+        <li id="scope">
+            <a href="/1.1/guide/session/scope.html" class="empty">Scope</a>
+        </li>
+    </ul>
+</p>
+
+<h4>Access Control List</h4>
+<p>
+<ul>
+    <li>
+        <a href="/1.1/guide/acl/concepts.html">Basic concepts</a>
+    </li>
+    <li>
+        <a href="/1.1/guide/acl/installation.html">Requirements/installation</a>
+    </li>
+    <li>
+        <a href="/1.1/guide/acl/cli.html">CLI reference</a>
+    </li>
+</ul>
+</p>
+
+<h4>Authentication</h4>
+<p>
+    <ul>
+        <li id="adapters">
+            <a href="/1.1/guide/auth/adapters.html">Adapters</a>
+        </li>
+        <li id="plugin">
+            <a href="/1.1/guide/auth/plugin.html" class="empty">Plugin</a>
+        </li>
+        <li id="passwords">
+            <a href="/1.1/guide/auth/passwords.html" class="empty">Passwords</a>
+        </li>
+    </ul>
+</p>
+
+<h4>OAuth</h4>
+<p>
+    <ul>
+        <li id="oauth-basic">
+            <a href="/1.1/guide/oauth/basic.html">Basic concept</a>
+        </li>
+        <li id="oauth-implementation">
+            <a href="/1.1/guide/oauth/implementation.html">Implementation</a>
+        </li>
+    </ul>
+</p>
+
+<h4 id="social">Social</h4>
+<p>
+    <ul>
+        <li id="facebook">
+            <a href="/1.1/guide/social/facebook.html">Facebook</a>
+        </li>
+        <li id="linkedin">
+            <a href="/1.1/guide/social/linkedin.html">Linkedin</a>
+        </li>
+        <li id="twitter">
+            <a href="/1.1/guide/social/twitter.html">Twitter</a>
+        </li>
+    </ul>
+</p>
+
+<h4>Media</h4>
+<p>
+    <ul>
+        <li id="upload">
+            <a href="#upload">Upload</a>
+            <ul>
+                <li><a href="/1.1/guide/media/upload/controller.html">Controller</a></li>
+                <li><a href="/1.1/guide/media/upload/uploader.html">Uploader</a></li>
+            </ul>
+        </li>
+    </ul>
+</p>
+
+<h4>File system</h4>
+<p>
+    <ul>
+        <li id="local">
+            <a href="/1.1/guide/filesystem/local.html" class="empty">Local</a>
+        </li>
+
+        <li id="ftp">
+            <a href="/1.1/guide/filesystem/ftp.html" class="empty">Ftp</a>
+        </li>
+
+        <li id="s3">
+            <a href="/1.1/guide/filesystem/s3.html" class="empty">Amazon S3</a>
+        </li>
+    </ul>
+</p>
+
+<h4>Fake data generator</h4>
+<p>
+    <ul>
+        <li id="faker">
+            <a href="/1.1/guide/tool/faker.html">Faker</a>
+        </li>
+    </ul>
+</p>
+
+<h4>Data exporter</h4>
+<p>
+    <ul>
+        <li id="csv">
+            <a href="/1.1/guide/exporter/csv.html" class="empty">CSV</a>
+        </li>
+        <li id="xml">
+            <a href="/1.1/guide/exporter/xml.html" class="empty">XML</a>
+        </li>
+        <li id="pdf">
+            <a href="/1.1/guide/exporter/pdf.html" class="empty">PDF</a>
+        </li>
+    </ul>
+</p>
+
+<h4 id="profiler">Profiler</h4>
+<p>
+    <ul>
+        <li>
+            <a href="/1.1/guide/profiler/installation.html">Requirements/installation</a>
+        </li>
+        <li>
+            <a href="#profiler">Data collectors</a>
+            <ul>
+                <li><a href="/1.1/guide/profiler/data-collector/interface.html">Interface</a></li>
+                <li><a href="/1.1/guide/profiler/data-collector/default.html">Default classes</a></li>
+            </ul>
+        </li>
+    </ul>
+</p>
+            </div>
+            <hr />
+            <div class="main-footer">
+    <div role="contentinfo">
+        <p>
+            &copy; 2014 <a href="http://amsterdamstandard.nl" target="_blank">Amsterdam Standard</a>
+        </p>
+    </div>
+</div>
+        </div>
+    </div>
+</div>
+<script>
+    hljs.configure({tabReplace: '    '});
+    hljs.initHighlightingOnLoad();
+</script>
+</body>
+</html>
+

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800' rel='stylesheet' type='text/css'/>
+
+    <title>Vegas CMF - Documentation</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/styles/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/styles/dashboard.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="http://highlightjs.org/static/styles/zenburn.css">
+    <style>
+        pre  {
+            padding: 0;
+            margin: 0;
+        }
+        code  {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/scripts/bootstrap.min.js" type="text/javascript"></script>
+    <script src="http://highlightjs.org/static/highlight.pack.js"></script>
+
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-version">
+            <div class="navbar-button">
+                <span class="glyphicon glyphicon-book"></span>
+                <div class="pull-right">
+                    <span class="active">v: 1.0 </span>
+                    <span class="caret"></span>
+                </div>
+            </div>
+            <div class="navbar-more">
+                <dl>
+                    <dt>Versions</dt>
+                    <dd><a href="#">latest</a></dd>
+                    <dd><a href="#">develop</a></dd>
+                    <dd><a href="#"><strong>1.0</strong></a></dd>
+                    <dd><a href="#"><strong>1.1</strong></a></dd>
+                </dl>
+                <dl>
+                    <dt>Downloads</dt>
+                    <dd><a href="#">PDF</a></dd>
+                    <dd><a href="#">HTML</a></dd>
+                </dl>
+                <dl>
+                    <dt>On GitHub</dt>
+                    <dd><a href="#">Edit</a></dd>
+                </dl>
+            </div>
+        </div>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Vegas CMF Documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">About</a></li>
+                <li><a href="#">Learn</a></li>
+                <li><a href="#">Get Started</a></li>
+            </ul>
+        </div>
+    </div>
+</div><div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-4 col-md-4 sidebar">
+            <div class="sidebar-search">
+                <form>
+                    <input type="text" class="form-control" placeholder="Search docs" />
+                </form>
+            </div>
+                <ul class="nav nav-sidebar">
+        <li><a href="#basics">View basics</a></li>
+        <li><a href="#filters">New filters</a></li>
+        <li><a href="#helpers">New helpers</a></li>
+        <li><a href="#partials">Partials</a></li>
+    </ul>
+        </div>
+        <div class="col-sm-12 main">
+            <div class="main-header">
+                <ol class="breadcrumb">
+                        <li><a href="/">Vegas CMF</a></li>
+    <li><a href="/1.1/guide.html">Guide</a></li>
+    <li><a href="/1.1/guide.html#mvc">Mvc</a></li>
+    <li><a href="/1.1/guide/mvc/view.html">View</a></li>
+                </ol>
+            </div>
+            <hr />
+            <div class="main-body">
+                
+    <h2>View</h2>
+
+    <h3 id="basics">View basics</h3>
+
+    <p>
+        By default, <code>Vegas\Mvc\ModuleAbstract</code> is using <code>Vegas\Mvc\View</code> with volt extenstion. If
+        you want to use custom View class, you need to overwrite <strong>registerViewComponent</strong> method in your
+        <strong>Module.php</strong>:
+    </p>
+
+<pre class="php"><code>namespace Foo;
+
+class Module extends \Vegas\Mvc\ModuleAbstract
+{
+    public function __construct() {
+        $this->namespace = __NAMESPACE__;
+        $this->dir = __DIR__;
+    }
+
+    protected function registerViewComponent($di)
+    {
+        $di->set('view', function() use ($di) {
+            $viewDir = $this->dir . '/views';
+            $view = new CustomView($di->get('config')->application->view->toArray(), $viewDir);
+
+            if (file_exists($viewDir)) {
+                $view->setViewsDir($viewDir);
+            }
+
+            $view->setEventsManager($di->getShared('eventsManager'));
+            return $view;
+        });
+    }
+}</code></pre>
+
+    <p>
+        <br/>
+        <code>Vegas\Mvc\View</code> extends <code>Phalcon\Mvc\View</code> with additional filters and helpers. In
+        addition you can use absolute path for layouts dir instead relative one.
+    </p>
+
+    <h3 id="filters">New filters</h3>
+
+    <br/>
+    <h4>toString</h4>
+
+    <p>
+        Cast variable to string.
+    </p>
+
+    <p><strong>Usage</strong></p>
+
+    
+    <pre class="twig"><code>{{ variable|toString }}</code></pre>
+    
+
+    <h3 id="helpers">New helpers</h3>
+
+    <br/>
+    <h4>pagination</h4>
+
+    <p>
+        A simple tag for pagination rendering.
+    </p>
+
+    <p><strong>Tag interface</strong></p>
+
+    <pre class="php"><code>public function pagination($page, $options=array()) {
+    $defaultSettings = [
+        'start_end_offset' => 2,
+        'middle_offset' => 3
+    ];
+    $settings = array_merge($defaultSettings, $settings);
+}</code></pre>
+
+    <p><br/><strong>Usage</strong></p>
+
+    <p>Make a paginator instance in your controller action...</p>
+
+    <pre class="php"><code>$paginator = new \Vegas\Paginator\Adapter\ExampleAdapter(...);
+$this->view->page = $paginator->getPaginate();</code></pre>
+
+    <p><br/>... and use in volt template:</p>
+
+    
+    <pre class="twig"><code>{{ pagination(page[, options]) }}</code></pre>
+    
+
+    <p><br/><strong>Options</strong></p>
+
+    <ul>
+        <li>'start_end_offset' - default: 2</li>
+        <li>'middle_offset' - default: 3</li>
+    </ul>
+
+    <p><br/><strong>Preview</strong></p>
+
+    <p>
+        <img src="/media/img/paginator.png" alt="example paginator preview" />
+    </p>
+
+    <br/>
+    <h4>shortenText</h4>
+
+    <p>
+        Cut text to string of given length and remove all html tags.
+    </p>
+
+    <p><strong>Tag interface</strong></p>
+
+    <pre class="php"><code>public function shortenText($text, $length = 100, $endString = '...')
+{
+    //...
+}</code></pre>
+
+    <p><br/><strong>Usage</strong></p>
+
+    
+    <pre class="twig"><code>{{ shortenText(text[, length[, endString]]) }}</code></pre>
+    
+
+
+    <h3 id="partials">Partials</h3>
+    <br/>
+    <h4>Partials in views</h4>
+
+    <table class="table table-bordered">
+        <tr>
+            <td>
+
+            </td>
+            <td>
+                <strong>partialsDir is set</strong>
+            </td>
+            <td>
+                <strong>partialsDir is not set</strong>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                includes global partial <code>app/layouts/partials/header/menu.volt2</code>
+            </td>
+            <td>
+                <code>
+                    
+                        {{ partial('header/menu') }}
+                    
+                </code>
+                or
+                <code>
+                    
+                        {{ partial('../../../layouts/partials/header/menu') }}
+                    
+                </code>
+            </td>
+            <td>
+                <code>
+                    
+                        {{ partial('../../../layouts/partials/header/menu') }}
+                    
+                </code>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                include controller view partial
+                <code>app/modules/Test/views/frontend/test/partials/foo.volt</code>
+            </td>
+            <td>
+                <code>
+                    
+                        {{ partial('./frontend/test/partials/foo') }}
+                    
+                </code>
+            </td>
+            <td>
+                <code>
+                    
+                        {{ partial('./frontend/test/partials/foo') }}
+                    
+                </code>
+                or
+                <code>
+                    
+                        {{ partial('partials/foo') }}
+                    
+                </code>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                include partial from absolute path
+                <code>app/layouts/partials/header/menu.volt</code>
+            </td>
+            <td>
+                <code>
+                    
+                    {{ partial(constant("APP_ROOT") ~ "/app/layouts/partials/header/menu") }}
+                    
+                </code>
+            </td>
+            <td>
+                <code>
+                    
+                    {{ partial(constant("APP_ROOT") ~ "/app/layouts/partials/header/menu") }}
+
+                    
+                </code>
+            </td>
+        </tr>
+    </table>
+
+            </div>
+            <hr />
+            <div class="main-footer">
+    <div role="contentinfo">
+        <p>
+            &copy; 2014 <a href="http://amsterdamstandard.nl" target="_blank">Amsterdam Standard</a>
+        </p>
+    </div>
+</div>
+        </div>
+    </div>
+</div>
+<script>
+    hljs.configure({tabReplace: '    '});
+    hljs.initHighlightingOnLoad();
+</script>
+</body>
+</html>
+

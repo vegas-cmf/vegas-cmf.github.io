@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800' rel='stylesheet' type='text/css'/>
+
+    <title>Vegas CMF - Documentation</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/styles/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/styles/dashboard.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="http://highlightjs.org/static/styles/zenburn.css">
+    <style>
+        pre  {
+            padding: 0;
+            margin: 0;
+        }
+        code  {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/scripts/bootstrap.min.js" type="text/javascript"></script>
+    <script src="http://highlightjs.org/static/highlight.pack.js"></script>
+
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-version">
+            <div class="navbar-button">
+                <span class="glyphicon glyphicon-book"></span>
+                <div class="pull-right">
+                    <span class="active">v: 1.0 </span>
+                    <span class="caret"></span>
+                </div>
+            </div>
+            <div class="navbar-more">
+                <dl>
+                    <dt>Versions</dt>
+                    <dd><a href="#">latest</a></dd>
+                    <dd><a href="#">develop</a></dd>
+                    <dd><a href="#"><strong>1.0</strong></a></dd>
+                    <dd><a href="#"><strong>1.1</strong></a></dd>
+                </dl>
+                <dl>
+                    <dt>Downloads</dt>
+                    <dd><a href="#">PDF</a></dd>
+                    <dd><a href="#">HTML</a></dd>
+                </dl>
+                <dl>
+                    <dt>On GitHub</dt>
+                    <dd><a href="#">Edit</a></dd>
+                </dl>
+            </div>
+        </div>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Vegas CMF Documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">About</a></li>
+                <li><a href="#">Learn</a></li>
+                <li><a href="#">Get Started</a></li>
+            </ul>
+        </div>
+    </div>
+</div><div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-4 col-md-4 sidebar">
+            <div class="sidebar-search">
+                <form>
+                    <input type="text" class="form-control" placeholder="Search docs" />
+                </form>
+            </div>
+                <ul class="nav nav-sidebar">
+        <li><a href="#standard-router">Standard router</a></li>
+        <li><a href="#route-types">Route types</a></li>
+        <li><a href="#route-hostname">Hostname constraints</a></li>
+        <li><a href="#route-own">Own adapter</a></li>
+    </ul>
+        </div>
+        <div class="col-sm-12 main">
+            <div class="main-header">
+                <ol class="breadcrumb">
+                        <li><a href="/">Vegas CMF</a></li>
+    <li><a href="/1.1/guide.html">Guide</a></li>
+    <li><a href="/1.1/guide.html#mvc">Mvc</a></li>
+    <li><a href="/1.1/guide/mvc/router.html">Router</a></li>
+                </ol>
+            </div>
+            <hr />
+            <div class="main-body">
+                <h2>Router</h2>
+
+<h3 id="standard-router">Standard router</h3>
+
+<p>Based on the   <a href="http://docs.phalconphp.com/en/latest/reference/routing.html">PhalconPHP router</a>. Global router rules
+are placed in <code>/app/config/routes.php</code> directory, but local module rules are in <code>/app/modules/{Foo}/config/routes.php</code> where <code>{Foo}</code> is a module name.</p>
+<pre class="php"><code>return [
+    'home' =>  [ //Route name
+        'route' => '/', //Route url
+        'paths' => [
+            'module' => 'Home',
+            'controller' => 'Frontend\Home',
+            'action' =>  'index'
+        ]
+    ]
+];</code></pre>
+
+<h3 id="route-types">Route types</h3>
+<p>Available types:</p>
+<ul>
+    <li>Default
+    <pre class="php"><code>return [
+    'home' =>  [
+        'route' => '/',
+        'paths' => [
+            'module' => 'Home',
+            'controller' => 'Frontend\Home',
+            'action' =>  'index'
+        ],
+        'type' => 'default' //Optional
+    ]
+];</code></pre>
+        <br>
+    </li>
+    <li>Static - works the same way like <strong>default route</strong>, but cannot be overwritten by another rules.
+<pre class="php"><code>return [
+    'login' =>  [
+        'route' => '/login',
+        'paths' => [
+            'module' => 'Auth',
+            'controller' => 'Frontend\Auth',
+            'action' => 'login'
+        ],
+        'type' => 'static'
+    ]
+];</code></pre>
+        <br>
+    </li>
+    <li>Base - works the same way like <strong>default route</strong>, but will be overwritten by any other (default or static) rule.
+    <pre class="php"><code>return [
+    'page' =>  [
+        'route' => '/{slug}',
+        'paths' => [
+            'module' => 'Page',
+            'controller' => 'Frontend\Page',
+            'action' =>  'index'
+        ],
+        'type' => 'base'
+    ]
+];</code></pre>
+        <br>
+    </li>
+    <li>Rest - using to create REST Api. Allows to map HTTP methods with controller actions.
+<pre class="php"><code>return [
+    'products' =>  [
+        'route' => '/products',
+        'paths' => [
+            'module' => 'Product',
+            'controller' => 'Frontend\Product'
+        ],
+        'type' => 'rest',
+        'params' => [
+            'actions' => [
+                '/' =>  [
+                    'index' => Vegas\Http\Method::GET,
+                    'create' => Vegas\Http\Method::POST
+                ],
+                '/{id}' =>  [
+                    'show' => Vegas\Http\Method::GET,
+                    'update' => Vegas\Http\Method::PUT,
+                    'delete' => Vegas\Http\Method::DELETE
+                ]
+            ]
+        ]
+    ]
+];
+</code></pre>
+<br>
+</li>
+<li>Not found - is used when no route is matched
+<pre class="php"><code>return [
+    'not-found' => [
+        'route' => '',
+        'paths' => [
+            'module' => 'Home',
+            'controller' => 'Frontend\Error',
+            'action' => 'error404'
+        ],
+        'type' => 'notfound'
+    ]
+];</code></pre>
+</li>
+</ul>
+<br>
+
+<h3 id="route-hostname">Hostname constraints</h3>
+<p>
+    Adding the parameter <strong>hostname</strong> we can constrain matching the route only when $_SERVER['HTTP_HOST']
+    is equals to defined hostname. Remember to define the base <strong>hostname</strong> in application config, for example:
+    <br />
+    <br />
+    in application config: <br />
+    <pre><code>
+    ...
+    'hostname' => 'example.com'
+    ...
+    </code></pre>
+    <br />
+    route definition:
+    <br />
+    <br />
+<pre class="php"><code>
+return [
+    'not-found' => [
+        'route' => '/foo',
+        'paths' => [
+            'module' => 'Foo',
+            'controller' => 'Frontend\Foo',
+            'action' => 'index'
+        ],
+        'type' => 'default',
+        'params' => [
+            'hostname' => 'foo.example.com'
+        ]
+    ]
+];</code></pre>
+</p>
+
+
+<h3 id="route-own">Own router</h3>
+<p>
+    The standard router can be replaced with your own custom router.
+    You can do it by overriding method <strong>initRoutes</strong> inside application <strong>bootstrap</strong><br />
+    <br />
+    Base routes initialization looks like:
+    <br />
+<pre class="php"><code>
+protected function initRoutes()
+{
+    //setups router
+    $routerAdapter = new \Vegas\Mvc\Router\Adapter\Standard($this->di);
+    $router = new \Vegas\Mvc\Router($this->di, $routerAdapter);
+
+    //adds routes defined in modules
+    $modules = $this->application->getModules();
+    foreach ($modules as $module) {
+        $router->addModuleRoutes($module);
+    }
+
+    //adds routes defined in default file
+    $defaultRoutesFile = $this->config->application->configDir . DIRECTORY_SEPARATOR . 'routes.php';
+    if (file_exists($defaultRoutesFile)) {
+        $router->addRoutes(require $defaultRoutesFile);
+    }
+
+    //setup router rules
+    $router->setup();
+
+    $this->di->set('router', $router->getRouter());
+}
+</code></pre>
+    <br />
+    Create your own adapter, that implements interface
+    <a href="http://docs.phalconphp.com/en/latest/api/Phalcon_Mvc_RouterInterface.html">Phalcon\Mvc\RouterInterface</a>
+    and pass it as second argument to the constructor of class <strong>\Vegas\Mvc\Router</strong>.
+</p>
+            </div>
+            <hr />
+            <div class="main-footer">
+    <div role="contentinfo">
+        <p>
+            &copy; 2014 <a href="http://amsterdamstandard.nl" target="_blank">Amsterdam Standard</a>
+        </p>
+    </div>
+</div>
+        </div>
+    </div>
+</div>
+<script>
+    hljs.configure({tabReplace: '    '});
+    hljs.initHighlightingOnLoad();
+</script>
+</body>
+</html>
+

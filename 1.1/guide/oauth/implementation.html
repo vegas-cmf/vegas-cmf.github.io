@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800' rel='stylesheet' type='text/css'/>
+
+    <title>Vegas CMF - Documentation</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/styles/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/styles/dashboard.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="http://highlightjs.org/static/styles/zenburn.css">
+    <style>
+        pre  {
+            padding: 0;
+            margin: 0;
+        }
+        code  {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/scripts/bootstrap.min.js" type="text/javascript"></script>
+    <script src="http://highlightjs.org/static/highlight.pack.js"></script>
+
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-version">
+            <div class="navbar-button">
+                <span class="glyphicon glyphicon-book"></span>
+                <div class="pull-right">
+                    <span class="active">v: 1.0 </span>
+                    <span class="caret"></span>
+                </div>
+            </div>
+            <div class="navbar-more">
+                <dl>
+                    <dt>Versions</dt>
+                    <dd><a href="#">latest</a></dd>
+                    <dd><a href="#">develop</a></dd>
+                    <dd><a href="#"><strong>1.0</strong></a></dd>
+                    <dd><a href="#"><strong>1.1</strong></a></dd>
+                </dl>
+                <dl>
+                    <dt>Downloads</dt>
+                    <dd><a href="#">PDF</a></dd>
+                    <dd><a href="#">HTML</a></dd>
+                </dl>
+                <dl>
+                    <dt>On GitHub</dt>
+                    <dd><a href="#">Edit</a></dd>
+                </dl>
+            </div>
+        </div>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Vegas CMF Documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">About</a></li>
+                <li><a href="#">Learn</a></li>
+                <li><a href="#">Get Started</a></li>
+            </ul>
+        </div>
+    </div>
+</div><div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-4 col-md-4 sidebar">
+            <div class="sidebar-search">
+                <form>
+                    <input type="text" class="form-control" placeholder="Search docs" />
+                </form>
+            </div>
+            <ul class="nav nav-sidebar">
+    <li><a href="/1.1/guide/oauth/implementation.html#module"> Module</a></li>
+    <li><a href="/1.1/guide/oauth/implementation.html#services"> Service</a></li>
+    <li><a href="/1.1/guide/oauth/implementation.html#controller"> Controller</a></li>
+    <li><a href="/1.1/guide/oauth/implementation.html#routes"> Routes</a></li>
+    <li><a href="/1.1/guide/oauth/implementation.html#view"> View</a></li>
+    <li><a href="/1.1/guide/oauth/implementation.html#configuration"> Configuration</a></li>
+</ul>
+        </div>
+        <div class="col-sm-12 main">
+            <div class="main-header">
+                <ol class="breadcrumb">
+                    <li><a href="/">Vegas CMF</a></li>
+<li><a href="/1.1/guide.html">Guide</a></li>
+<li><a href="/1.1/guide.html#oauth">OAuth</a></li>
+<li><a href="/1.1/guide/oauth/implementation.html">Implementation</a></li>
+                </ol>
+            </div>
+            <hr />
+            <div class="main-body">
+                
+<h2>OAuth</h2>
+<p>
+    Vegas OAuth integrates three OAuth services: Google, Facebook, LinkedIn.
+    Consider the following example to see how to implement "Login with ..." feature into your project
+</p>
+
+<h3>Sample implementation</h3>
+<p>
+    <h4 id="module">1. Module</h4>
+    In the beginning create OAuth module inside your app directory
+    <br />
+    <br />
+<pre class="shell"><code>mkdir app/Oauth
+mkdir app/modules/Oauth/config
+mkdir app/modules/Oauth/controllers/frontend -p
+mkdir app/modules/Oauth/services
+mkdir app/modules/Oauth/views/frontend/oauth -p
+touch app/modules/Oauth/Module.php
+touch app/modules/Oauth/config/routes.php
+</code></pre>
+    <br />
+
+    <h4 id="service">2. Service</h4>
+    Create a service.
+    <br/>
+    <br/>
+<pre class="shell"><code>touch app/modules/Oauth/services/OAuth.php</code></pre>
+    <br />
+<pre class="php"><code>namespace Oauth\Services;
+
+use Vegas\Security\OAuth\Exception\ServiceNotFoundException;
+use Vegas\Security\OAuth\Identity;
+use Vegas\Security\OAuth\Identity as OAuthIdentity;
+use Vegas\Security\OAuth\ServiceAbstract;
+
+/**
+ * Class Oauth
+ * @package Oauth\Services
+ */
+class Oauth implements \Phalcon\DI\InjectionAwareInterface
+{
+    use \Vegas\DI\InjectionAwareTrait;
+
+    /**
+     * @var array
+     */
+    protected $config = array();
+
+    /**
+     * List of initializes services
+     *
+     * @var array
+     */
+    protected $oAuthServices = array();
+
+    /**
+     * @var \Vegas\Security\OAuth
+     */
+    protected $oAuth = null;
+
+    /**
+     * Initializes service from provided configuration
+     *
+     * @param null|array $config
+     * @return $this
+     */
+    public function initialize($config = null)
+    {
+        if (null == $config) {
+            $this->config = $this->getDI()->get('config')->oauth->toArray();
+        } else {
+            $this->config = $config;
+        }
+        $this->setupServices();
+
+        return $this;
+    }
+
+    /**
+     * Setups oAuth services from configuration
+     */
+    protected function setupServices()
+    {
+        $this->oAuth = new \Vegas\Security\OAuth($this->di);
+        foreach ($this->config as $serviceName => $serviceConfig) {
+            $service = $this->oAuth->obtainServiceInstance($serviceName);
+            $service->setupCredentials(array(
+                'key'   =>  $serviceConfig['key'],
+                'secret'    =>  $serviceConfig['secret'],
+                'redirect_uri'  =>  $serviceConfig['redirect_uri']
+            ));
+            if (isset($serviceConfig['scopes'])) {
+                $service->setScopes($serviceConfig['scopes']);
+            }
+            $service->init();
+            $this->oAuthServices[$serviceName] = $service;
+        }
+    }
+
+    /**
+     * Returns the instance of indicated service
+     *
+     * @param $serviceName
+     * @return ServiceAbstract
+     * @throws \Vegas\Security\OAuth\Exception\ServiceNotFoundException
+     */
+    public function getService($serviceName)
+    {
+        if (!isset($this->oAuthServices[$serviceName])) {
+            throw new ServiceNotFoundException($serviceName);
+        }
+
+        return $this->oAuthServices[$serviceName];
+    }
+
+    /**
+     * Returns the prepared authorization uri to indicated oAuth Service
+     *
+     * @param $serviceName
+     * @return mixed
+     */
+    public function getAuthorizationUri($serviceName)
+    {
+        $service = $this->getService($serviceName);
+        return $service->getAuthorizationUri();
+    }
+
+    /**
+     * Authorizes
+     *
+     * @param $serviceName
+     * @return \OAuth\Common\Http\Uri\UriInterface|string
+     */
+    public function authorize($serviceName)
+    {
+        $service = $this->getService($serviceName);
+        return $service->authorize();
+    }
+
+    /**
+     * Remove session for indicated service
+     *
+     * @param null $serviceName
+     */
+    public function logout($serviceName = null)
+    {
+        if (null == $serviceName) {
+            foreach ($this->oAuthServices as $serviceName => $service) {
+                $service->destroySession();
+            }
+        } else {
+            $service = $this->getService($serviceName);
+            $service->destroySession();
+        }
+    }
+
+    /**
+     * Returns identity with accessToken for indicated service
+     *
+     * @param $serviceName
+     * @return mixed
+     */
+    public function getIdentity($serviceName)
+    {
+        $service = $this->getService($serviceName);
+        $identity = $service->getIdentity();
+        $identity->accessToken = $service->getAccessToken();
+
+        return $identity;
+    }
+}
+</code></pre>
+    <br />
+    Note. Check the following code to see how to use above service
+    <br />
+    <br />
+<pre class="php"><code>$oauth = $this->serviceManager->getService('oauth:oauth');
+$oauth->initialize();</code></pre>
+    <br />
+    Remember to call <code>initialize</code> method first.
+    <br />
+    <h4 id="controller">3. Controller</h4>
+    The next step is create controller that handles authorization process
+    <br />
+    <br />
+<pre class="shell"><code>touch app/modules/Oauth/controllers/frontend/OAuthController.php</code></pre>
+    <br />
+<pre class="php"><code>namespace Oauth\Controllers\Frontend;
+use Vegas\Security\OAuth\Exception\FailedAuthorizationException;
+
+/**
+ * Class OAuthController
+ * @package Oauth\Controllers\Frontend
+ */
+class OauthController extends \Vegas\Mvc\Controller\ControllerAbstract
+{
+    /**
+     *
+     */
+    public function indexAction()
+    {
+        //oauth
+        $oAuth = $this->serviceManager->getService('oauth:oauth');
+        $oAuth->initialize();
+
+        $this->view->linkedinUri = $oAuth->getAuthorizationUri('linkedin');
+        $this->view->facebookUri = $oAuth->getAuthorizationUri('facebook');
+        $this->view->googleUri = $oAuth->getAuthorizationUri('google');
+    }
+
+    /**
+     * @return \Phalcon\Http\ResponseInterface
+     */
+    public function authorizeAction()
+    {
+        $this->view->disable();
+
+        $serviceName = $this->dispatcher->getParam('service');
+        $oauth = $this->serviceManager->getService('oauth:oauth');
+        $oauth->initialize();
+
+        try {
+            //authorize given service
+            $oauth->authorize($serviceName);
+
+            /**
+             * @var \Vegas\Security\OAuth\Identity $identity
+             */
+            $identity = $oauth->getIdentity($serviceName);
+            //now you can create session for oauth identity
+            //....
+
+            return $this->response->redirect(array('for' => 'root'))->send();
+        } catch(FailedAuthorizationException $ex) {
+            $this->flashSession->message('error', $ex->getMessage());
+            return $this->response->redirect(array('for' => 'login'))->send();
+        }
+    }
+
+    /**
+     * @return \Phalcon\Http\ResponseInterface
+     */
+    public function logoutAction()
+    {
+        $this->view->disable();
+
+        $oauth = $this->serviceManager->getService('oauth:oauth');
+        $oauth->initialize();
+
+        //logout all services
+        $oauth->logout();
+
+        return $this->response->redirect(array('for' => 'root'))->send();
+    }
+}
+</code></pre>
+    <br />
+    <h4 id="routes">4. Routes</h4>
+    Prepare routing rules to OAuth controller
+    <br />
+    <br />
+<pre class="shell"><code>touch app/modules/Oauth/config/routes.php</code></pre>
+    <br />
+<pre class="php"><code>return array(
+    'oauth' => array(
+        'route' => '/oauth',
+        'paths' => array(
+            'module'    =>  'Oauth',
+            'controller' => 'Frontend\Oauth',
+            'action' => 'index',
+
+            'auth'  =>  false
+        )
+    ),
+    'logout' => array(
+        'route' => '/logout',
+        'paths' => array(
+            'module'    =>  'Oauth',
+            'controller' => 'Frontend\Oauth',
+            'action' => 'logout',
+
+            'auth'  =>  false
+        )
+    ),
+    'authorize' => array(
+        'route' => '/oauth/{service}',
+        'paths' => array(
+            'module'    =>  'Oauth',
+            'controller' => 'Frontend\Oauth',
+            'action' => 'authorize',
+
+            'auth'  =>  false
+        )
+    )
+);
+</code></pre>
+    <br />
+    <br />
+    <h4 id="view">5. View</h4>
+    Create view file to display authorization links
+    <br />
+    <br />
+<pre class="shell"><code>touch app/modules/Oauth/views/frontend/oauth/index.volt</code></pre>
+    <br />
+<pre class="php"><code>&lt;a href=&quot;{{ linkedinUri }}&quot; class=&quot;btn btn-block btn-social btn-linkedin&quot;&gt;
+    &lt;i class=&quot;fa fa-linkedin&quot;&gt;&lt;/i&gt;
+    Sign in with Linkedin
+&lt;/a&gt;
+&lt;a href=&quot;{{ googleUri }}&quot; class=&quot;btn btn-block btn-social btn-google-plus&quot;&gt;
+    &lt;i class=&quot;fa fa-google-plus&quot;&gt;&lt;/i&gt;
+    Sign in with Google
+&lt;/a&gt;
+&lt;a href=&quot;{{ facebookUri }}&quot; class=&quot;btn btn-block btn-social btn-facebook&quot;&gt;
+    &lt;i class=&quot;fa fa-facebook&quot;&gt;&lt;/i&gt;
+    Sign in with Facebook
+&lt;/a&gt;</code></pre>
+    <br />
+    <br />
+    <h4 id="configuration">6. Configuration</h4>
+    Once we prepared codebase, we have to setup configuration for OAuth services
+    <br />
+    <br />
+<pre class="php"><code>//app/config/config.php
+'oauth' =>  array(
+    'linkedin'  =>  array(
+        'key'   =>  '',
+        'secret'    =>  '',
+        'redirect_uri' => '/oauth/linkedin',
+        'scopes' => array(
+            \Vegas\Security\OAuth\Service\Linkedin::SCOPE_FULL_PROFILE,
+            \Vegas\Security\OAuth\Service\Linkedin::SCOPE_EMAIL_ADDRESS
+        )
+    ),
+
+    'facebook'  =>  array(
+        'key'   =>  '',
+        'secret'    =>  '',
+        'redirect_uri' => '/oauth/facebook',
+        'scopes' => array(
+            \Vegas\Security\OAuth\Service\Facebook::SCOPE_EMAIL,
+            \Vegas\Security\OAuth\Service\Facebook::SCOPE_USER_ABOUT
+        )
+    ),
+
+    'google'  =>  array(
+        'key'    =>  '',
+        'secret'   =>  '',
+        'redirect_uri' => '/oauth/google',
+        'scopes' => array(
+            \Vegas\Security\OAuth\Service\Google::SCOPE_EMAIL,
+            \Vegas\Security\OAuth\Service\Google::SCOPE_PROFILE
+        )
+    )
+)
+//...</code></pre>
+</p>
+            </div>
+            <hr />
+            <div class="main-footer">
+    <div role="contentinfo">
+        <p>
+            &copy; 2014 <a href="http://amsterdamstandard.nl" target="_blank">Amsterdam Standard</a>
+        </p>
+    </div>
+</div>
+        </div>
+    </div>
+</div>
+<script>
+    hljs.configure({tabReplace: '    '});
+    hljs.initHighlightingOnLoad();
+</script>
+</body>
+</html>
+

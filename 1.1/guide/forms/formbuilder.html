@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800' rel='stylesheet' type='text/css'/>
+
+    <title>Vegas CMF - Documentation</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/styles/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/styles/dashboard.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="http://highlightjs.org/static/styles/zenburn.css">
+    <style>
+        pre  {
+            padding: 0;
+            margin: 0;
+        }
+        code  {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/scripts/bootstrap.min.js" type="text/javascript"></script>
+    <script src="http://highlightjs.org/static/highlight.pack.js"></script>
+
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-version">
+            <div class="navbar-button">
+                <span class="glyphicon glyphicon-book"></span>
+                <div class="pull-right">
+                    <span class="active">v: 1.0 </span>
+                    <span class="caret"></span>
+                </div>
+            </div>
+            <div class="navbar-more">
+                <dl>
+                    <dt>Versions</dt>
+                    <dd><a href="#">latest</a></dd>
+                    <dd><a href="#">develop</a></dd>
+                    <dd><a href="#"><strong>1.0</strong></a></dd>
+                    <dd><a href="#"><strong>1.1</strong></a></dd>
+                </dl>
+                <dl>
+                    <dt>Downloads</dt>
+                    <dd><a href="#">PDF</a></dd>
+                    <dd><a href="#">HTML</a></dd>
+                </dl>
+                <dl>
+                    <dt>On GitHub</dt>
+                    <dd><a href="#">Edit</a></dd>
+                </dl>
+            </div>
+        </div>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Vegas CMF Documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">About</a></li>
+                <li><a href="#">Learn</a></li>
+                <li><a href="#">Get Started</a></li>
+            </ul>
+        </div>
+    </div>
+</div><div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-4 col-md-4 sidebar">
+            <div class="sidebar-search">
+                <form>
+                    <input type="text" class="form-control" placeholder="Search docs" />
+                </form>
+            </div>
+                <ul class="nav nav-sidebar">
+        <li><a href="#description">Description</a></li>
+        <li><a href="#setup">Setup</a></li>
+        <li><a href="#example">Example usage</a></li>
+        <li><a href="#dataproviders">Data providers</a></li>
+    </ul>
+        </div>
+        <div class="col-sm-12 main">
+            <div class="main-header">
+                <ol class="breadcrumb">
+                        <li><a href="/">Vegas CMF</a></li>
+    <li><a href="/1.1/guide.html">Guide</a></li>
+    <li><a href="/1.1/guide.html#forms">Forms</a></li>
+    <li class="active"><a href="/1.1/guide/forms/formbuilder.html">FormBuilder</a></li>
+                </ol>
+            </div>
+            <hr />
+            <div class="main-body">
+                <h2>FormBuilder</h2>
+
+<h3 id="description">Description</h3>
+
+<p>
+    This part of Forms lib allows user to create custom forms in runtime and store
+    them into database. The library itself provides only the structure with
+    fields to be displayed for the end-user, e.x. as a contact form.
+</p>
+
+<h4>Main classes</h4>
+<ul>
+    <li><code>\Vegas\Forms\FormFactory</code> - generates form object based on provided data, used in frontend controllers</li>
+    <li><code>\Vegas\Forms\InputSettings</code> - groups available settings for specific input
+</ul>
+
+<h4>Basic input types</h4>
+
+<p>
+    Following inputs can be added out-of-the-box to the created form:
+</p>
+<ul>
+    <li>Datepicker - textfield with jQuery datepicker</li>
+    <li>Email - textfield with e-mail address validation</li>
+    <li>RichTextArea - textarea field with WYSYWIG editor</li>
+    <li>Select - dropdownlist with specified data (see <a href="#dataproviders">Data providers</a> section)</li>
+</ul>
+
+<p>
+    When creating a form, you are able to specify following settings per each of them:
+</p>
+<ul>
+    <li>Unique ID - HTML ID selector for input field</li>
+    <li>Required field - prevent sending empty content from the input</li>
+    <li>Label - additional text description to be displayed around</li>
+    <li>Default value - predefined value of input</li>
+    <li>Placeholder text - input placeholder shadow</li>
+    <li>Data provider - available options, applicable only to select lists - see <a href="#dataproviders">Data providers</a></li>
+</ul>
+
+<h3 id="setup">Setup</h3>
+
+<p>
+    To make FormBuilder available in the application, you have to create a <a href="/1.1/guide/di/service-provider.html">service provider</a> inside <code>app/services</code> directory.
+    <br />
+<pre><code class="php">
+use Phalcon\DiInterface;
+use Vegas\DI\ServiceProviderInterface;
+
+/**
+ * Class FormFactoryServiceProvider
+ */
+class FormFactoryServiceProvider implements ServiceProviderInterface
+{
+    const SERVICE_NAME = 'formFactory';
+
+    /**
+     * {@inheritdoc}
+     */
+    public function register(DiInterface $di)
+    {
+        $di->set(self::SERVICE_NAME, function() {
+            return new \Vegas\Forms\FormFactory();
+        }, true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDependencies()
+    {
+        return [];
+    }
+}
+</code></pre>
+</p>
+
+<h3 id="example">Example usage</h3>
+<p>
+    The example below show how to put some logic - it covers submitting form data
+    into some URL address. We assume <strong>i18n</strong> service is enabled
+    and application uses <strong>Mongo</strong> DBMS.
+</p>
+<ol>
+    <li>Create a module named Foo with standard directory structure:
+<pre><code>Foo
+├── config
+|   ├── config.php
+|   └── routes.php
+├── controllers
+|   ├── backend
+|   |   └── FooController.php
+|   └── frontend
+|       └── FooController.php
+├── models
+|   └── Form.php
+├── views
+|   ├── backend
+|   |   └── foo
+|   |       ├── _form.volt
+|   |       ├── edit.volt
+|   |       └── new.volt
+|   └── frontend
+|       └── foo
+|           └── show.volt
+└── Module.php
+</code></pre>
+    </li>
+    <li>Create a form with additional settings to be used by our application.
+    <br />
+<pre><code class="php">namespace Foo\Forms;
+
+use Phalcon\Forms\Element\Text;
+use Vegas\Forms\InputSettings,
+    Vegas\Forms\Element\Cloneable;
+use Phalcon\Validation\Validator\PresenceOf;
+use Vegas\Validation\Validator\SizeOf,
+    Vegas\Validation\Validator\Email,
+    Vegas\Validation\Validator\Url;
+    
+class Form extends \Vegas\Forms\Form
+{
+    /**
+     * Initializes backend form of pages
+     */
+    public function initialize()
+    {
+        $name = (new Text('name'))
+            ->setAttribute('placeholder', 'Name')
+            ->setLabel($this->i18n->_('Form title'))
+            ->addValidator(new PresenceOf);
+        $this->add($name);
+        
+        $url = (new Text('url'))
+            ->setAttribute('placeholder', 'URL')
+            ->addValidator(new Url)
+            ->setLabel($this->i18n->_('Target URL'));
+        $this->add($url);
+
+        $items = (new Cloneable('inputs'))
+            ->setAssetsManager($this->assets)
+            ->setBaseElements((new InputSettings)->getElements())
+            ->addValidator(new SizeOf(array('min' => 1)))
+            ->setLabel($this->i18n->_('Inputs'));
+
+        $this->add($items);
+    }
+}
+</code></pre>
+    This form is a recommended minimum:
+    <br />
+    - <code>name</code> field will be translated into slug
+    <br />
+    - <code>url</code> field will be the target URL where POST is going to be sent
+    <br />
+    - <code>inputs</code> fields is a list of inputs added to the created form
+    </li>
+    <br />
+    <li>Create a model to store created forms in database:
+<pre><code class="php">namespace Foo\Models;
+
+use Vegas\Mvc\CollectionAbstract;
+
+class Form extends CollectionAbstract
+{
+    public function getSource()
+    {
+        return 'vegas_forms';
+    }
+    
+    public function beforeCreate() {
+        parent::beforeCreate();
+        $this->generateSlug($this->name);
+    }
+}
+</code></pre>
+    </li>
+    <li>Fill frontend controller with following code allowing to display form:
+<pre><code class="php">namespace Foo\Controllers\Frontend;
+
+use Vegas\Mvc\Controller\ControllerAbstract,
+    Foo\Models\Form;
+
+class FooController extends ControllerAbstract
+{
+    public function showAction($slug)
+    {
+        $formModel = Form::findFirst(['conditions' => ['slug' => $slug]]);
+        
+        $this->view->setVar('model', $formModel);
+        $this->view->setVar('form', $this->di->getShared('formFactory')->createForm($formModel->inputs));
+    }
+}
+</code></pre>
+    </li>
+    <li>Fill backend controller with simple CRUD code:
+<pre><code class="php">namespace Foo\Controllers\Backend;
+
+use Vegas\Mvc\Controller;
+
+class FooController extends Controller\Crud
+{
+    protected $formName = 'Foo\Forms\Form';
+    protected $modelName = 'Foo\Models\Form';
+    
+    public function initialize()
+    {
+        parent::initialize();
+        
+        $redirectToRootPath = function() {
+            $this->response->redirect(['for' => '/']);
+        };
+
+        $this->dispatcher->getEventsManager()->attach(Controller\Crud\Events::AFTER_CREATE, $redirectToRootPath);
+        $this->dispatcher->getEventsManager()->attach(Controller\Crud\Events::AFTER_UPDATE, $redirectToRootPath);
+        $this->dispatcher->getEventsManager()->attach(Controller\Crud\Events::AFTER_DELETE, $redirectToRootPath);
+    }
+}
+</code></pre>
+    </li>
+    <li>Fill frontend view <code>show.volt</code> with following code:
+
+<pre><code class="twig">&lt;h1&gt;{{ model.name }}&lt;/h1&gt;
+
+&lt;form action="{{ model.url }}" method="post" role="form"&gt;
+{% for element in form %}
+    {% do element.setAttribute('class', element.getAttribute('class')~' form-control') %}
+    {% set hasErrors = form.hasMessagesFor(element.getName()) %}
+
+    &lt;div class="form-group{% if hasErrors %} has-error{% endif %}"&gt;
+        &lt;label for="{{ element.getName() }}"&gt;{{ element.getLabel() }}&lt;/label&gt;
+        {% if hasErrors %}
+            &lt;span class="help-block"&gt;
+                {% for error in form.getMessagesFor(element.getName()) %}
+                    {{ error }}
+                {% endfor %}
+            &lt;/span&gt;
+        {% endif %}
+        {{ element }}
+    &lt;/div&gt;
+{% endfor %}
+
+&lt;input type="submit" value="{{ i18n._('Submit') }}" class="btn btn-primary" /&gt; 
+&lt;/form&gt;
+</code></pre>
+
+    </li>
+    <li>Fill backend view <code>new.volt</code> with following code (<code>edit.volt</code> can be implemented nearly the same way):
+
+<pre><code class="twig">&lt;div class="row widget"&gt;
+    &lt;div class="col-xs-12"&gt;
+        &lt;div class="widget widget-default-spacer"&gt;
+            &lt;div class="spacer spacer30"&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class="widget widget-page-header"&gt;
+            &lt;h1&gt;{{ i18n._('Add new form') }}&lt;/h1&gt;
+        &lt;/div&gt;
+        &lt;div class="widget widget-default-spacer"&gt;
+            &lt;div class="spacer spacer22"&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class="widget widget-admin-page"&gt;
+            &lt;div class="well"&gt;
+                &lt;div class="row widget"&gt;
+                    &lt;div class="col-md-12"&gt;
+                            &lt;div class="form-edit form-horizontal"&gt;
+                                &lt;form action="{{ url.get(['for':'admin/form', 'action':'create']) }}" method="post" role="form"&gt;
+                                    {{ partial('backend/foo/_form', ['form': form]) }}
+                                &lt;/form&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+
+    </li>
+    <li>Fill backend partial <code>_form.volt</code> with following code:
+
+<pre><code class="twig">{% for element in form %}
+    {% do element.setAttribute('class', element.getAttribute('class')~' form-control') %}
+    {% set hasErrors = form.hasMessagesFor(element.getName()) %}
+
+    &lt;div class="form-group{% if hasErrors %} has-error{% endif %}"&gt;
+        {% if element != form.get('inputs') %}
+            &lt;label for="{{ element.getName() }}" class="col-md-3" control-label"&gt;{{ element.getLabel() }}&lt;/label&gt;
+            &lt;div class="col-md-9"&gt;
+                {{ element }}
+                {% if hasErrors %}
+                    &lt;span class="help-block"&gt;
+                        {% for error in form.getMessagesFor(element.getName()) %}
+                            {{ error }}
+                        {% endfor %}
+                    &lt;/span&gt;
+                {% endif %}
+            &lt;/div&gt;
+        {% else %}
+            &lt;div vegas-cloneable="1" class="form-group-add"&gt;
+                {% for row in element.getRows() %}
+                &lt;fieldset&gt;
+                    &lt;div class="form-group-add-item"&gt;
+                    {% for item in row.getElements() %}
+                        &lt;div class="form-group"&gt;
+                                    &lt;label class="col-md-2 control-label"&gt;{{ i18n._(item.getLabel()) }}&lt;/label&gt;
+                                    &lt;div class="col-md-10"&gt;{{ item }}&lt;/div&gt;
+                        &lt;/div&gt;
+                    {% endfor %}
+                    &lt;/div&gt;
+                &lt;/fieldset&gt;
+                {% endfor %}
+            &lt;/div&gt;
+        {% endif %}
+    &lt;/div&gt;
+{% endfor %}
+ &lt;div class="form-group form-group-button"&gt;
+    &lt;div class="col-md-offset-2 col-md-10"&gt;
+        &lt;button type="submit" class="btn btn-form-submit"&gt;{{ i18n._('Submit') }}&lt;/button&gt;
+        &lt;a href="{{ url.get(['for':'/']) }}" class="btn btn-form-cancel"&gt;{{ i18n._('Cancel') }}&lt;/a&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+{% endfor %}
+
+&lt;input type="submit" value="{{ i18n._('Submit') }}" class="btn btn-primary" /&gt; 
+&lt;/form&gt;
+</code></pre>
+
+    </li>
+    <li>Add appropriate routes inside module's <code>routes.php</code>:
+<pre><code class="php">return [
+    // Form display action
+    'form/show' => [
+        'route' => '/form/{slug}',
+        'paths' => [
+            'module' => 'Foo',
+            'controller' => 'Frontend\Foo',
+            'action' => 'show',
+        ],
+        'params' => []
+    ],
+    // Form builder manipulation actions
+    'admin/form' => [
+        'route' => '/admin/form/{action}',
+        'paths' => [
+            'module' => 'Foo',
+            'controller' => 'Backend\Foo',
+        ],
+        'params' => []
+    ]
+];
+</code></pre>
+    </li>
+</ol>
+
+<p>
+    Finally, build a form named <i>Bar form</i> using <code>[APP_URL]/admin/form/new</code> address.
+    <br />
+    As a result, generated slug will be <code>bar-form</code>, the form will be available on <code>[APP_URL]/form/bar-form</code>.
+</p>
+
+<h3 id="dataproviders">Data providers</h3>
+
+<p>
+    These are small classes which provide data for select lists in created forms.
+    The only requirement for them is to implement <code>\Vegas\Forms\DataProvider\DataProviderInterface</code>.
+    <br />
+    <br />
+    An example which provides country codes to a select list:
+</p>
+<pre><code class="php">namespace Foo\Models;
+
+class CountryCodeDataProvider implements \Vegas\Forms\DataProvider\DataProviderInterface
+{
+    public function getName()
+    {
+        return 'Country';
+    }
+    
+    public function getData()
+    {
+        return [
+            'AX' => '&Aring;landseilanden',
+            'AF' => 'Afghanistan', 
+            // ...
+            'SE' => 'Zweden',
+            'CH' => 'Zwitserland'
+        ];
+    }
+    
+    public function setOptions(array $options)
+    {
+    }
+}
+</code></pre>
+<br />
+<p>
+    And add the reference to the class into <code>app/modules/Foo/config/config.php</code> file:
+</p>
+<pre><code class="php">//...
+'formFactory'   => [
+    'dataProviders' => [
+        // Keeps all classes used to provide data for multiple data input types
+        // Use fully qualified class names implementing DataProviderInterface as values
+        // The order here is how these options will be listed when selecting one.
+        '\Foo\Models\CountryCodeDataProvider',
+    ]
+]
+//...
+</code></pre>
+<br />
+<p>
+    After these steps, a new option with label <i>Country</i> will appear in the builder form.
+</p>
+            </div>
+            <hr />
+            <div class="main-footer">
+    <div role="contentinfo">
+        <p>
+            &copy; 2014 <a href="http://amsterdamstandard.nl" target="_blank">Amsterdam Standard</a>
+        </p>
+    </div>
+</div>
+        </div>
+    </div>
+</div>
+<script>
+    hljs.configure({tabReplace: '    '});
+    hljs.initHighlightingOnLoad();
+</script>
+</body>
+</html>
+

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800' rel='stylesheet' type='text/css'/>
+
+    <title>Vegas CMF - Documentation</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/styles/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/styles/dashboard.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="http://highlightjs.org/static/styles/zenburn.css">
+    <style>
+        pre  {
+            padding: 0;
+            margin: 0;
+        }
+        code  {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/scripts/bootstrap.min.js" type="text/javascript"></script>
+    <script src="http://highlightjs.org/static/highlight.pack.js"></script>
+
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-version">
+            <div class="navbar-button">
+                <span class="glyphicon glyphicon-book"></span>
+                <div class="pull-right">
+                    <span class="active">v: 1.0 </span>
+                    <span class="caret"></span>
+                </div>
+            </div>
+            <div class="navbar-more">
+                <dl>
+                    <dt>Versions</dt>
+                    <dd><a href="#">latest</a></dd>
+                    <dd><a href="#">develop</a></dd>
+                    <dd><a href="#"><strong>1.0</strong></a></dd>
+                    <dd><a href="#"><strong>1.1</strong></a></dd>
+                </dl>
+                <dl>
+                    <dt>Downloads</dt>
+                    <dd><a href="#">PDF</a></dd>
+                    <dd><a href="#">HTML</a></dd>
+                </dl>
+                <dl>
+                    <dt>On GitHub</dt>
+                    <dd><a href="#">Edit</a></dd>
+                </dl>
+            </div>
+        </div>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Vegas CMF Documentation</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">About</a></li>
+                <li><a href="#">Learn</a></li>
+                <li><a href="#">Get Started</a></li>
+            </ul>
+        </div>
+    </div>
+</div><div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-4 col-md-4 sidebar">
+            <div class="sidebar-search">
+                <form>
+                    <input type="text" class="form-control" placeholder="Search docs" />
+                </form>
+            </div>
+                <ul class="nav nav-sidebar">
+        <li><a href="/1.1/guide/forms/element/cloneable.html#minimal">Simple setup</a></li>
+        <li><a href="/1.1/guide/forms/element/cloneable.html#full">Full setup</a></li>
+    </ul>
+        </div>
+        <div class="col-sm-12 main">
+            <div class="main-header">
+                <ol class="breadcrumb">
+                        <li><a href="/">Vegas CMF</a></li>
+    <li><a href="/1.1/guide.html">Guide</a></li>
+    <li><a href="/1.1/guide.html#forms">Forms</a></li>
+    <li><a href="/1.1/guide.html#form-element">Element</a></li>
+    <li class="active"><a href="/1.1/guide/forms/element/cloneable.html">Cloneable</a></li>
+                </ol>
+            </div>
+            <hr />
+            <div class="main-body">
+                <h2>Vegas CMF Form Elements</h2>
+
+<h3>Vegas\Forms\Element\Cloneable</h3>
+
+<p>
+    Element with add/remove field buttons. You can use single field as base element
+    (generated field name: <i>cloneableElementName[]</i>) or array of fields (generated fields names:
+    <i>cloneableElementName[0..n][baseFieldName]</i>). <br/><br/>
+    All required js and css files are included in vegas library.
+    Check <a href="/1.1/guide/forms/installation.html">installation</a> guide for more details.
+</p>
+
+<h4 id="minimal">Minimal configuration</h4>
+
+<pre class="php"><code>namespace Foo\Forms;
+
+use Phalcon\Forms\Element\Text;
+
+class Bar extends \Vegas\Forms\Form
+{
+    public function initialize()
+    {
+        // always set the base element!
+        $answers = new Cloneable('answers');
+
+        $answers->setBaseElements(array(
+            new Text('field1'),
+            new Text('field2')
+        );
+        // and/or
+        $answers->addBaseElement(new Text(''));
+
+        $answers->setAssetsManager($this->assets);
+
+        $this->add($answers);
+
+        // ...
+    }
+}</code></pre>
+
+<p>
+    <br/>
+    It is possible to render cloneable field as one or get row and render each row element separately:
+</p>
+
+
+<pre class="twig"><code>{{ form.get('answers') }}
+{% for row in form.get('answers').getRows() %}
+    &lt;tr&gt;
+        {% for item in row.getElements() %}
+            &lt;td&gt;{{ item }}&lt;/td&gt;
+        {% endfor %}
+    &lt;/tr&gt;
+{% endfor %}</code></pre>
+
+
+    <br/>
+    <h4 id="full">Full configuration</h4>
+
+    <p>
+        As you can see in the code below, you can also add validators to the base elements and enable sortable option:
+    </p>
+
+    <pre class="php"><code>namespace Foo\Forms;
+
+use Phalcon\Forms\Element\Text;
+use Vegas\Validation\Validator\PresenceOf;
+use Vegas\Validation\Validator\SizeOf;
+
+class Bar extends \Vegas\Forms\Form
+{
+    public function initialize()
+    {
+        $name = new Text('name');
+        $name->addValidator(new PresenceOf());
+
+        $lastname = new Text('lastname');
+        $lastname->addValidator(new PresenceOf());
+
+        $man = new Cloneable('list_of_man');
+        $man->setLabel($this->i18n->_('List'));
+        $man->setBaseElements(array($name, $lastname));
+        $man->addValidator(new SizeOf(array('min' => 2, 'max' => 6)));
+        $man->setAssetsManager($this->assets);
+        $man->setUserOption('sortable', true);
+
+        $this->add($man);
+
+        // ...
+    }
+}</code></pre>
+
+    <p>
+        <br/>
+        By default, if you set up forms with <code>php /path/to/cli.php vegas:assets publish</code> task,
+        <code>cloneable.js</code> will run following code:
+    </p>
+
+    <pre class="js"><code>$(document).ready(function() {
+    $('[vegas-cloneable]').vegasCloner();
+});</code></pre>
+
+    <p>
+        <br/>
+        You can customize options for <strong>cloneable</strong> and/or add this jQuery function to another selector
+        like this:
+    </p>
+
+    <pre class="js"><code>$(document).ready(function() {
+    $('.my-custom-cloneable-template').vegasCloner(options);
+});</code></pre>
+
+    <p>
+        <br/>
+        Possible options for <code>vegasCloner</code> function with default values:
+    </p>
+
+    <pre class="js"><code>{
+    'buttons': {
+        'add': {
+            'text': 'Add next',
+            'class': 'btn-form-submit'
+        },
+        'remove': {
+            'text': 'Remove last',
+            'class': 'btn-form-cancel'
+        },
+        'insertAfterSelector': jQuerySelector // by default it is just whole cloneable container
+    },
+    'row': {
+        'selector': 'fieldset',
+        'removeButton': $('&lt;a&gt;').html('x')
+            .attr('href','javascript:void(0);')
+            .addClass('cloner-row-remove')
+    },
+    'sortable': {
+        'callback': function() {
+            // your custom callback to replace cloneable default
+        }
+    }
+}</code></pre>
+
+    <p>
+        <br/>
+        Each time when <strong>row</strong> is added or removed, the <code>cloned</code> action is triggered on the
+        cloneable container. You can add your own functionality to this event.<br/><br/>
+        <strong>Important!</strong> <i>Preventing default event behavior may break script functionality.</i>
+    </p>
+
+    <pre class="js"><code>$('[vegas-cloneable]').on('cloned', function() {
+    // do something
+});</code></pre>
+            </div>
+            <hr />
+            <div class="main-footer">
+    <div role="contentinfo">
+        <p>
+            &copy; 2014 <a href="http://amsterdamstandard.nl" target="_blank">Amsterdam Standard</a>
+        </p>
+    </div>
+</div>
+        </div>
+    </div>
+</div>
+<script>
+    hljs.configure({tabReplace: '    '});
+    hljs.initHighlightingOnLoad();
+</script>
+</body>
+</html>
+
