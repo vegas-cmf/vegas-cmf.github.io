@@ -39,7 +39,7 @@
             <div class="navbar-button">
                 <span class="glyphicon glyphicon-book"></span>
                 <div class="pull-right">
-                    <span class="active">v: 1.0 </span>
+                    <span class="active">v: 1.1 </span>
                     <span class="caret"></span>
                 </div>
             </div>
@@ -118,25 +118,26 @@ cat config/config.php</code></pre>
 
 <pre class="php"><code>return [
     'application' => [
-        'environment' => \Vegas\Constants::DEV_ENV,
-        'baseUri' => '/',
-        'language' => 'nl_NL',
-        'configDir' => dirname(__FILE__) . DIRECTORY_SEPARATOR,
-        'moduleDir' => APP_ROOT . '/app/modules/',
-        'pluginDir' => APP_ROOT . '/app/plugins/',
-        'serviceDir' => APP_ROOT . '/app/services/',
-        'taskDir' => APP_ROOT . '/app/tasks/',
-        'view' => [
-            'layout' => 'main',
-            'cacheDir' =>  APP_ROOT . '/cache/',
-            'layoutsDir' =>  APP_ROOT. '/app/layouts/'
-        ]
-    ]
-    ...
-];
-</code></pre>
+        'environment'    => \Vegas\Constants::DEV_ENV,
 
-<br>
+        'serviceDir'   =>  APP_ROOT . '/app/services/',
+        'configDir'     => dirname(__FILE__) . DIRECTORY_SEPARATOR,
+        'libraryDir'     => APP_ROOT . DIRECTORY_SEPARATOR . 'lib/',
+        'pluginDir'      => APP_ROOT . '/app/plugins/',
+        'moduleDir'      => APP_ROOT . '/app/modules/',
+        'taskDir'      => APP_ROOT . '/app/tasks/',
+        'baseUri'        => '/',
+        'language'       => 'en_US',
+        'view'  => [
+            'cacheDir'  =>  APP_ROOT . '/cache/',
+            'layout'    =>  'main',
+            'layoutsDir'    =>  APP_ROOT . '/app/layouts'
+        ]
+    ],
+    ...
+]</code></pre>
+
+<br/>
 <h4>Options</h4>
 <strong>environment</strong>
 <p class="mgl4">Describes enviroment. Available options are \Vegas\Constants::DEV_ENV, \Vegas\Constants::PROD_ENV. When development then it should display stacktrace when error appears and every request should reload services and modules config files.</p>
@@ -168,7 +169,7 @@ cat config/config.php</code></pre>
 <br>
 <h3 id="db_config">Database Config</h3>
 <p>If you are going to use database in your project you must configure database connection also inside config.php file.</p>
-<pre class="php"><code>return array(
+<pre class="php"><code>return [
     'db' => [
         'adapter' => 'Mysql',
         'host' => 'localhost',
@@ -177,7 +178,7 @@ cat config/config.php</code></pre>
         'password' => 'qwerty'
     ]
     ...
-);
+];
 </code></pre>
 
 <br>

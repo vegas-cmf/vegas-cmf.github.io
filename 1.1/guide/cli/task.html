@@ -39,7 +39,7 @@
             <div class="navbar-button">
                 <span class="glyphicon glyphicon-book"></span>
                 <div class="pull-right">
-                    <span class="active">v: 1.0 </span>
+                    <span class="active">v: 1.1 </span>
                     <span class="caret"></span>
                 </div>
             </div>
@@ -104,14 +104,21 @@
             </div>
             <hr />
             <div class="main-body">
-                
-<h2>Command Line Interface</h2>
+                <h2>Command Line Interface</h2>
+
+    <div class="alert alert-warning" role="alert">
+        <h4>Task migration from <strong>v1.0.x</strong> to <strong>v1.1.x</strong>:</h4>
+        <ul>
+            <li>use <strong>Vegas\Cli\TaskAbstract</strong> instead <strong>Vegas\Cli\Task</strong></li>
+            <li>use <strong>setupOptions</strong> method instead <strong>setOptions</strong> method</li>
+        </ul>
+    </div>
 
 <h3 id="create">Create task</h3>
 <p>
     Command Line Interface allows to simply create scripts, which can be executed from system shell or via cron.
     <br />
-    Task class must extend <strong>Vegas\Cli\Task</strong> class and implement method <strong>setOptions</strong> that defines all available task actions.
+    Task class must extend <strong>Vegas\Cli\TaskAbstract</strong> class and implement method <strong>setupOptions</strong> that defines all available task actions.
     <br />
     Name of task class must contain word <strong>Task</strong>, eg. "CustomTask".
     <br />
@@ -127,14 +134,14 @@
 <p>
 <pre class="shell"><code>touch app/tasks/CustomTask.php</code></pre>
 <br />
-<pre><code class="php">class CustomTask extends \Vegas\Cli\Task
+<pre><code class="php">class CustomTask extends \Vegas\Cli\TaskAbstract
 {
     /**
      * Available options
      *
      * @return mixed
      */
-    public function setOptions()
+    public function setupOptions()
     {
         $action = new \Vegas\Cli\Task\Action('test', 'Test action');
 
@@ -214,14 +221,14 @@
 <br />
 <pre><code class="php">namespace Example\Tasks;
 
-class CustomTask extends \Vegas\Cli\Task
+class CustomTask extends \Vegas\Cli\TaskAbstract
 {
     /**
      * Available options
      *
      * @return mixed
      */
-    public function setOptions()
+    public function setupOptions()
     {
         $action = new \Vegas\Cli\Task\Action('test', 'Test action');
 

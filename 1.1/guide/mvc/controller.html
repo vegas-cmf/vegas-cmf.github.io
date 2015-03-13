@@ -39,7 +39,7 @@
             <div class="navbar-button">
                 <span class="glyphicon glyphicon-book"></span>
                 <div class="pull-right">
-                    <span class="active">v: 1.0 </span>
+                    <span class="active">v: 1.1 </span>
                     <span class="caret"></span>
                 </div>
             </div>
@@ -106,6 +106,15 @@
             <div class="main-body">
                 
     <h2>Controller</h2>
+
+    <div class="alert alert-warning" role="alert">
+        <h4>Controllers migration from <strong>v1.0.x</strong> to <strong>v1.1.x</strong>:</h4>
+        <ul>
+            <li>use <strong>Vegas\Mvc\ControllerAbstract</strong> instead <strong>Vegas\Mvc\Controller\ControllerAbstract</strong></li>
+            <li>use <strong>Vegas\Mvc\Controller\CrudAbstract</strong> instead <strong>Vegas\Mvc\Controller\Crud</strong></li>
+            <li>use <strong>Vegas\Mvc\Controller\CrudUploadAbstract</strong> instead <strong>Vegas\Mvc\Controller\CrudUpload</strong></li>
+        </ul>
+    </div>
 
     <h3 id="controller">Basic Controller</h3>
 
