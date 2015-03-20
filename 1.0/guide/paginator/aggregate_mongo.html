@@ -88,17 +88,17 @@
                 </form>
             </div>
                 <ul class="nav nav-sidebar">
-        <li><a href="/1.1/guide/paginator/mongo.html#minimal">Simple setup</a></li>
-        <li><a href="/1.1/guide/paginator/mongo.html#full">Full setup</a></li>
+        <li><a href="/1.0/guide/paginator/mongo.html#minimal">Simple setup</a></li>
+        <li><a href="/1.0/guide/paginator/mongo.html#full">Full setup</a></li>
     </ul>
         </div>
         <div class="col-sm-12 main">
             <div class="main-header">
                 <ol class="breadcrumb">
                         <li><a href="/">Vegas CMF</a></li>
-    <li><a href="/1.1/guide.html">Guide</a></li>
-    <li><a href="/1.1/guide.html#mvc">Mvc</a></li>
-    <li><a href="/1.1/guide/mvc/view.html">View</a></li>
+    <li><a href="/1.0/guide.html">Guide</a></li>
+    <li><a href="/1.0/guide.html#mvc">Mvc</a></li>
+    <li><a href="/1.0/guide/mvc/view.html">View</a></li>
                 </ol>
             </div>
             <hr />
@@ -106,11 +106,11 @@
                 
     <h2>Vegas CMF Paginator</h2>
 
-    <h3>Vegas\Paginator\Adapter\Mongo</h3>
+    <h3>Vegas\Paginator\Adapter\AggregateMongo</h3>
 
     <p>
-        Mongo pagination adapter uses <code>MongoCursor</code> to fetch data and hydrate only objects from current page result set.
-        Thanks to this solution it can be used with any amounts of data without memory usage issues.
+        AggregateMongo pagination adapter uses <code>AggregateCursor</code> to fetch data from mongo aggregation
+        pipeline, hydrating objects from current page result set.
     </p>
 
     <h4 id="minimal">Minimal configuration</h4>
@@ -123,9 +123,12 @@ class FooController extends ControllerAbstract
 {
     public function indexAction()
     {
-        $results = new \Vegas\Paginator\Adapter\Mongo([
+        $results = new \Vegas\Paginator\Adapter\AggregateMongo([
             'db' => $this->mongo,
-            'modelName' => '\Foo\Models\Foo' // or 'model' => new FakeModel()
+            'modelName' => '\Foo\Models\Foo', // or 'model' => new FakeModel()
+            'query' => [
+                // aggregation pipeline here
+            ]
         ]);
 
         $this->view->page = $results->getPaginate();
@@ -148,16 +151,13 @@ class FooController extends ControllerAbstract
 {
     public function indexAction()
     {
-        $results = new \Vegas\Paginator\Adapter\Mongo([
+        $results = new \Vegas\Paginator\Adapter\AggregateMongo([
             'db' => $this->mongo,
             'modelName' => '\Foo\Models\Foo', // or 'model' => new FakeModel()
             'limit' => 12,
             'page' => $this->request->get('page', 'int', 1),
             'query' => [
-                'active' => 1
-            ],
-            'sort' => [
-                'name' => -1
+                // aggregation pipeline here
             ]
         ]);
 
@@ -167,9 +167,9 @@ class FooController extends ControllerAbstract
 
     <p>
         <br/>
-        The <strong>query</strong> array is used by <code>MongoCursor::find()</code> and the <strong>sort</strong> array
-        is used by <code>MongoCursor::sort()</code>. For more details check MongoCursor reference
-        <a href="http://php.net/manual/en/class.mongocursor.php" target="_blank">here</a>.
+        The <strong>query</strong> array is used by <code>MongoCollection::aggregateCursor()</code>
+        For more details check method reference
+        <a href="http://php.net/manual/en/mongocollection.aggregatecursor.php" target="_blank">here</a>.
     </p>
 
             </div>
