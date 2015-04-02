@@ -120,7 +120,8 @@
 
 <pre class="php"><code>namespace Foo\Forms;
 
-use Phalcon\Forms\Element\Text;
+use Vegas\Forms\Element\Text;
+use Vegas\Forms\Element\Cloneable;
 
 class Bar extends \Vegas\Forms\Form
 {
@@ -128,15 +129,13 @@ class Bar extends \Vegas\Forms\Form
     {
         // always set the base element!
         $answers = new Cloneable('answers');
-
+        $answers->getDecorator()->setTemplateName('jquery');
         $answers->setBaseElements(array(
             new Text('field1'),
             new Text('field2')
         );
         // and/or
         $answers->addBaseElement(new Text(''));
-
-        $answers->setAssetsManager($this->assets);
 
         $this->add($answers);
 
@@ -184,10 +183,10 @@ class Bar extends \Vegas\Forms\Form
         $lastname->addValidator(new PresenceOf());
 
         $man = new Cloneable('list_of_man');
+        $man->getDecorator()->setTemplateName('jquery');
         $man->setLabel($this->i18n->_('List'));
         $man->setBaseElements(array($name, $lastname));
         $man->addValidator(new SizeOf(array('min' => 2, 'max' => 6)));
-        $man->setAssetsManager($this->assets);
         $man->setUserOption('sortable', true);
 
         $this->add($man);

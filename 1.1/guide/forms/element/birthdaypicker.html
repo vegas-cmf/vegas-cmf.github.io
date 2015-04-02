@@ -126,7 +126,7 @@ class Bar extends \Vegas\Forms\Form
     public function initialize()
     {
         $date = new Birthdaypicker('date');
-        $date->setAssetsManager($this->assets);
+        $date->getDecorator()->setTemplateName('jquery');
         $this->add($date);
 
         // ...

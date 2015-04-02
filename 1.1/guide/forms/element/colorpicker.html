@@ -124,7 +124,7 @@ class Bar extends \Vegas\Forms\Form
     public function initialize()
     {
         $background = new Colorpicker('background');
-        $background->setAssetsManager($this->assets);
+        $background->getDecorator()->setTemplateName('jquery');
         $this->add($background);
 
         // ...

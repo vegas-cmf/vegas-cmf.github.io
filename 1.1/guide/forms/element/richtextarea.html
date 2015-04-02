@@ -125,7 +125,7 @@ class Bar extends \Vegas\Forms\Form
     public function initialize()
     {
         $content = new RichTextArea('content');
-        $content->setAssetsManager($this->assets);
+        $content->getDecorator()->setTemplateName('jquery');
         $this->add($content);
 
         // ...

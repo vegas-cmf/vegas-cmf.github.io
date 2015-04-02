@@ -122,7 +122,7 @@ class Bar extends \Vegas\Forms\Form
     public function initialize()
     {
         $time = new Timepicker('time');
-        $time->setAssetsManager($this->assets);
+        $time->getDecorator()->setTemplateName('jquery');
         $this->add($time);
 
         // ...

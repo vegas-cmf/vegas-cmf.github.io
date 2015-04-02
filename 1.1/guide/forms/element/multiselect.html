@@ -123,7 +123,7 @@ class Bar extends \Vegas\Forms\Form
     public function initialize()
     {
         $roles = new MultiSelect('roles');
-        $roles->setAssetsManager($this->assets);
+        $roles->getDecorator()->setTemplateName('jquery');
         $roles->addOptions([
             'key1' => 'value1',
             'key2' => 'value2'

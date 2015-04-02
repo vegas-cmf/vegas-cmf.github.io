@@ -87,7 +87,12 @@
                     <input type="text" class="form-control" placeholder="Search docs" />
                 </form>
             </div>
-                    </div>
+                <ul class="nav nav-sidebar">
+        <li><a href="/1.1/guide/forms/decorating.html#example">Example configuration</a></li>
+        <li><a href="/1.1/guide/forms/decorating.html#custom-decorated">Creating decorated element</a></li>
+        <li><a href="/1.1/guide/forms/decorating.html#custom-undecorated">Creating undecorated element</a></li>
+    </ul>
+        </div>
         <div class="col-sm-12 main">
             <div class="main-header">
                 <ol class="breadcrumb">
@@ -99,7 +104,117 @@
             </div>
             <hr />
             <div class="main-body">
-                <h2>Vegas CMF Guide</h2>
+                <h2>Vegas CMF Forms</h2>
+
+    <h3>Decorating form elements</h3>
+
+    <p>
+        Vegas CMF forms in version 1.1 are using decorating system that allows you to easily change element view
+        without making changes in PHP code. Each <code>Vegas\Forms\Element</code> has new method: <code>renderDecorated()</code>.
+    </p>
+
+    <br/>
+
+    <h4 id="example">Example configuration</h4>
+
+<pre class="php"><code>namespace Foo\Forms;
+
+use Vegas\Forms\Element\Datepicker;
+
+class Bar extends \Vegas\Forms\Form
+{
+    public function initialize()
+    {
+        $date = new Datepicker('date');
+
+        // DI is set automatically when form is initialized but you can pass DI on your own
+        $date->getDecorator()->setDI($this->getDI());
+
+        // set absolute or relative path to your template directory
+        $date->getDecorator()->setTemplatePath($this->view->getPartialsDir().'myCustomDir'.DIRECTORY_SEPARATOR);
+
+        // set template name (excluding extension)
+        $date->getDecorator()->setTemplateName('myCustomTemplateName');
+
+        $this->add($date);
+
+        // ...
+    }
+}</code></pre>
+
+<p>
+    <br/>
+    This date picker will use <code>/yourPartialDir/myCustomDir/myCustomTemplateName.[available_extension]</code> view.
+    Template for this element may look as follows:
+</p>
+
+<pre class="twig"><code>{% do assets.addCss(&#x27;assets/css/custom-datepicker.css&#x27;) %}
+{% do assets.addJs(&#x27;assets/js/custom-datepicker.js&#x27;) %}
+&#x3C;input type=&#x22;text&#x22;{% for key, attribute in attributes %} {{ key }}=&#x22;{{ attribute }}&#x22;{% endfor %} value=&#x22;{{ value }}&#x22; custom-tag-or-something /&#x3E;
+</code></pre>
+
+<p>
+    <br/>
+    For this configuration calling <code>{{ form.get('date').renderDecorated() }}</code> will return
+    code above filled with all attributes like name and id.
+    <br/>
+    Calling <code>{{ form.get('date').render() }}</code> will return simple input field same
+    as <code>\Phalcon\Forms\Element\Text::render()</code> method.
+</p>
+
+    <br/>
+
+    <h4 id="custom-decorated">Creating decorated element</h4>
+
+    <p>
+        You may want to create your custom form element that will also use decorators. To obtain default decorator class
+        and <code>renderDecorated()</code> method use <code>Vegas\Forms\Decorator\DecoratedTrait</code>. Notice that
+        implementing <code>Vegas\Forms\Decorator\DecoratedInterface</code> allows form to automatically inject DI to
+        your element.
+    </p>
+
+<pre class="php"><code>namespace Vegas\Forms\Element;
+
+use Vegas\Forms\Decorator;
+
+class Colorpicker extends \Phalcon\Forms\Element\Text implements Decorator\DecoratedInterface
+{
+    use Decorator\DecoratedTrait;
+
+    public function __construct($name, $attributes = null)
+    {
+        $templatePath = implode(DIRECTORY_SEPARATOR, [dirname(__FILE__), 'Colorpicker', 'views', '']);
+        $this->setDecorator(new Decorator($templatePath));
+        parent::__construct($name, $attributes);
+    }
+}
+</code></pre>
+
+    <br/>
+
+    <h4 id="custom-undecorated">Creating undecorated element</h4>
+
+    <p>
+        To unify form rendering you can also use <code>Vegas\Forms\Decorator\UnDecoratedTrait</code> to obtain
+        <code>renderDecorated()</code> method without creating decorators at all (default <code>render()</code> result
+        will be returned).
+    </p>
+
+<pre class="php"><code>namespace Vegas\Forms\Element;
+
+use Vegas\Forms\Decorator\UnDecoratedTrait;
+
+class Text extends \Phalcon\Forms\Element\Text
+{
+    use UnDecoratedTrait;
+}
+</code></pre>
+
+    <p>
+        <br/>
+        In this case both <code>render()</code> and <code>renderDecorated()</code> will print default input tag for
+        <code>Phalcon\Forms\Element\Text</code>.
+    </p>
 
             </div>
             <hr />
